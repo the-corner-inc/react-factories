@@ -23,6 +23,26 @@
       "title": "Placeholder Layout",
       "description": "Minimal placeholder entry for future reusable page layouts.",
       "files": []
+    },
+    {
+      "name": "newsletter",
+      "type": "registry:ui",
+      "title": "Newsletter",
+      "description": "Reusable newsletter signup form with accessible states and async submit support.",
+      "files": [
+        {
+          "path": "src/components/forms/newsletter.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/forms/newsletter-example.tsx",
+          "type": "registry:example"
+        }
+      ],
+      "dependencies": [
+        "react",
+        "tailwindcss"
+      ]
     }
   ]
 }

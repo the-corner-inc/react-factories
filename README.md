@@ -62,7 +62,40 @@ pnpm build
 pnpm registry:check
 ```
 
+## Newsletter component
+
+1. **Component implementation**
+   - `/src/components/forms/newsletter.tsx`
+2. **Example usage**
+   - `/src/components/forms/newsletter-example.tsx`
+3. **Suggested file path**
+   - `/src/components/forms/newsletter.tsx`
+4. **Suggested `registry.json` entry**
+
+```json
+{
+  "name": "newsletter",
+  "type": "registry:ui",
+  "title": "Newsletter",
+  "description": "Reusable newsletter signup form with accessible states and async submit support.",
+  "files": [
+    {
+      "path": "src/components/forms/newsletter.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "src/components/forms/newsletter-example.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "dependencies": ["react", "tailwindcss"]
+}
+```
+
+5. **Notes on required dependencies**
+   - Required: `react`, `tailwindcss`
+   - Optional (when passing an icon prop from an icon library): `lucide-react`
+
 ## Notes
 
-- This is intentionally a shell-only setup.
-- No production-ready components are implemented yet.
+- Registry manifests include a reusable `Newsletter` component entry.
