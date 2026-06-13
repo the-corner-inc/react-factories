@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "react-factories",
+  "homepage": "https://github.com/the-corner-inc/react-factories",
+  "items": [
+    {
+      "name": "placeholder-ui",
+      "type": "registry:ui",
+      "title": "Placeholder UI",
+      "description": "Minimal placeholder entry for future reusable UI components.",
+      "files": []
+    },
+    {
+      "name": "placeholder-section",
+      "type": "registry:block",
+      "title": "Placeholder Section",
+      "description": "Minimal placeholder entry for future reusable website sections.",
+      "files": []
+    },
+    {
+      "name": "placeholder-layout",
+      "type": "registry:block",
+      "title": "Placeholder Layout",
+      "description": "Minimal placeholder entry for future reusable page layouts.",
+      "files": []
+    }
+  ]
+}
