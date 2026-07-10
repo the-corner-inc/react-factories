@@ -3,7 +3,7 @@ import { CtaExternal, CtaLink } from "@/components/ui/cta-button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-interface HomeHeroProps {
+export interface HomeHeroProps {
   eyebrow?: string;
   title: string;
   subtitle?: string;

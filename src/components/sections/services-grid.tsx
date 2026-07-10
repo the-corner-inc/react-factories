@@ -7,7 +7,7 @@ import {
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-interface ServiceItem {
+export interface ServiceItem {
   title: string
   description: string
   image: string
@@ -15,7 +15,7 @@ interface ServiceItem {
   icon?: LucideIcon
 }
 
-interface ServicesGridProps {
+export interface ServicesGridProps {
   eyebrow?: string
   title?: string
   subtitle?: string

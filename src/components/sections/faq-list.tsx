@@ -8,13 +8,13 @@ import {
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-interface FaqItem {
+export interface FaqItem {
   question: string
   answer: string
   category?: string
 }
 
-interface FaqListProps {
+export interface FaqListProps {
   eyebrow?: string
   title: string
   subtitle?: string

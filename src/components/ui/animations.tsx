@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "motion/react"
 import type { ReactNode } from "react"
+import { cn } from "@/lib/utils"
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -18,7 +19,7 @@ const scaleIn: Variants = {
   visible: { opacity: 1, scale: 1 },
 }
 
-interface AnimationProps {
+export interface AnimationProps {
   children: ReactNode
   delay?: number
   className?: string
@@ -32,7 +33,7 @@ export function FadeUp({ children, delay = 0, className }: AnimationProps) {
       viewport={{ once: true, margin: "-50px" }}
       variants={fadeUp}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      className={className}
+      className={cn(className)}
     >
       {children}
     </motion.div>
@@ -47,7 +48,7 @@ export function FadeIn({ children, delay = 0, className }: AnimationProps) {
       viewport={{ once: true, margin: "-50px" }}
       variants={fadeIn}
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      className={className}
+      className={cn(className)}
     >
       {children}
     </motion.div>
@@ -62,7 +63,7 @@ export function ScaleIn({ children, delay = 0, className }: AnimationProps) {
       viewport={{ once: true, margin: "-50px" }}
       variants={scaleIn}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      className={className}
+      className={cn(className)}
     >
       {children}
     </motion.div>
@@ -86,7 +87,7 @@ export function StaggerContainer({
       variants={{
         visible: { transition: { staggerChildren: staggerDelay } },
       }}
-      className={className}
+      className={cn(className)}
     >
       {children}
     </motion.div>
@@ -95,7 +96,7 @@ export function StaggerContainer({
 
 export function StaggerItem({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <motion.div variants={fadeUp} transition={{ duration: 0.5, ease: "easeOut" }} className={className}>
+    <motion.div variants={fadeUp} transition={{ duration: 0.5, ease: "easeOut" }} className={cn(className)}>
       {children}
     </motion.div>
   )
@@ -107,7 +108,7 @@ export function HeroAnimation({ children, className }: { children: ReactNode; cl
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className={className}
+      className={cn(className)}
     >
       {children}
     </motion.div>
@@ -121,7 +122,7 @@ export function ImageReveal({ children, delay = 0, className }: AnimationProps) 
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.7, delay, ease: "easeOut" }}
-      className={className}
+      className={cn(className)}
     >
       {children}
     </motion.div>

@@ -16,6 +16,10 @@ export type NewsletterProps = Omit<React.ComponentPropsWithoutRef<"section">, "o
   errorMessage?: string;
   disabled?: boolean;
   icon?: React.ReactNode;
+  validationErrorMessage?: string;
+  submitErrorMessage?: string;
+  emailLabel?: string;
+  loadingLabel?: string;
   onSubmit: (email: string) => void | Promise<void>;
 };
 
@@ -33,6 +37,10 @@ export function Newsletter({
   errorMessage,
   disabled = false,
   icon,
+  validationErrorMessage = "Please enter a valid email address.",
+  submitErrorMessage = "Something went wrong. Please try again.",
+  emailLabel = "Email address",
+  loadingLabel = "Submitting...",
   onSubmit,
   className,
   ...props
@@ -70,7 +78,7 @@ export function Newsletter({
 
     if (!EMAIL_REGEX.test(normalizedEmail)) {
       setShowStatus(false);
-      setValidationError("Please enter a valid email address.");
+      setValidationError(validationErrorMessage);
       return;
     }
 
@@ -82,7 +90,7 @@ export function Newsletter({
       setSubmitting(true);
       await Promise.resolve(onSubmit(normalizedEmail));
     } catch {
-      setSubmitError("Something went wrong. Please try again.");
+      setSubmitError(submitErrorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -111,7 +119,7 @@ export function Newsletter({
 
       <form className="mt-4" onSubmit={handleSubmit} noValidate>
         <label className="sr-only" htmlFor={inputId}>
-          Email address
+          {emailLabel}
         </label>
         <div className="flex flex-col gap-3 sm:flex-row">
           <input
@@ -137,7 +145,7 @@ export function Newsletter({
             disabled={isDisabled}
             className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isLoading ? "Submitting..." : buttonLabel}
+            {isLoading ? loadingLabel : buttonLabel}
           </button>
         </div>
 

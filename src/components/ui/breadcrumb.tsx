@@ -7,7 +7,7 @@ export interface Crumb {
   href: string
 }
 
-interface BreadcrumbProps {
+export interface BreadcrumbProps {
   homeLabel: string
   items: Crumb[]
   className?: string

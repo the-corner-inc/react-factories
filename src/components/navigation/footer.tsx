@@ -1,27 +1,20 @@
 import Link from "next/link"
 import { Mail, MapPin, Phone, Clock } from "lucide-react"
-import {
-  InstagramIcon,
-  FacebookIcon,
-  LinkedinIcon,
-  YoutubeIcon,
-} from "@/components/ui/social-icons"
+import { type SocialPlatform, socialIconMap } from "@/components/ui/social-icons"
 import { ManageCookiesButton } from "@/components/navigation/manage-cookies-button"
 import { cn } from "@/lib/utils"
 
-type SocialPlatform = "instagram" | "facebook" | "linkedin" | "youtube"
-
-interface SocialLink {
+export interface SocialLink {
   platform: SocialPlatform
   url: string
 }
 
-interface FooterColumn {
+export interface FooterColumn {
   title: string
   links: { label: string; href: string }[]
 }
 
-interface FooterProps {
+export interface FooterProps {
   brand: { name: string; description: string; logo?: string; initial?: string }
   columns: FooterColumn[]
   contact: {
@@ -40,13 +33,6 @@ interface FooterProps {
   attribution?: { text: string; href: string; logo?: string }
   manageCookiesLabel?: string
   className?: string
-}
-
-const socialIconMap: Record<SocialPlatform, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
-  instagram: InstagramIcon,
-  facebook: FacebookIcon,
-  linkedin: LinkedinIcon,
-  youtube: YoutubeIcon,
 }
 
 export function Footer({
@@ -129,7 +115,7 @@ export function Footer({
           {/* Contact column */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground">
-              {contact.title ?? "Contact"}
+              {contact.title}
             </h3>
             <ul className="space-y-3">
               {contact.address && (

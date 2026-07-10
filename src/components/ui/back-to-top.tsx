@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react"
 import { ArrowUp } from "lucide-react"
 
-export function BackToTop({ ariaLabel = "Back to top" }: { ariaLabel?: string }) {
+export interface BackToTopProps {
+  ariaLabel?: string
+}
+
+export function BackToTop({ ariaLabel = "Back to top" }: BackToTopProps) {
   const [show, setShow] = useState(false)
 
   useEffect(() => {

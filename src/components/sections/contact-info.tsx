@@ -1,19 +1,12 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
-import {
-  InstagramIcon,
-  FacebookIcon,
-  LinkedinIcon,
-  YoutubeIcon,
-} from "@/components/ui/social-icons"
+import { type SocialPlatform, socialIconMap } from "@/components/ui/social-icons"
 import {
   type SectionVariant,
   sectionVariantClasses,
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-type SocialPlatform = "instagram" | "facebook" | "linkedin" | "youtube"
-
-interface ContactInfoProps {
+export interface ContactInfoProps {
   title?: string
   address?: string
   mapsUrl?: string
@@ -24,15 +17,9 @@ interface ContactInfoProps {
   socials?: { platform: SocialPlatform; url: string }[]
   hoursLabel?: string
   mapPlaceholder?: string
+  mapsTitle?: string
   variant?: SectionVariant
   className?: string
-}
-
-const socialIconMap: Record<SocialPlatform, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
-  instagram: InstagramIcon,
-  facebook: FacebookIcon,
-  linkedin: LinkedinIcon,
-  youtube: YoutubeIcon,
 }
 
 export function ContactInfo({
@@ -46,6 +33,7 @@ export function ContactInfo({
   socials,
   hoursLabel = "Hours",
   mapPlaceholder,
+  mapsTitle = "Google Maps",
   variant = "default",
   className,
 }: ContactInfoProps) {
@@ -152,12 +140,12 @@ export function ContactInfo({
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Google Maps"
+                title={mapsTitle}
               />
             ) : (
               <div className="flex h-full min-h-[400px] items-center justify-center">
                 <p className="p-12 text-center text-sm text-muted-foreground">
-                  {mapPlaceholder ?? "Google Maps — integrate with client coordinates"}
+                  {mapPlaceholder}
                 </p>
               </div>
             )}

@@ -1,8 +1,8 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
-type CtaVariant = "primary" | "secondary" | "outline" | "onDark"
-type CtaSize = "default" | "lg"
+export type CtaVariant = "primary" | "secondary" | "outline" | "onDark"
+export type CtaSize = "default" | "lg"
 
 const variantClasses: Record<CtaVariant, string> = {
   primary:
@@ -23,7 +23,7 @@ const sizeClasses: Record<CtaSize, string> = {
 const base =
   "inline-flex items-center justify-center gap-2 rounded-lg font-semibold whitespace-nowrap transition-colors outline-none focus-visible:ring-3 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 [&_svg]:shrink-0"
 
-interface CtaButtonProps {
+export interface CtaButtonProps {
   children: React.ReactNode
   variant?: CtaVariant
   size?: CtaSize

@@ -6,12 +6,12 @@ import {
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-interface Step {
+export interface Step {
   title: string
   description: string
 }
 
-interface MethodStepsProps {
+export interface MethodStepsProps {
   eyebrow?: string
   title: string
   subtitle?: string
@@ -42,8 +42,8 @@ export function MethodSteps({
               <div className="relative text-center">
                 <div className={cn(
                   "mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-lg font-bold shadow-md",
-                  variant === "primary" || variant === "secondary"
-                    ? "bg-white/20 text-inherit"
+                    variant === "primary" || variant === "secondary"
+                      ? "bg-primary-foreground/20 text-primary-foreground"
                     : i % 2 === 0
                       ? "bg-primary text-primary-foreground"
                       : "bg-secondary text-secondary-foreground",

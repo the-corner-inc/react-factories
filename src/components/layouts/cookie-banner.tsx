@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-interface ConsentState {
+export interface ConsentState {
   necessary: boolean
   analytics: boolean
   marketing: boolean
@@ -64,7 +64,7 @@ function applyConsent(state: ConsentState) {
   })
 }
 
-interface CookieBannerProps {
+export interface CookieBannerProps {
   consentKey?: string
   manageEvent?: string
   text: string
@@ -79,6 +79,7 @@ interface CookieBannerProps {
   analyticsDescription: string
   marketingTitle: string
   marketingDescription: string
+  dialogLabel?: string
   showAnalytics?: boolean
   showMarketing?: boolean
   hidden?: boolean
@@ -99,6 +100,7 @@ export function CookieBanner({
   analyticsDescription,
   marketingTitle,
   marketingDescription,
+  dialogLabel = "Cookies",
   showAnalytics = true,
   showMarketing = false,
   hidden = false,
@@ -165,7 +167,7 @@ export function CookieBanner({
   return (
     <div
       role="dialog"
-      aria-label="Cookies"
+      aria-label={dialogLabel}
       aria-live="polite"
       className={cn(
         "fixed inset-x-0 bottom-0 z-[60] p-4 sm:p-6",
@@ -281,28 +283,5 @@ export function CookieBanner({
         </div>
       </div>
     </div>
-  )
-}
-
-export function ManageCookiesButton({
-  label,
-  manageEvent = "manage-cookies",
-  className,
-}: {
-  label: string
-  manageEvent?: string
-  className?: string
-}) {
-  return (
-    <button
-      type="button"
-      onClick={() => window.dispatchEvent(new Event(manageEvent))}
-      className={cn(
-        "text-sm text-muted-foreground transition-colors hover:text-primary",
-        className,
-      )}
-    >
-      {label}
-    </button>
   )
 }

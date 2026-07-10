@@ -2,7 +2,7 @@ import Image from "next/image"
 import { Breadcrumb, type Crumb } from "@/components/ui/breadcrumb"
 import { cn } from "@/lib/utils"
 
-interface PageHeroProps {
+export interface PageHeroProps {
   title: string
   subtitle?: string
   eyebrow?: string

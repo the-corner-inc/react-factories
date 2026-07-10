@@ -2,8 +2,9 @@
 
 import { useState, useRef } from "react"
 import { Share2, Copy, Check } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-interface ShareButtonProps {
+export interface ShareButtonProps {
   title: string
   text: string
   shareLabel?: string
@@ -48,10 +49,10 @@ export function ShareButton({
     <button
       type="button"
       onClick={handleShare}
-      className={
-        className ??
-        "inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
-      }
+      className={cn(
+        "inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary/80",
+        className,
+      )}
     >
       {copied ? (
         <>

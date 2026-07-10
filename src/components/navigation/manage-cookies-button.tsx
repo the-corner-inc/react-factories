@@ -1,19 +1,26 @@
 "use client"
 
+import { cn } from "@/lib/utils"
+
+export interface ManageCookiesButtonProps {
+  label: string
+  manageEvent?: string
+  className?: string
+}
+
 export function ManageCookiesButton({
   label,
   manageEvent = "manage-cookies",
   className,
-}: {
-  label: string
-  manageEvent?: string
-  className?: string
-}) {
+}: ManageCookiesButtonProps) {
   return (
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event(manageEvent))}
-      className={className}
+      className={cn(
+        "text-sm text-muted-foreground transition-colors hover:text-primary",
+        className,
+      )}
     >
       {label}
     </button>

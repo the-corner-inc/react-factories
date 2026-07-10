@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 
-interface LanguageSwitcherProps {
+export interface LanguageSwitcherProps {
   locale: string
   locales: string[]
   localeNames: Record<string, string>

@@ -5,12 +5,20 @@ import {
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-interface PricingItem {
+export interface PricingItem {
   code?: string
   name: string
   description?: string
   duration?: string
   price: string
+}
+
+export const DEFAULT_PRICING_COLUMNS = {
+  code: "Code",
+  name: "Service",
+  description: "Description",
+  duration: "Duration",
+  price: "Price",
 }
 
 interface PricingTableProps {
@@ -20,7 +28,7 @@ interface PricingTableProps {
   items: PricingItem[]
   insuranceNote?: string
   cancellationNote?: string
-  columns?: { code?: string; name: string; description?: string; duration?: string; price: string }
+  columns?: typeof DEFAULT_PRICING_COLUMNS
   variant?: SectionVariant
   className?: string
 }
@@ -37,13 +45,7 @@ export function PricingTable({
   className,
 }: PricingTableProps) {
   const colors = sectionVariantClasses[variant]
-  const cols = columns ?? {
-    code: "Code",
-    name: "Service",
-    description: "Description",
-    duration: "Duration",
-    price: "Price",
-  }
+  const cols = columns ?? DEFAULT_PRICING_COLUMNS
 
   const hasCode = items.some((i) => i.code)
   const hasDuration = items.some((i) => i.duration)

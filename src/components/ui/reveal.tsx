@@ -2,21 +2,24 @@
 
 import { motion } from "motion/react"
 import type { ReactNode } from "react"
+import { cn } from "@/lib/utils"
+
+export interface RevealProps {
+  children: ReactNode
+  delay?: number
+  y?: number
+  className?: string
+}
 
 export function Reveal({
   children,
   delay = 0,
   y = 24,
   className,
-}: {
-  children: ReactNode
-  delay?: number
-  y?: number
-  className?: string
-}) {
+}: RevealProps) {
   return (
     <motion.div
-      className={className}
+      className={className ? cn(className) : undefined}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}

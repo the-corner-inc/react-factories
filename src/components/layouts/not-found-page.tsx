@@ -1,11 +1,12 @@
 import { CtaLink } from "@/components/ui/cta-button"
 import { cn } from "@/lib/utils"
 
-interface NotFoundPageProps {
+export interface NotFoundPageProps {
   title?: string
   description?: string
   ctaLabel?: string
   ctaHref?: string
+  errorCode?: string
   className?: string
 }
 
@@ -14,6 +15,7 @@ export function NotFoundPage({
   description = "The page you are looking for does not exist or has been moved.",
   ctaLabel = "Back to home",
   ctaHref = "/",
+  errorCode = "404",
   className,
 }: NotFoundPageProps) {
   return (
@@ -23,7 +25,7 @@ export function NotFoundPage({
         className,
       )}
     >
-      <span className="text-8xl font-bold text-primary/20">404</span>
+      <span className="text-8xl font-bold text-primary/20">{errorCode}</span>
       <h1 className="mt-4 font-heading text-3xl font-bold text-foreground sm:text-4xl">{title}</h1>
       <p className="mt-4 max-w-md text-lg text-muted-foreground">{description}</p>
       <div className="mt-8">

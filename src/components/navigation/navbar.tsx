@@ -21,7 +21,7 @@ export interface NavItem {
   children?: NavItem[]
 }
 
-interface NavbarProps {
+export interface NavbarProps {
   logo: { src?: string; alt: string; href: string; initial?: string }
   items: NavItem[]
   cta: { label: string; href: string }

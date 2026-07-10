@@ -7,13 +7,13 @@ import {
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-interface TrustItem {
+export interface TrustItem {
   icon: LucideIcon
   title: string
   description: string
 }
 
-interface TrustSectionProps {
+export interface TrustSectionProps {
   eyebrow?: string
   title: string
   subtitle?: string
@@ -41,8 +41,8 @@ export function TrustSection({
             const Icon = item.icon
             const isDark = variant === "primary" || variant === "secondary"
             const isAlt = i % 2 === 1
-            const badgeBg = isAlt ? (isDark ? "bg-white/15" : "bg-secondary/15") : colors.iconBadge
-            const badgeIcon = isAlt ? (isDark ? "text-white/80" : "text-secondary") : colors.iconColor
+            const badgeBg = isAlt ? (isDark ? "bg-primary-foreground/15" : "bg-secondary/15") : colors.iconBadge
+            const badgeIcon = isAlt ? (isDark ? "text-primary-foreground/80" : "text-secondary") : colors.iconColor
             return (
               <Reveal key={item.title} delay={i * 0.1}>
                 <div className={cn("rounded-xl border p-6 shadow-sm transition-shadow hover:shadow-md", colors.card, colors.cardBorder)}>

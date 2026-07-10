@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react"
 import { ImageWithFallback } from "@/components/ui/image-with-fallback"
 import { cn } from "@/lib/utils"
 
-interface ServiceCardProps {
+export interface ServiceCardProps {
   title: string
   description: string
   image: string

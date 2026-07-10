@@ -5,7 +5,7 @@ import Image from "next/image"
 import { ImageIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface ImageWithFallbackProps {
+export interface ImageWithFallbackProps {
   src: string
   alt: string
   width?: number

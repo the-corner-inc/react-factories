@@ -4,7 +4,7 @@ import {
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-interface SectionHeadingProps {
+export interface SectionHeadingProps {
   eyebrow?: string
   title: string
   subtitle?: string
@@ -51,7 +51,7 @@ export function SectionHeading({
           <span
             className={cn(
               "mb-4 block h-0.5 w-10 rounded-full",
-              isDark ? "bg-white/40" : "bg-secondary",
+              isDark ? "bg-primary-foreground/40" : "bg-secondary",
               align === "center" ? "mx-auto" : "",
             )}
           />

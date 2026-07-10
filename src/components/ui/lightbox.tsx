@@ -5,7 +5,7 @@ import Image from "next/image"
 import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface LightboxProps {
+export interface LightboxProps {
   src: string
   alt: string
   width?: number
@@ -69,8 +69,8 @@ export function Lightbox({
             className="object-cover transition-transform duration-500 group-hover/lightbox:scale-105"
           />
         )}
-        <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover/lightbox:bg-black/10">
-          <span className="rounded-full bg-black/50 px-3 py-1.5 text-xs font-medium text-white opacity-0 backdrop-blur-sm transition-opacity group-hover/lightbox:opacity-100">
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-foreground/0 transition-colors group-hover/lightbox:bg-foreground/10">
+          <span className="rounded-full bg-foreground/50 px-3 py-1.5 text-xs font-medium text-background opacity-0 backdrop-blur-sm transition-opacity group-hover/lightbox:opacity-100">
             {enlargeLabel}
           </span>
         </span>

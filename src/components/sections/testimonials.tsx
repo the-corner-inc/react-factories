@@ -7,14 +7,14 @@ import {
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-interface Testimonial {
+export interface Testimonial {
   quote: string
   name: string
   role?: string
   company?: string
 }
 
-interface TestimonialsProps {
+export interface TestimonialsProps {
   eyebrow?: string
   title: string
   subtitle?: string
@@ -42,7 +42,7 @@ export function Testimonials({
           {items.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.1}>
               <figure className={cn("flex h-full flex-col rounded-xl border p-6 shadow-sm", colors.card, colors.cardBorder)}>
-                <Quote className={cn("mb-4 h-8 w-8 opacity-20", isDark ? "text-white" : "text-secondary")} aria-hidden="true" />
+                <Quote className={cn("mb-4 h-8 w-8 opacity-20", isDark ? "text-primary-foreground" : "text-secondary")} aria-hidden="true" />
                 <blockquote className={cn("flex-1 text-sm leading-relaxed", colors.heading)}>
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>

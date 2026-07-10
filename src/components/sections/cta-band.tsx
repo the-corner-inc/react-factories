@@ -5,7 +5,7 @@ import {
 } from "@/lib/section-variants"
 import { cn } from "@/lib/utils"
 
-interface CtaBandProps {
+export interface CtaBandProps {
   title: string
   description?: string
   cta: { label: string; href: string; external?: boolean }
