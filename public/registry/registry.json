@@ -389,6 +389,23 @@
       ]
     },
     {
+      "name": "consent-init",
+      "type": "registry:block",
+      "title": "Consent Init",
+      "description": "Next.js Script component that sets GA4 consent defaults (denied) before hydration.",
+      "files": [
+        {
+          "path": "src/components/layouts/consent-init.tsx",
+          "type": "registry:component",
+          "content": "import Script from \"next/script\"\r\n\r\nexport function ConsentInit() {\r\n  return (\r\n    <Script id=\"consent-defaults\" strategy=\"beforeInteractive\">\r\n      {`\r\n        window.dataLayer = window.dataLayer || [];\r\n        function gtag(){dataLayer.push(arguments);}\r\n        window.gtag = window.gtag || gtag;\r\n        gtag('consent', 'default', {\r\n          ad_storage: 'denied',\r\n          analytics_storage: 'denied',\r\n          ad_user_data: 'denied',\r\n          ad_personalization: 'denied',\r\n          wait_for_update: 500,\r\n        });\r\n      `}\r\n    </Script>\r\n  )\r\n}\r\n",
+          "target": "src/components/layouts/consent-init.tsx"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ]
+    },
+    {
       "name": "language-switcher",
       "type": "registry:ui",
       "title": "Language Switcher",

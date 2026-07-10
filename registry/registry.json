@@ -171,6 +171,14 @@
       "registryDependencies": ["cn"]
     },
     {
+      "name": "consent-init",
+      "type": "registry:block",
+      "title": "Consent Init",
+      "description": "Next.js Script component that sets GA4 consent defaults (denied) before hydration.",
+      "files": [{ "path": "src/components/layouts/consent-init.tsx", "type": "registry:component" }],
+      "dependencies": ["next"]
+    },
+    {
       "name": "language-switcher",
       "type": "registry:ui",
       "title": "Language Switcher",
