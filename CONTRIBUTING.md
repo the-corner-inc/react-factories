@@ -26,12 +26,12 @@ Error/success feedback can use utility colors (`text-red-600`, `text-emerald-700
 
 | Type | Directory |
 |------|-----------|
-| UI primitives (button, input, badge…) | `src/components/ui/` |
-| Page sections (hero, grid, faq…) | `src/components/sections/` |
-| Navigation (navbar, footer…) | `src/components/navigation/` |
-| Layout helpers (cookie banner, consent…) | `src/components/layouts/` |
-| Forms (newsletter…) | `src/components/forms/` |
-| Libraries (utils, i18n, seo…) | `src/lib/` |
+| UI primitives (button, input, badge…) | `registry/components/ui/` |
+| Page sections (hero, grid, faq…) | `registry/components/sections/` |
+| Navigation (navbar, footer…) | `registry/components/navigation/` |
+| Layout helpers (cookie banner, consent…) | `registry/components/layouts/` |
+| Forms (newsletter…) | `registry/components/forms/` |
+| Libraries (utils, i18n, seo…) | `registry/lib/` |
 
 ## Props conventions
 
@@ -68,7 +68,7 @@ After creating a component, add it to `registry/registry.json`:
   "type": "registry:ui",
   "title": "My Component",
   "description": "Short description of what it does.",
-  "files": [{ "path": "src/components/ui/my-component.tsx", "type": "registry:component" }],
+  "files": [{ "path": "registry/components/ui/my-component.tsx", "type": "registry:component" }],
   "dependencies": ["lucide-react"],
   "registryDependencies": ["cn"]
 }

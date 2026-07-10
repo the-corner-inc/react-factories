@@ -96,7 +96,7 @@ Components using `inverted` (e.g. `section-heading`) rely on `text-dark-foregrou
 
 ## Registry workflow
 
-1. Create reusable source files under `/src/components/*`.
+1. Create reusable source files under `/registry/components/*`.
 2. Add corresponding registry items to `/registry/registry.json`.
 3. Ensure each registry entry includes a unique `name`, a valid `type` (`registry:ui`, `registry:block`, etc.), and file references.
 4. Run `pnpm registry:sync` to build the publishable manifest (with embedded file content) to `/public/registry/`.
@@ -115,7 +115,7 @@ pnpm registry:sync    # Build publishable registry with embedded content
 ## Project structure
 
 ```
-src/
+registry/              ← Distributed component library (stack-agnostic)
   components/
     ui/             # Primitives (cta-button, section-heading, animations...)
     navigation/     # navbar, footer, language-switcher, manage-cookies-button
@@ -124,18 +124,19 @@ src/
     forms/          # newsletter
   lib/
     utils.ts        # cn()
-    i18n/           # config, getDictionary, t(), JSON dictionaries
+    section-variants.ts  # Shared SectionVariant type
     seo/            # build-metadata, json-ld
-  styles/
-    globals.css     # Full design system
+  registry.json     # Source manifest (37 items)
+src/                  ← Next.js showroom app (not distributed)
+  app/              # Demo pages (home, newsletter...)
+  lib/i18n/         # Dictionaries (skipped by pull, project-specific)
+  styles/globals.css     # Design system
   middleware.ts     # Locale detection + redirect
 scripts/
-  build-registry.mjs  # Reads source files, embeds content into publishable JSON
-registry/
-  registry.json     # Source manifest (35 items)
+  build-registry.mjs  # Reads source files, builds publishable manifest
 public/
   registry/
-    registry.json   # Published copy with embedded file content
+    registry.json   # Published copy with embedded content, target=src/ for consumers
 ```
 
 ## Adding a new component

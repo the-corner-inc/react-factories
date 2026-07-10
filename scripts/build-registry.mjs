@@ -12,7 +12,10 @@ const output = {
     ...item,
     files: item.files.map((file) => {
       const content = readFileSync(join(root, file.path), "utf8")
-      return { ...file, content, target: file.path }
+      const target = (file.path.startsWith("registry/"))
+        ? file.path.replace("registry/", "src/")
+        : file.path
+      return { ...file, content, target }
     }),
   })),
 }
