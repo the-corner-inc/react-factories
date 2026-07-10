@@ -91,22 +91,22 @@ export function Newsletter({
   return (
     <section
       className={cn(
-        "w-full rounded-xl border border-zinc-200/80 bg-zinc-50/70 p-5 shadow-sm sm:p-6 dark:border-zinc-800 dark:bg-zinc-900/60",
+        "w-full rounded-xl border border-border bg-background p-5 shadow-sm sm:p-6",
         className,
       )}
       {...props}
     >
       <div className="space-y-2">
         {eyebrow ? (
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-600 dark:text-zinc-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
             {eyebrow}
           </p>
         ) : null}
         <div className="flex items-center gap-2">
-          {icon ? <span className="text-zinc-700 dark:text-zinc-200">{icon}</span> : null}
-          <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50">{title}</h2>
+          {icon ? <span className="text-muted-foreground">{icon}</span> : null}
+          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
         </div>
-        <p className="text-sm text-zinc-700 dark:text-zinc-300">{description}</p>
+        <p className="text-sm text-muted-foreground">{description}</p>
       </div>
 
       <form className="mt-4" onSubmit={handleSubmit} noValidate>
@@ -130,19 +130,19 @@ export function Newsletter({
             disabled={isDisabled}
             aria-invalid={hasError}
             aria-describedby={describedBy || undefined}
-            className="h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm text-zinc-950 placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:placeholder:text-zinc-400"
+            className="h-11 w-full rounded-md border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60"
           />
           <button
             type="submit"
             disabled={isDisabled}
-            className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isLoading ? "Submitting..." : buttonLabel}
           </button>
         </div>
 
         {privacyText ? (
-          <p className="mt-3 text-xs text-zinc-600 dark:text-zinc-400" id={helperId}>
+          <p className="mt-3 text-xs text-muted-foreground" id={helperId}>
             {privacyText}
           </p>
         ) : null}

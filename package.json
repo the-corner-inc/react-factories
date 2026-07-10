@@ -8,21 +8,28 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "registry:check": "node -e \"JSON.parse(require('node:fs').readFileSync('registry/registry.json','utf8')); console.log('registry/registry.json is valid JSON')\""
+    "registry:check": "node -e \"JSON.parse(require('node:fs').readFileSync('registry/registry.json','utf8')); console.log('registry/registry.json is valid JSON')\"",
+    "registry:sync": "node scripts/build-registry.mjs"
   },
   "dependencies": {
+    "clsx": "2.1.1",
+    "lucide-react": "1.23.0",
+    "motion": "12.42.2",
     "next": "16.2.9",
+    "radix-ui": "1.6.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "server-only": "0.0.1",
+    "tailwind-merge": "3.6.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
+    "@tailwindcss/postcss": "4.3.0",
+    "@types/node": "20.19.43",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
     "eslint-config-next": "16.2.9",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "tailwindcss": "4.3.0",
+    "typescript": "5.9.3"
   }
 }

@@ -1,101 +1,143 @@
 # react-factories
 
-Reusable AI website component registry scaffold built with Next.js, TypeScript, Tailwind CSS, shadcn/ui conventions, and pnpm.
+Reusable shadcn component registry for generating Next.js showcase websites. 36 props-driven, multilingual (fr/en/de/it) components, ready to use.
 
 ## What is included
 
-- Next.js + App Router project shell
-- TypeScript path aliases (`@/*`)
-- Tailwind CSS global styles (`/src/styles/globals.css`)
+- Next.js 16 (App Router) + React 19 project shell
+- TypeScript strict with path aliases (`@/*`)
+- Tailwind CSS v4 global styles (`@theme inline`, `@utility`)
 - shadcn/ui initialization config (`/components.json`)
-- Registry foundation (`/registry/registry.json`)
-- Public registry location (`/public/registry/registry.json`)
-- Placeholder folders for future components and registry entries
+- motion (animations)
+- Registry manifests (`/registry/registry.json` → `/public/registry/registry.json`)
 
-## Project structure
+## Installing from the registry
 
-```txt
-src/
-  app/
-  components/
-    ui/
-    sections/
-    layouts/
-    marketing/
-    forms/
-    navigation/
-  lib/
-    utils.ts
-    registry.ts
-  styles/
-    globals.css
-
-registry/
-  components/
-  sections/
-  layouts/
-  registry.json
-
-public/
-  registry/
-```
-
-## Registry workflow (for future additions)
-
-1. Create reusable source files under `/src/components/*`.
-2. Add corresponding registry items to `/registry/registry.json` (or dedicated files under `/registry/components`, `/registry/sections`, `/registry/layouts` and reference them from `items`).
-3. Ensure each registry entry includes a unique `name`, a valid `type` (`registry:ui`, `registry:block`, etc.), and file references once real components are added.
-4. Copy or generate publishable manifest files into `/public/registry/` for external consumers.
-5. Validate JSON with:
+The factory template includes a pull script that fetches all components from the published registry:
 
 ```bash
-pnpm registry:check
+# From the factory-template project
+pnpm registry:pull
 ```
+
+The published `public/registry/registry.json` embeds all source file contents, so consumers can pull components without cloning this repo.
+
+## Components (36)
+
+### Libs (5)
+
+| Name | Description |
+|------|-------------|
+| `cn` | clsx + tailwind-merge |
+| `section-variants` | Shared SectionVariant type and color map for themeable sections |
+| `i18n-engine` | getDictionary, t(), locale middleware (fr/en/de/it) |
+| `build-metadata` | Canonical, hreflang, Open Graph, Twitter cards |
+| `json-ld` | Organization, Breadcrumb, FAQ, Service schemas |
+
+### UI Primitives (17)
+
+| Name | Description |
+|------|-------------|
+| `social-icons` | Inline SVG icons: Instagram, Facebook, LinkedIn, YouTube |
+| `animations` | FadeUp, FadeIn, ScaleIn, StaggerContainer, HeroAnimation, ImageReveal |
+| `reveal` | Scroll-triggered fade-up |
+| `share-button` | Web Share API + clipboard fallback |
+| `back-to-top` | Floating scroll-to-top button |
+| `section-heading` | Eyebrow + title + subtitle, alignment and inverted variants |
+| `image-with-fallback` | next/image with error placeholder |
+| `lightbox` | Click-to-enlarge image with overlay |
+| `cta-button` | CtaLink + CtaExternal, 4 variants, 2 sizes |
+| `breadcrumb` | Semantic breadcrumb navigation |
+| `dropdown-menu` | Radix dropdown menu |
+| `sheet` | Radix slide-out panel (drawer) |
+| `newsletter` | Email signup form |
+| `cookie-banner` | GA4 Consent Mode v2 with localStorage |
+| `language-switcher` | Language selector dropdown |
+| `manage-cookies-button` | Client-side button to reopen cookie banner |
+| `not-found-page` | Styled 404 page |
+
+### Blocks (14)
+
+| Name | Description |
+|------|-------------|
+| `navbar` | Responsive, dropdowns, mobile Sheet menu, language switcher, CTA |
+| `footer` | Multi-column with brand, contact, socials, legal links |
+| `home-hero` | Full-viewport hero with image, gradient, CTA |
+| `page-hero` | Inner page hero with breadcrumb |
+| `cta-band` | Full-width CTA banner |
+| `trust-section` | Trust/expertise icon grid |
+| `service-card` | Service card with image, icon, hover effect |
+| `services-grid` | Responsive grid of service cards |
+| `faq-list` | Accordion FAQ with category filters |
+| `testimonials` | Client testimonials |
+| `method-steps` | Numbered steps with connecting line |
+| `pricing-table` | Dynamic pricing table |
+| `contact-info` | Contact details + hours + Google Maps embed |
+| `legal-page` | Prose layout for legal pages |
+
+## Design system
+
+The file `src/styles/globals.css` defines:
+
+- **CSS variables**: `--primary`, `--secondary`, `--accent`, `--muted`, `--border`, `--ring`, `--dark-foreground`
+- **Dark mode**: via `prefers-color-scheme`
+- **Custom utilities**: `container-premium` (responsive padding), `section-padding` (responsive vertical)
+- **Fonts**: `font-sans` and `font-heading` (Montserrat by default)
+- **Animation keyframes**: enter/exit with fade, zoom, and slide utilities
+
+Components using `inverted` (e.g. `section-heading`) rely on `text-dark-foreground` and `font-heading`.
+
+## Principles
+
+1. **Props-driven**: no component imports its own data — everything comes via props
+2. **Server Components by default**: `"use client"` only when necessary
+3. **No non-overridable hardcoded text**: all labels are props with English defaults
+4. **a11y**: semantic HTML, aria-labels, keyboard nav, focus states
+
+## Registry workflow
+
+1. Create reusable source files under `/src/components/*`.
+2. Add corresponding registry items to `/registry/registry.json`.
+3. Ensure each registry entry includes a unique `name`, a valid `type` (`registry:ui`, `registry:block`, etc.), and file references.
+4. Run `pnpm registry:sync` to build the publishable manifest (with embedded file content) to `/public/registry/`.
+5. Validate JSON with `pnpm registry:check`.
 
 ## Scripts
 
 ```bash
-pnpm dev
-pnpm lint
-pnpm typecheck
-pnpm build
-pnpm registry:check
+pnpm dev              # Dev server
+pnpm build            # Production build
+pnpm typecheck        # TypeScript verification
+pnpm registry:check   # Validate registry.json
+pnpm registry:sync    # Build publishable registry with embedded content
 ```
 
-## Newsletter component
+## Project structure
 
-1. **Component implementation**
-   - `/src/components/forms/newsletter.tsx`
-2. **Example usage**
-   - `/src/components/forms/newsletter-example.tsx`
-3. **Suggested file path**
-   - `/src/components/forms/newsletter.tsx`
-4. **Suggested `registry.json` entry**
-
-```json
-{
-  "name": "newsletter",
-  "type": "registry:ui",
-  "title": "Newsletter",
-  "description": "Reusable newsletter signup form with accessible states and async submit support.",
-  "files": [
-    {
-      "path": "src/components/forms/newsletter.tsx",
-      "type": "registry:component"
-    },
-    {
-      "path": "src/components/forms/newsletter-example.tsx",
-      "type": "registry:example"
-    }
-  ],
-  "dependencies": ["react", "tailwindcss"]
-}
+```
+src/
+  components/
+    ui/             # Primitives (cta-button, section-heading, animations...)
+    navigation/     # navbar, footer, language-switcher, manage-cookies-button
+    sections/       # home-hero, services-grid, faq-list, testimonials...
+    layouts/        # cookie-banner, consent-init, not-found-page
+    forms/          # newsletter
+  lib/
+    utils.ts        # cn()
+    i18n/           # config, getDictionary, t(), JSON dictionaries
+    seo/            # build-metadata, json-ld
+  styles/
+    globals.css     # Full design system
+  middleware.ts     # Locale detection + redirect
+scripts/
+  build-registry.mjs  # Reads source files, embeds content into publishable JSON
+registry/
+  registry.json     # Source manifest (35 items)
+public/
+  registry/
+    registry.json   # Published copy with embedded file content
 ```
 
-5. **Notes on required dependencies**
-   - Required: `react`, `tailwindcss`
-   - Optional (when passing an icon prop from an icon library): `lucide-react`
+## Adding a new component
 
-## Notes
-
-- Registry manifests include a reusable `Newsletter` component entry.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for conventions and component checklist.

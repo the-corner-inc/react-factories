@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "home": { "title": "Accueil | Nom du site", "description": "Description de la page d'accueil." },
+    "about": { "title": "À propos | Nom du site", "description": "Description de la page à propos." },
+    "services": { "title": "Services | Nom du site", "description": "Description des services." },
+    "pricing": { "title": "Tarifs | Nom du site", "description": "Consultez nos tarifs." },
+    "contact": { "title": "Contact | Nom du site", "description": "Contactez-nous." },
+    "faq": { "title": "FAQ | Nom du site", "description": "Questions fréquemment posées." },
+    "book": { "title": "Réserver | Nom du site", "description": "Prenez rendez-vous." }
+  },
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "services": "Services",
+    "pricing": "Tarifs",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "book": "Réserver"
+  },
+  "common": {
+    "readMore": "En savoir plus",
+    "backToTop": "Retour en haut",
+    "share": "Partager",
+    "linkCopied": "Lien copié",
+    "enlargeImage": "Cliquer pour agrandir",
+    "close": "Fermer",
+    "photoComingSoon": "Photo à venir"
+  },
+  "footer": {
+    "explore": "Explorer",
+    "quickLinks": "Liens rapides",
+    "contact": "Contact",
+    "legal": "Mentions légales",
+    "privacy": "Confidentialité",
+    "terms": "CGV",
+    "copyright": "© {year} {name}. Tous droits réservés.",
+    "madeBy": "Produit par The Corner Factory SA"
+  },
+  "cookies": {
+    "text": "Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic du site.",
+    "acceptAll": "Tout accepter",
+    "acceptSelection": "Accepter la sélection",
+    "reject": "Refuser",
+    "privacyLink": "Politique de confidentialité",
+    "manage": "Gestion des cookies",
+    "necessaryTitle": "Nécessaires",
+    "necessaryDescription": "Requis pour le bon fonctionnement du site Web.",
+    "analyticsTitle": "Statistiques",
+    "analyticsDescription": "Google Analytics nous aide à comprendre comment les visiteurs interagissent avec le site (données transférées aux États-Unis).",
+    "marketingTitle": "Marketing",
+    "marketingDescription": "Google Ads mesure les conversions et personnalise la publicité (données transférées aux États-Unis)."
+  }
+}

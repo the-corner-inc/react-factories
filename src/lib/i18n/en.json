@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "home": { "title": "Home | Site Name", "description": "Home page description." },
+    "about": { "title": "About | Site Name", "description": "About page description." },
+    "services": { "title": "Services | Site Name", "description": "Services description." },
+    "pricing": { "title": "Pricing | Site Name", "description": "View our pricing." },
+    "contact": { "title": "Contact | Site Name", "description": "Get in touch." },
+    "faq": { "title": "FAQ | Site Name", "description": "Frequently asked questions." },
+    "book": { "title": "Book | Site Name", "description": "Book an appointment." }
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "book": "Book"
+  },
+  "common": {
+    "readMore": "Read more",
+    "backToTop": "Back to top",
+    "share": "Share",
+    "linkCopied": "Link copied",
+    "enlargeImage": "Click to enlarge",
+    "close": "Close",
+    "photoComingSoon": "Photo coming soon"
+  },
+  "footer": {
+    "explore": "Explore",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "legal": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "copyright": "© {year} {name}. All rights reserved.",
+    "madeBy": "Made by The Corner Factory SA"
+  },
+  "cookies": {
+    "text": "We use cookies to improve your experience and analyze site traffic.",
+    "acceptAll": "Accept all",
+    "acceptSelection": "Accept selection",
+    "reject": "Reject",
+    "privacyLink": "Privacy Policy",
+    "manage": "Cookie settings",
+    "necessaryTitle": "Necessary",
+    "necessaryDescription": "Required for the website to function properly.",
+    "analyticsTitle": "Statistics",
+    "analyticsDescription": "Google Analytics helps us understand how visitors interact with the site (data transferred to the United States).",
+    "marketingTitle": "Marketing",
+    "marketingDescription": "Google Ads measures conversions and personalizes advertising (data transferred to the United States)."
+  }
+}

@@ -1,0 +1,46 @@
+import { CtaLink, CtaExternal } from "@/components/ui/cta-button"
+import {
+  type SectionVariant,
+  sectionVariantClasses,
+} from "@/lib/section-variants"
+import { cn } from "@/lib/utils"
+
+interface CtaBandProps {
+  title: string
+  description?: string
+  cta: { label: string; href: string; external?: boolean }
+  variant?: SectionVariant
+  className?: string
+}
+
+export function CtaBand({ title, description, cta, variant = "primary", className }: CtaBandProps) {
+  const colors = sectionVariantClasses[variant]
+  const isDark = variant === "primary" || variant === "secondary"
+  const ctaVariant = isDark ? "onDark" : "primary"
+
+  return (
+    <section className={cn("section-padding", colors.section, className)}>
+      <div className="container-premium text-center">
+        <h2 className={cn("font-heading text-pretty text-2xl font-bold sm:text-3xl md:text-4xl", colors.heading)}>
+          {title}
+        </h2>
+        {description && (
+          <p className={cn("mx-auto mt-4 max-w-2xl text-lg leading-relaxed", colors.body)}>
+            {description}
+          </p>
+        )}
+        <div className="mt-8">
+          {cta.external ? (
+            <CtaExternal href={cta.href} variant={ctaVariant} size="lg">
+              {cta.label}
+            </CtaExternal>
+          ) : (
+            <CtaLink href={cta.href} variant={ctaVariant} size="lg">
+              {cta.label}
+            </CtaLink>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}

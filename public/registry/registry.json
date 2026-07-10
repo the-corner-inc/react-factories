@@ -4,25 +4,349 @@
   "homepage": "https://github.com/the-corner-inc/react-factories",
   "items": [
     {
-      "name": "placeholder-ui",
+      "name": "cn",
+      "type": "registry:lib",
+      "title": "cn Utility",
+      "description": "Class name utility combining clsx and tailwind-merge.",
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib",
+          "content": "import { clsx, type ClassValue } from \"clsx\"\r\nimport { twMerge } from \"tailwind-merge\"\r\n\r\nexport function cn(...inputs: ClassValue[]) {\r\n  return twMerge(clsx(inputs))\r\n}\r\n",
+          "target": "src/lib/utils.ts"
+        }
+      ],
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ]
+    },
+    {
+      "name": "section-variants",
+      "type": "registry:lib",
+      "title": "Section Variants",
+      "description": "Shared SectionVariant type and color map for theming section backgrounds, text, cards, and icons.",
+      "files": [
+        {
+          "path": "src/lib/section-variants.ts",
+          "type": "registry:lib",
+          "content": "export type SectionVariant =\n  | \"default\"\n  | \"muted\"\n  | \"accent\"\n  | \"primary\"\n  | \"secondary\"\n\nexport const sectionVariantClasses: Record<\n  SectionVariant,\n  {\n    section: string\n    heading: string\n    body: string\n    eyebrow: string\n    card: string\n    cardBorder: string\n    iconBadge: string\n    iconColor: string\n  }\n> = {\n  default: {\n    section: \"bg-background\",\n    heading: \"text-foreground\",\n    body: \"text-muted-foreground\",\n    eyebrow: \"text-primary\",\n    card: \"bg-background\",\n    cardBorder: \"border-border\",\n    iconBadge: \"bg-primary/10\",\n    iconColor: \"text-primary\",\n  },\n  muted: {\n    section: \"bg-muted/50\",\n    heading: \"text-foreground\",\n    body: \"text-muted-foreground\",\n    eyebrow: \"text-primary\",\n    card: \"bg-background\",\n    cardBorder: \"border-border\",\n    iconBadge: \"bg-primary/10\",\n    iconColor: \"text-primary\",\n  },\n  accent: {\n    section: \"bg-accent\",\n    heading: \"text-accent-foreground\",\n    body: \"text-accent-foreground/70\",\n    eyebrow: \"text-primary\",\n    card: \"bg-background\",\n    cardBorder: \"border-border\",\n    iconBadge: \"bg-primary/10\",\n    iconColor: \"text-primary\",\n  },\n  primary: {\n    section: \"bg-primary\",\n    heading: \"text-primary-foreground\",\n    body: \"text-primary-foreground/80\",\n    eyebrow: \"text-primary-foreground/90\",\n    card: \"bg-primary-foreground/10\",\n    cardBorder: \"border-primary-foreground/20\",\n    iconBadge: \"bg-primary-foreground/20\",\n    iconColor: \"text-primary-foreground\",\n  },\n  secondary: {\n    section: \"bg-secondary\",\n    heading: \"text-secondary-foreground\",\n    body: \"text-secondary-foreground/80\",\n    eyebrow: \"text-secondary-foreground/90\",\n    card: \"bg-secondary-foreground/10\",\n    cardBorder: \"border-secondary-foreground/20\",\n    iconBadge: \"bg-secondary-foreground/20\",\n    iconColor: \"text-secondary-foreground\",\n  },\n}\n",
+          "target": "src/lib/section-variants.ts"
+        }
+      ]
+    },
+    {
+      "name": "i18n-engine",
+      "type": "registry:lib",
+      "title": "i18n Engine",
+      "description": "Internationalization engine with getDictionary, t() dot-notation resolver, and locale middleware. Supports fr/en/de/it.",
+      "files": [
+        {
+          "path": "src/lib/i18n/config.ts",
+          "type": "registry:lib",
+          "content": "export const locales = [\"fr\", \"en\", \"de\", \"it\"] as const\r\nexport type Locale = (typeof locales)[number]\r\nexport const defaultLocale: Locale = \"fr\"\r\n\r\nexport const localeNames: Record<Locale, string> = {\r\n  fr: \"Français\",\r\n  en: \"English\",\r\n  de: \"Deutsch\",\r\n  it: \"Italiano\",\r\n}\r\n\r\nexport const localeShort: Record<Locale, string> = {\r\n  fr: \"FR\",\r\n  en: \"EN\",\r\n  de: \"DE\",\r\n  it: \"IT\",\r\n}\r\n\r\nexport const ogLocales: Record<Locale, string> = {\r\n  fr: \"fr_CH\",\r\n  en: \"en_US\",\r\n  de: \"de_CH\",\r\n  it: \"it_CH\",\r\n}\r\n\r\nexport function isLocale(value: string): value is Locale {\r\n  return (locales as readonly string[]).includes(value)\r\n}\r\n",
+          "target": "src/lib/i18n/config.ts"
+        },
+        {
+          "path": "src/lib/i18n/index.ts",
+          "type": "registry:lib",
+          "content": "import \"server-only\"\r\n\r\nimport { defaultLocale, type Locale } from \"./config\"\r\n\r\n// eslint-disable-next-line @typescript-eslint/no-explicit-any\r\nexport type Dictionary = Record<string, any>\r\n\r\nconst dictionaries: Record<string, () => Promise<Dictionary>> = {\r\n  fr: () => import(\"./fr.json\").then((m) => m.default),\r\n  en: () => import(\"./en.json\").then((m) => m.default),\r\n  de: () => import(\"./de.json\").then((m) => m.default),\r\n  it: () => import(\"./it.json\").then((m) => m.default),\r\n}\r\n\r\nexport async function getDictionary(locale: Locale): Promise<Dictionary> {\r\n  const loader = dictionaries[locale] ?? dictionaries[defaultLocale]\r\n  return loader()\r\n}\r\n\r\nexport function t(dictionary: Dictionary, key: string): string {\r\n  const value = key\r\n    .split(\".\")\r\n    .reduce<unknown>((acc, part) => {\r\n      if (acc && typeof acc === \"object\" && part in (acc as Record<string, unknown>)) {\r\n        return (acc as Record<string, unknown>)[part]\r\n      }\r\n      return undefined\r\n    }, dictionary)\r\n\r\n  return typeof value === \"string\" ? value : key\r\n}\r\n\r\nexport function tList(dictionary: Dictionary, key: string): string[] {\r\n  const value = key.split(\".\").reduce<unknown>((acc, part) => {\r\n    if (acc && typeof acc === \"object\" && part in (acc as Record<string, unknown>)) {\r\n      return (acc as Record<string, unknown>)[part]\r\n    }\r\n    return undefined\r\n  }, dictionary)\r\n\r\n  return Array.isArray(value) ? (value as string[]) : []\r\n}\r\n\r\nexport function tNode<T = unknown>(dictionary: Dictionary, key: string): T | undefined {\r\n  const value = key.split(\".\").reduce<unknown>((acc, part) => {\r\n    if (acc && typeof acc === \"object\" && part in (acc as Record<string, unknown>)) {\r\n      return (acc as Record<string, unknown>)[part]\r\n    }\r\n    return undefined\r\n  }, dictionary)\r\n\r\n  return value as T | undefined\r\n}\r\n\r\nexport { type Locale, locales, defaultLocale, localeNames, localeShort, ogLocales, isLocale } from \"./config\"\r\n",
+          "target": "src/lib/i18n/index.ts"
+        },
+        {
+          "path": "src/lib/i18n/fr.json",
+          "type": "registry:lib",
+          "content": "{\n  \"meta\": {\n    \"home\": { \"title\": \"Accueil | Nom du site\", \"description\": \"Description de la page d'accueil.\" },\n    \"about\": { \"title\": \"À propos | Nom du site\", \"description\": \"Description de la page à propos.\" },\n    \"services\": { \"title\": \"Services | Nom du site\", \"description\": \"Description des services.\" },\n    \"pricing\": { \"title\": \"Tarifs | Nom du site\", \"description\": \"Consultez nos tarifs.\" },\n    \"contact\": { \"title\": \"Contact | Nom du site\", \"description\": \"Contactez-nous.\" },\n    \"faq\": { \"title\": \"FAQ | Nom du site\", \"description\": \"Questions fréquemment posées.\" },\n    \"book\": { \"title\": \"Réserver | Nom du site\", \"description\": \"Prenez rendez-vous.\" }\n  },\n  \"nav\": {\n    \"home\": \"Accueil\",\n    \"about\": \"À propos\",\n    \"services\": \"Services\",\n    \"pricing\": \"Tarifs\",\n    \"contact\": \"Contact\",\n    \"faq\": \"FAQ\",\n    \"book\": \"Réserver\"\n  },\n  \"common\": {\n    \"readMore\": \"En savoir plus\",\n    \"backToTop\": \"Retour en haut\",\n    \"share\": \"Partager\",\n    \"linkCopied\": \"Lien copié\",\n    \"enlargeImage\": \"Cliquer pour agrandir\",\n    \"close\": \"Fermer\",\n    \"photoComingSoon\": \"Photo à venir\"\n  },\n  \"footer\": {\n    \"explore\": \"Explorer\",\n    \"quickLinks\": \"Liens rapides\",\n    \"contact\": \"Contact\",\n    \"legal\": \"Mentions légales\",\n    \"privacy\": \"Confidentialité\",\n    \"terms\": \"CGV\",\n    \"copyright\": \"© {year} {name}. Tous droits réservés.\",\n    \"madeBy\": \"Produit par The Corner Factory SA\"\n  },\n  \"cookies\": {\n    \"text\": \"Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic du site.\",\n    \"acceptAll\": \"Tout accepter\",\n    \"acceptSelection\": \"Accepter la sélection\",\n    \"reject\": \"Refuser\",\n    \"privacyLink\": \"Politique de confidentialité\",\n    \"manage\": \"Gestion des cookies\",\n    \"necessaryTitle\": \"Nécessaires\",\n    \"necessaryDescription\": \"Requis pour le bon fonctionnement du site Web.\",\n    \"analyticsTitle\": \"Statistiques\",\n    \"analyticsDescription\": \"Google Analytics nous aide à comprendre comment les visiteurs interagissent avec le site (données transférées aux États-Unis).\",\n    \"marketingTitle\": \"Marketing\",\n    \"marketingDescription\": \"Google Ads mesure les conversions et personnalise la publicité (données transférées aux États-Unis).\"\n  }\n}\n",
+          "target": "src/lib/i18n/fr.json"
+        },
+        {
+          "path": "src/lib/i18n/en.json",
+          "type": "registry:lib",
+          "content": "{\n  \"meta\": {\n    \"home\": { \"title\": \"Home | Site Name\", \"description\": \"Home page description.\" },\n    \"about\": { \"title\": \"About | Site Name\", \"description\": \"About page description.\" },\n    \"services\": { \"title\": \"Services | Site Name\", \"description\": \"Services description.\" },\n    \"pricing\": { \"title\": \"Pricing | Site Name\", \"description\": \"View our pricing.\" },\n    \"contact\": { \"title\": \"Contact | Site Name\", \"description\": \"Get in touch.\" },\n    \"faq\": { \"title\": \"FAQ | Site Name\", \"description\": \"Frequently asked questions.\" },\n    \"book\": { \"title\": \"Book | Site Name\", \"description\": \"Book an appointment.\" }\n  },\n  \"nav\": {\n    \"home\": \"Home\",\n    \"about\": \"About\",\n    \"services\": \"Services\",\n    \"pricing\": \"Pricing\",\n    \"contact\": \"Contact\",\n    \"faq\": \"FAQ\",\n    \"book\": \"Book\"\n  },\n  \"common\": {\n    \"readMore\": \"Read more\",\n    \"backToTop\": \"Back to top\",\n    \"share\": \"Share\",\n    \"linkCopied\": \"Link copied\",\n    \"enlargeImage\": \"Click to enlarge\",\n    \"close\": \"Close\",\n    \"photoComingSoon\": \"Photo coming soon\"\n  },\n  \"footer\": {\n    \"explore\": \"Explore\",\n    \"quickLinks\": \"Quick Links\",\n    \"contact\": \"Contact\",\n    \"legal\": \"Legal Notice\",\n    \"privacy\": \"Privacy Policy\",\n    \"terms\": \"Terms & Conditions\",\n    \"copyright\": \"© {year} {name}. All rights reserved.\",\n    \"madeBy\": \"Made by The Corner Factory SA\"\n  },\n  \"cookies\": {\n    \"text\": \"We use cookies to improve your experience and analyze site traffic.\",\n    \"acceptAll\": \"Accept all\",\n    \"acceptSelection\": \"Accept selection\",\n    \"reject\": \"Reject\",\n    \"privacyLink\": \"Privacy Policy\",\n    \"manage\": \"Cookie settings\",\n    \"necessaryTitle\": \"Necessary\",\n    \"necessaryDescription\": \"Required for the website to function properly.\",\n    \"analyticsTitle\": \"Statistics\",\n    \"analyticsDescription\": \"Google Analytics helps us understand how visitors interact with the site (data transferred to the United States).\",\n    \"marketingTitle\": \"Marketing\",\n    \"marketingDescription\": \"Google Ads measures conversions and personalizes advertising (data transferred to the United States).\"\n  }\n}\n",
+          "target": "src/lib/i18n/en.json"
+        },
+        {
+          "path": "src/lib/i18n/de.json",
+          "type": "registry:lib",
+          "content": "{\n  \"meta\": {\n    \"home\": { \"title\": \"Startseite | Webseite Name\", \"description\": \"Beschreibung der Startseite.\" },\n    \"about\": { \"title\": \"Über uns | Webseite Name\", \"description\": \"Über uns Seite.\" },\n    \"services\": { \"title\": \"Dienstleistungen | Webseite Name\", \"description\": \"Unsere Dienstleistungen.\" },\n    \"pricing\": { \"title\": \"Preise | Webseite Name\", \"description\": \"Unsere Preise.\" },\n    \"contact\": { \"title\": \"Kontakt | Webseite Name\", \"description\": \"Kontaktieren Sie uns.\" },\n    \"faq\": { \"title\": \"FAQ | Webseite Name\", \"description\": \"Häufig gestellte Fragen.\" },\n    \"book\": { \"title\": \"Buchen | Webseite Name\", \"description\": \"Termin buchen.\" }\n  },\n  \"nav\": {\n    \"home\": \"Startseite\",\n    \"about\": \"Über uns\",\n    \"services\": \"Dienstleistungen\",\n    \"pricing\": \"Preise\",\n    \"contact\": \"Kontakt\",\n    \"faq\": \"FAQ\",\n    \"book\": \"Buchen\"\n  },\n  \"common\": {\n    \"readMore\": \"Mehr erfahren\",\n    \"backToTop\": \"Nach oben\",\n    \"share\": \"Teilen\",\n    \"linkCopied\": \"Link kopiert\",\n    \"enlargeImage\": \"Klicken zum Vergrössern\",\n    \"close\": \"Schliessen\",\n    \"photoComingSoon\": \"Foto folgt\"\n  },\n  \"footer\": {\n    \"explore\": \"Entdecken\",\n    \"quickLinks\": \"Schnellzugriff\",\n    \"contact\": \"Kontakt\",\n    \"legal\": \"Impressum\",\n    \"privacy\": \"Datenschutz\",\n    \"terms\": \"AGB\",\n    \"copyright\": \"© {year} {name}. Alle Rechte vorbehalten.\",\n    \"madeBy\": \"Erstellt von The Corner Factory SA\"\n  },\n  \"cookies\": {\n    \"text\": \"Wir verwenden Cookies, um Ihre Erfahrung zu verbessern und den Website-Traffic zu analysieren.\",\n    \"acceptAll\": \"Alle akzeptieren\",\n    \"acceptSelection\": \"Auswahl akzeptieren\",\n    \"reject\": \"Ablehnen\",\n    \"privacyLink\": \"Datenschutzrichtlinie\",\n    \"manage\": \"Cookie-Einstellungen\",\n    \"necessaryTitle\": \"Notwendig\",\n    \"necessaryDescription\": \"Erforderlich für die ordnungsgemässe Funktion der Website.\",\n    \"analyticsTitle\": \"Statistiken\",\n    \"analyticsDescription\": \"Google Analytics hilft uns zu verstehen, wie Besucher die Website nutzen (Datenübertragung in die USA).\",\n    \"marketingTitle\": \"Marketing\",\n    \"marketingDescription\": \"Google Ads misst Konversionen und personalisiert Werbung (Datenübertragung in die USA).\"\n  }\n}\n",
+          "target": "src/lib/i18n/de.json"
+        },
+        {
+          "path": "src/lib/i18n/it.json",
+          "type": "registry:lib",
+          "content": "{\n  \"meta\": {\n    \"home\": { \"title\": \"Home | Nome del sito\", \"description\": \"Descrizione della pagina principale.\" },\n    \"about\": { \"title\": \"Chi siamo | Nome del sito\", \"description\": \"Pagina chi siamo.\" },\n    \"services\": { \"title\": \"Servizi | Nome del sito\", \"description\": \"I nostri servizi.\" },\n    \"pricing\": { \"title\": \"Prezzi | Nome del sito\", \"description\": \"Consulta i nostri prezzi.\" },\n    \"contact\": { \"title\": \"Contatto | Nome del sito\", \"description\": \"Contattaci.\" },\n    \"faq\": { \"title\": \"FAQ | Nome del sito\", \"description\": \"Domande frequenti.\" },\n    \"book\": { \"title\": \"Prenota | Nome del sito\", \"description\": \"Prenota un appuntamento.\" }\n  },\n  \"nav\": {\n    \"home\": \"Home\",\n    \"about\": \"Chi siamo\",\n    \"services\": \"Servizi\",\n    \"pricing\": \"Prezzi\",\n    \"contact\": \"Contatto\",\n    \"faq\": \"FAQ\",\n    \"book\": \"Prenota\"\n  },\n  \"common\": {\n    \"readMore\": \"Scopri di più\",\n    \"backToTop\": \"Torna in alto\",\n    \"share\": \"Condividi\",\n    \"linkCopied\": \"Link copiato\",\n    \"enlargeImage\": \"Clicca per ingrandire\",\n    \"close\": \"Chiudi\",\n    \"photoComingSoon\": \"Foto in arrivo\"\n  },\n  \"footer\": {\n    \"explore\": \"Esplora\",\n    \"quickLinks\": \"Link rapidi\",\n    \"contact\": \"Contatto\",\n    \"legal\": \"Note legali\",\n    \"privacy\": \"Privacy\",\n    \"terms\": \"Termini e condizioni\",\n    \"copyright\": \"© {year} {name}. Tutti i diritti riservati.\",\n    \"madeBy\": \"Realizzato da The Corner Factory SA\"\n  },\n  \"cookies\": {\n    \"text\": \"Utilizziamo i cookie per migliorare la tua esperienza e analizzare il traffico del sito.\",\n    \"acceptAll\": \"Accetta tutto\",\n    \"acceptSelection\": \"Accetta selezione\",\n    \"reject\": \"Rifiuta\",\n    \"privacyLink\": \"Informativa sulla privacy\",\n    \"manage\": \"Gestione cookie\",\n    \"necessaryTitle\": \"Necessari\",\n    \"necessaryDescription\": \"Necessari per il corretto funzionamento del sito.\",\n    \"analyticsTitle\": \"Statistiche\",\n    \"analyticsDescription\": \"Google Analytics ci aiuta a capire come i visitatori interagiscono con il sito (dati trasferiti negli Stati Uniti).\",\n    \"marketingTitle\": \"Marketing\",\n    \"marketingDescription\": \"Google Ads misura le conversioni e personalizza la pubblicità (dati trasferiti negli Stati Uniti).\"\n  }\n}\n",
+          "target": "src/lib/i18n/it.json"
+        },
+        {
+          "path": "src/middleware.ts",
+          "type": "registry:lib",
+          "content": "import { NextResponse, type NextRequest } from \"next/server\"\r\nimport { locales, defaultLocale } from \"@/lib/i18n/config\"\r\n\r\nfunction getLocale(request: NextRequest): string {\r\n  const cookieLocale = request.cookies.get(\"NEXT_LOCALE\")?.value\r\n  if (cookieLocale && (locales as readonly string[]).includes(cookieLocale)) {\r\n    return cookieLocale\r\n  }\r\n\r\n  const acceptLang = request.headers.get(\"accept-language\")\r\n  if (acceptLang) {\r\n    const preferred = acceptLang\r\n      .split(\",\")\r\n      .map((part) => part.split(\";\")[0].trim().toLowerCase().split(\"-\")[0])\r\n\r\n    for (const lang of preferred) {\r\n      if ((locales as readonly string[]).includes(lang)) {\r\n        return lang\r\n      }\r\n    }\r\n  }\r\n\r\n  return defaultLocale\r\n}\r\n\r\nexport function middleware(request: NextRequest) {\r\n  const { pathname } = request.nextUrl\r\n\r\n  if (\r\n    pathname.startsWith(\"/_next\") ||\r\n    pathname.startsWith(\"/api\") ||\r\n    pathname.includes(\".\") ||\r\n    pathname === \"/robots.txt\" ||\r\n    pathname === \"/sitemap.xml\"\r\n  ) {\r\n    return NextResponse.next()\r\n  }\r\n\r\n  const pathnameHasLocale = locales.some(\r\n    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),\r\n  )\r\n\r\n  if (pathnameHasLocale) return NextResponse.next()\r\n\r\n  const locale = getLocale(request)\r\n  const url = request.nextUrl.clone()\r\n  url.pathname = `/${locale}${pathname === \"/\" ? \"\" : pathname}`\r\n\r\n  const response = NextResponse.redirect(url)\r\n  response.cookies.set(\"NEXT_LOCALE\", locale, { maxAge: 60 * 60 * 24 * 365, path: \"/\" })\r\n  return response\r\n}\r\n\r\nexport const config = {\r\n  matcher: [\"/((?!_next|api|.*\\\\..*).*)\"],\r\n}\r\n",
+          "target": "src/middleware.ts"
+        }
+      ],
+      "dependencies": [
+        "server-only",
+        "next"
+      ]
+    },
+    {
+      "name": "build-metadata",
+      "type": "registry:lib",
+      "title": "Build Metadata",
+      "description": "SEO metadata builder with canonical, hreflang, Open Graph, and Twitter card support.",
+      "files": [
+        {
+          "path": "src/lib/seo/build-metadata.ts",
+          "type": "registry:lib",
+          "content": "import type { Metadata } from \"next\"\r\nimport { locales, ogLocales, type Locale } from \"@/lib/i18n/config\"\r\n\r\ninterface BuildMetadataOptions {\r\n  locale: Locale\r\n  title: string\r\n  description: string\r\n  path: string\r\n  siteUrl: string\r\n  siteName: string\r\n  ogImage?: string\r\n  noIndex?: boolean\r\n}\r\n\r\nexport function buildMetadata({\r\n  locale,\r\n  title,\r\n  description,\r\n  path,\r\n  siteUrl,\r\n  siteName,\r\n  ogImage,\r\n  noIndex = false,\r\n}: BuildMetadataOptions): Metadata {\r\n  const cleanPath = path === \"/\" ? \"\" : path\r\n  const canonical = `${siteUrl}/${locale}${cleanPath}`\r\n\r\n  const languages: Record<string, string> = {}\r\n  for (const l of locales) {\r\n    languages[l] = `${siteUrl}/${l}${cleanPath}`\r\n  }\r\n  languages[\"x-default\"] = `${siteUrl}/${locales[0]}${cleanPath}`\r\n\r\n  return {\r\n    title,\r\n    description,\r\n    alternates: { canonical, languages },\r\n    robots: noIndex ? { index: false, follow: true } : undefined,\r\n    openGraph: {\r\n      title,\r\n      description,\r\n      url: canonical,\r\n      siteName,\r\n      locale: ogLocales[locale],\r\n      type: \"website\",\r\n      images: ogImage\r\n        ? [{ url: ogImage, width: 1200, height: 630, alt: siteName }]\r\n        : undefined,\r\n    },\r\n    twitter: {\r\n      card: \"summary_large_image\",\r\n      title,\r\n      description,\r\n      images: ogImage ? [ogImage] : undefined,\r\n    },\r\n  }\r\n}\r\n",
+          "target": "src/lib/seo/build-metadata.ts"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ],
+      "registryDependencies": [
+        "i18n-engine"
+      ]
+    },
+    {
+      "name": "json-ld",
+      "type": "registry:lib",
+      "title": "JSON-LD Schemas",
+      "description": "Structured data helpers for Organization, Breadcrumb, FAQ, and Service schemas.",
+      "files": [
+        {
+          "path": "src/lib/seo/json-ld.tsx",
+          "type": "registry:lib",
+          "content": "interface JsonLdProps {\r\n  data: Record<string, unknown>\r\n}\r\n\r\nexport function JsonLd({ data }: JsonLdProps) {\r\n  return (\r\n    <script\r\n      type=\"application/ld+json\"\r\n      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}\r\n    />\r\n  )\r\n}\r\n\r\nexport function organizationJsonLd({\r\n  name,\r\n  url,\r\n  logo,\r\n  phone,\r\n  email,\r\n  address,\r\n}: {\r\n  name: string\r\n  url: string\r\n  logo?: string\r\n  phone?: string\r\n  email?: string\r\n  address?: { street: string; city: string; postalCode: string; country: string }\r\n}) {\r\n  return {\r\n    \"@context\": \"https://schema.org\",\r\n    \"@type\": \"LocalBusiness\",\r\n    \"@id\": `${url}/#organization`,\r\n    name,\r\n    url,\r\n    ...(logo && { logo }),\r\n    ...(phone && { telephone: phone }),\r\n    ...(email && { email }),\r\n    ...(address && {\r\n      address: {\r\n        \"@type\": \"PostalAddress\",\r\n        streetAddress: address.street,\r\n        addressLocality: address.city,\r\n        postalCode: address.postalCode,\r\n        addressCountry: address.country,\r\n      },\r\n    }),\r\n  }\r\n}\r\n\r\nexport function breadcrumbJsonLd(items: { name: string; url: string }[]) {\r\n  return {\r\n    \"@context\": \"https://schema.org\",\r\n    \"@type\": \"BreadcrumbList\",\r\n    itemListElement: items.map((item, index) => ({\r\n      \"@type\": \"ListItem\",\r\n      position: index + 1,\r\n      name: item.name,\r\n      item: item.url,\r\n    })),\r\n  }\r\n}\r\n\r\nexport function faqJsonLd(items: { question: string; answer: string }[]) {\r\n  return {\r\n    \"@context\": \"https://schema.org\",\r\n    \"@type\": \"FAQPage\",\r\n    mainEntity: items.map((item) => ({\r\n      \"@type\": \"Question\",\r\n      name: item.question,\r\n      acceptedAnswer: { \"@type\": \"Answer\", text: item.answer },\r\n    })),\r\n  }\r\n}\r\n\r\nexport function serviceJsonLd({\r\n  name,\r\n  description,\r\n  provider,\r\n  url,\r\n}: {\r\n  name: string\r\n  description: string\r\n  provider: { name: string; url: string }\r\n  url: string\r\n}) {\r\n  return {\r\n    \"@context\": \"https://schema.org\",\r\n    \"@type\": \"Service\",\r\n    name,\r\n    description,\r\n    url,\r\n    provider: {\r\n      \"@type\": \"LocalBusiness\",\r\n      name: provider.name,\r\n      url: provider.url,\r\n    },\r\n  }\r\n}\r\n",
+          "target": "src/lib/seo/json-ld.tsx"
+        }
+      ]
+    },
+    {
+      "name": "social-icons",
       "type": "registry:ui",
-      "title": "Placeholder UI",
-      "description": "Minimal placeholder entry for future reusable UI components.",
-      "files": []
+      "title": "Social Icons",
+      "description": "Inline SVG icons for Instagram, Facebook, LinkedIn, and YouTube.",
+      "files": [
+        {
+          "path": "src/components/ui/social-icons.tsx",
+          "type": "registry:component",
+          "content": "import type { SVGProps } from \"react\"\r\n\r\ntype IconProps = SVGProps<SVGSVGElement>\r\n\r\nexport function InstagramIcon(props: IconProps) {\r\n  return (\r\n    <svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\" {...props}>\r\n      <path d=\"M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 3.34A6.5 6.5 0 1 0 18.5 12 6.5 6.5 0 0 0 12 5.5Zm0 10.72A4.22 4.22 0 1 1 16.22 12 4.22 4.22 0 0 1 12 16.22Zm6.76-10.97a1.52 1.52 0 1 1-1.52-1.52 1.52 1.52 0 0 1 1.52 1.52Z\" />\r\n    </svg>\r\n  )\r\n}\r\n\r\nexport function FacebookIcon(props: IconProps) {\r\n  return (\r\n    <svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\" {...props}>\r\n      <path d=\"M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z\" />\r\n    </svg>\r\n  )\r\n}\r\n\r\nexport function LinkedinIcon(props: IconProps) {\r\n  return (\r\n    <svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\" {...props}>\r\n      <path d=\"M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z\" />\r\n    </svg>\r\n  )\r\n}\r\n\r\nexport function YoutubeIcon(props: IconProps) {\r\n  return (\r\n    <svg viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\" {...props}>\r\n      <path d=\"M23.5 6.5a3 3 0 0 0-2.12-2.12C19.5 3.86 12 3.86 12 3.86s-7.5 0-9.38.52A3 3 0 0 0 .5 6.5C0 8.38 0 12 0 12s0 3.62.5 5.5a3 3 0 0 0 2.12 2.12c1.88.52 9.38.52 9.38.52s7.5 0 9.38-.52a3 3 0 0 0 2.12-2.12C24 15.62 24 12 24 12s0-3.62-.5-5.5ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z\" />\r\n    </svg>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/social-icons.tsx"
+        }
+      ]
     },
     {
-      "name": "placeholder-section",
-      "type": "registry:block",
-      "title": "Placeholder Section",
-      "description": "Minimal placeholder entry for future reusable website sections.",
-      "files": []
+      "name": "animations",
+      "type": "registry:ui",
+      "title": "Animations",
+      "description": "Scroll-triggered animation wrappers: FadeUp, FadeIn, ScaleIn, StaggerContainer, HeroAnimation, ImageReveal.",
+      "files": [
+        {
+          "path": "src/components/ui/animations.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport { motion, type Variants } from \"motion/react\"\r\nimport type { ReactNode } from \"react\"\r\n\r\nconst fadeUp: Variants = {\r\n  hidden: { opacity: 0, y: 20 },\r\n  visible: { opacity: 1, y: 0 },\r\n}\r\n\r\nconst fadeIn: Variants = {\r\n  hidden: { opacity: 0 },\r\n  visible: { opacity: 1 },\r\n}\r\n\r\nconst scaleIn: Variants = {\r\n  hidden: { opacity: 0, scale: 0.95 },\r\n  visible: { opacity: 1, scale: 1 },\r\n}\r\n\r\ninterface AnimationProps {\r\n  children: ReactNode\r\n  delay?: number\r\n  className?: string\r\n}\r\n\r\nexport function FadeUp({ children, delay = 0, className }: AnimationProps) {\r\n  return (\r\n    <motion.div\r\n      initial=\"hidden\"\r\n      whileInView=\"visible\"\r\n      viewport={{ once: true, margin: \"-50px\" }}\r\n      variants={fadeUp}\r\n      transition={{ duration: 0.5, delay, ease: \"easeOut\" }}\r\n      className={className}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  )\r\n}\r\n\r\nexport function FadeIn({ children, delay = 0, className }: AnimationProps) {\r\n  return (\r\n    <motion.div\r\n      initial=\"hidden\"\r\n      whileInView=\"visible\"\r\n      viewport={{ once: true, margin: \"-50px\" }}\r\n      variants={fadeIn}\r\n      transition={{ duration: 0.6, delay, ease: \"easeOut\" }}\r\n      className={className}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  )\r\n}\r\n\r\nexport function ScaleIn({ children, delay = 0, className }: AnimationProps) {\r\n  return (\r\n    <motion.div\r\n      initial=\"hidden\"\r\n      whileInView=\"visible\"\r\n      viewport={{ once: true, margin: \"-50px\" }}\r\n      variants={scaleIn}\r\n      transition={{ duration: 0.5, delay, ease: \"easeOut\" }}\r\n      className={className}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  )\r\n}\r\n\r\nexport function StaggerContainer({\r\n  children,\r\n  className,\r\n  staggerDelay = 0.1,\r\n}: {\r\n  children: ReactNode\r\n  className?: string\r\n  staggerDelay?: number\r\n}) {\r\n  return (\r\n    <motion.div\r\n      initial=\"hidden\"\r\n      whileInView=\"visible\"\r\n      viewport={{ once: true, margin: \"-50px\" }}\r\n      variants={{\r\n        visible: { transition: { staggerChildren: staggerDelay } },\r\n      }}\r\n      className={className}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  )\r\n}\r\n\r\nexport function StaggerItem({ children, className }: { children: ReactNode; className?: string }) {\r\n  return (\r\n    <motion.div variants={fadeUp} transition={{ duration: 0.5, ease: \"easeOut\" }} className={className}>\r\n      {children}\r\n    </motion.div>\r\n  )\r\n}\r\n\r\nexport function HeroAnimation({ children, className }: { children: ReactNode; className?: string }) {\r\n  return (\r\n    <motion.div\r\n      initial={{ opacity: 0, y: 30 }}\r\n      animate={{ opacity: 1, y: 0 }}\r\n      transition={{ duration: 0.7, ease: \"easeOut\" }}\r\n      className={className}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  )\r\n}\r\n\r\nexport function ImageReveal({ children, delay = 0, className }: AnimationProps) {\r\n  return (\r\n    <motion.div\r\n      initial={{ opacity: 0, scale: 1.05 }}\r\n      whileInView={{ opacity: 1, scale: 1 }}\r\n      viewport={{ once: true, margin: \"-50px\" }}\r\n      transition={{ duration: 0.7, delay, ease: \"easeOut\" }}\r\n      className={className}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/animations.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ]
     },
     {
-      "name": "placeholder-layout",
-      "type": "registry:block",
-      "title": "Placeholder Layout",
-      "description": "Minimal placeholder entry for future reusable page layouts.",
-      "files": []
+      "name": "reveal",
+      "type": "registry:ui",
+      "title": "Reveal",
+      "description": "Lightweight scroll-reveal wrapper with configurable fade-up animation.",
+      "files": [
+        {
+          "path": "src/components/ui/reveal.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport { motion } from \"motion/react\"\r\nimport type { ReactNode } from \"react\"\r\n\r\nexport function Reveal({\r\n  children,\r\n  delay = 0,\r\n  y = 24,\r\n  className,\r\n}: {\r\n  children: ReactNode\r\n  delay?: number\r\n  y?: number\r\n  className?: string\r\n}) {\r\n  return (\r\n    <motion.div\r\n      className={className}\r\n      initial={{ opacity: 0, y }}\r\n      whileInView={{ opacity: 1, y: 0 }}\r\n      viewport={{ once: true, margin: \"-80px\" }}\r\n      transition={{ duration: 0.6, delay, ease: [0.21, 0.47, 0.32, 0.98] }}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/reveal.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ]
+    },
+    {
+      "name": "share-button",
+      "type": "registry:ui",
+      "title": "Share Button",
+      "description": "Web Share API button with clipboard fallback.",
+      "files": [
+        {
+          "path": "src/components/ui/share-button.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport { useState, useRef } from \"react\"\r\nimport { Share2, Copy, Check } from \"lucide-react\"\r\n\r\ninterface ShareButtonProps {\r\n  title: string\r\n  text: string\r\n  shareLabel?: string\r\n  copiedLabel?: string\r\n  url?: string\r\n  className?: string\r\n}\r\n\r\nexport function ShareButton({\r\n  title,\r\n  text,\r\n  shareLabel = \"Share\",\r\n  copiedLabel = \"Link copied\",\r\n  url,\r\n  className,\r\n}: ShareButtonProps) {\r\n  const [copied, setCopied] = useState(false)\r\n  const sharing = useRef(false)\r\n\r\n  const handleShare = async () => {\r\n    if (sharing.current) return\r\n    sharing.current = true\r\n\r\n    const shareUrl = url ?? window.location.href\r\n\r\n    try {\r\n      if (navigator.share) {\r\n        await navigator.share({ title, text, url: shareUrl })\r\n      } else {\r\n        await navigator.clipboard.writeText(`${text} : ${shareUrl}`)\r\n        setCopied(true)\r\n        setTimeout(() => setCopied(false), 2000)\r\n      }\r\n    } catch {\r\n      /* user cancelled — ignore */\r\n    } finally {\r\n      sharing.current = false\r\n    }\r\n  }\r\n\r\n  return (\r\n    <button\r\n      type=\"button\"\r\n      onClick={handleShare}\r\n      className={\r\n        className ??\r\n        \"inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary/80\"\r\n      }\r\n    >\r\n      {copied ? (\r\n        <>\r\n          <Check className=\"h-4 w-4\" />\r\n          {copiedLabel}\r\n        </>\r\n      ) : (\r\n        <>\r\n          <Share2 className=\"h-4 w-4\" />\r\n          {shareLabel}\r\n        </>\r\n      )}\r\n    </button>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/share-button.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "back-to-top",
+      "type": "registry:ui",
+      "title": "Back to Top",
+      "description": "Scroll-to-top floating button that appears after scrolling.",
+      "files": [
+        {
+          "path": "src/components/ui/back-to-top.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport { useEffect, useState } from \"react\"\r\nimport { ArrowUp } from \"lucide-react\"\r\n\r\nexport function BackToTop({ ariaLabel = \"Back to top\" }: { ariaLabel?: string }) {\r\n  const [show, setShow] = useState(false)\r\n\r\n  useEffect(() => {\r\n    const onScroll = () => setShow(window.scrollY > 400)\r\n    onScroll()\r\n    window.addEventListener(\"scroll\", onScroll, { passive: true })\r\n    return () => window.removeEventListener(\"scroll\", onScroll)\r\n  }, [])\r\n\r\n  if (!show) return null\r\n\r\n  return (\r\n    <button\r\n      type=\"button\"\r\n      onClick={() => window.scrollTo({ top: 0, behavior: \"smooth\" })}\r\n      className=\"fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-all hover:bg-primary/90 hover:scale-105 focus-visible:ring-3 focus-visible:ring-ring/40\"\r\n      aria-label={ariaLabel}\r\n    >\r\n      <ArrowUp className=\"h-5 w-5\" aria-hidden=\"true\" />\r\n    </button>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/back-to-top.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "section-heading",
+      "type": "registry:ui",
+      "title": "Section Heading",
+      "description": "Reusable section heading with eyebrow label, title, subtitle, alignment, and color variant support.",
+      "files": [
+        {
+          "path": "src/components/ui/section-heading.tsx",
+          "type": "registry:component",
+          "content": "import {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface SectionHeadingProps {\r\n  eyebrow?: string\r\n  title: string\r\n  subtitle?: string\r\n  align?: \"center\" | \"left\"\r\n  as?: \"h1\" | \"h2\" | \"h3\"\r\n  variant?: SectionVariant\r\n  /** @deprecated Use variant=\"primary\" instead */\r\n  inverted?: boolean\r\n  className?: string\r\n}\r\n\r\nexport function SectionHeading({\r\n  eyebrow,\r\n  title,\r\n  subtitle,\r\n  align = \"center\",\r\n  as: Tag = \"h2\",\r\n  variant: variantProp,\r\n  inverted = false,\r\n  className,\r\n}: SectionHeadingProps) {\r\n  const variant = variantProp ?? (inverted ? \"primary\" : \"default\")\r\n  const colors = sectionVariantClasses[variant]\r\n  const isDark = variant === \"primary\" || variant === \"secondary\"\r\n\r\n  return (\r\n    <div\r\n      className={cn(\r\n        \"max-w-3xl\",\r\n        align === \"center\" ? \"mx-auto text-center\" : \"text-left\",\r\n        className,\r\n      )}\r\n    >\r\n      {eyebrow ? (\r\n        <>\r\n          <span\r\n            className={cn(\r\n              \"mb-3 inline-block text-sm font-semibold uppercase tracking-[0.18em]\",\r\n              colors.eyebrow,\r\n            )}\r\n          >\r\n            {eyebrow}\r\n          </span>\r\n          <span\r\n            className={cn(\r\n              \"mb-4 block h-0.5 w-10 rounded-full\",\r\n              isDark ? \"bg-white/40\" : \"bg-secondary\",\r\n              align === \"center\" ? \"mx-auto\" : \"\",\r\n            )}\r\n          />\r\n        </>\r\n      ) : null}\r\n      <Tag\r\n        className={cn(\r\n          \"text-pretty font-heading text-3xl font-bold leading-tight tracking-tight sm:text-4xl\",\r\n          colors.heading,\r\n        )}\r\n      >\r\n        {title}\r\n      </Tag>\r\n      {subtitle ? (\r\n        <p\r\n          className={cn(\r\n            \"mt-4 text-lg leading-relaxed text-pretty\",\r\n            colors.body,\r\n          )}\r\n        >\r\n          {subtitle}\r\n        </p>\r\n      ) : null}\r\n    </div>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/section-heading.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "image-with-fallback",
+      "type": "registry:ui",
+      "title": "Image with Fallback",
+      "description": "next/image wrapper with error fallback placeholder, quality control, and accessibility.",
+      "files": [
+        {
+          "path": "src/components/ui/image-with-fallback.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport { useState } from \"react\"\r\nimport Image from \"next/image\"\r\nimport { ImageIcon } from \"lucide-react\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface ImageWithFallbackProps {\r\n  src: string\r\n  alt: string\r\n  width?: number\r\n  height?: number\r\n  fill?: boolean\r\n  priority?: boolean\r\n  sizes?: string\r\n  quality?: number\r\n  className?: string\r\n  fallbackLabel?: string\r\n}\r\n\r\nexport function ImageWithFallback({\r\n  src,\r\n  alt,\r\n  width,\r\n  height,\r\n  fill = false,\r\n  priority = false,\r\n  sizes,\r\n  quality,\r\n  className,\r\n  fallbackLabel = \"Photo coming soon\",\r\n}: ImageWithFallbackProps) {\r\n  const [errored, setErrored] = useState(false)\r\n\r\n  if (errored || !src) {\r\n    return (\r\n      <div\r\n        className={cn(\r\n          \"flex flex-col items-center justify-center gap-2 bg-muted text-muted-foreground\",\r\n          fill ? \"absolute inset-0 h-full w-full\" : \"\",\r\n          className,\r\n        )}\r\n        style={fill ? undefined : { width, height }}\r\n        role=\"img\"\r\n        aria-label={alt}\r\n      >\r\n        <ImageIcon className=\"h-8 w-8 opacity-50\" aria-hidden=\"true\" />\r\n        <span className=\"text-xs font-medium\">{fallbackLabel}</span>\r\n      </div>\r\n    )\r\n  }\r\n\r\n  return (\r\n    <Image\r\n      src={src}\r\n      alt={alt}\r\n      width={fill ? undefined : width}\r\n      height={fill ? undefined : height}\r\n      fill={fill}\r\n      priority={priority}\r\n      loading={priority ? undefined : \"lazy\"}\r\n      sizes={sizes}\r\n      quality={quality ?? (priority ? 85 : 75)}\r\n      onError={() => setErrored(true)}\r\n      className={cn(fill ? \"object-cover\" : \"\", className)}\r\n    />\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/image-with-fallback.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "lightbox",
+      "type": "registry:ui",
+      "title": "Lightbox",
+      "description": "Click-to-enlarge image overlay with Escape and click-outside dismiss.",
+      "files": [
+        {
+          "path": "src/components/ui/lightbox.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport { useState, useCallback, useEffect } from \"react\"\r\nimport Image from \"next/image\"\r\nimport { X } from \"lucide-react\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface LightboxProps {\r\n  src: string\r\n  alt: string\r\n  width?: number\r\n  height?: number\r\n  fill?: boolean\r\n  sizes?: string\r\n  className?: string\r\n  enlargeLabel?: string\r\n  closeLabel?: string\r\n  children?: React.ReactNode\r\n}\r\n\r\nexport function Lightbox({\r\n  src,\r\n  alt,\r\n  width,\r\n  height,\r\n  fill,\r\n  sizes,\r\n  className,\r\n  enlargeLabel = \"Click to enlarge\",\r\n  closeLabel = \"Close\",\r\n  children,\r\n}: LightboxProps) {\r\n  const [open, setOpen] = useState(false)\r\n  const openModal = useCallback(() => setOpen(true), [])\r\n  const closeModal = useCallback(() => setOpen(false), [])\r\n\r\n  useEffect(() => {\r\n    if (!open) return\r\n    const onKey = (e: KeyboardEvent) => {\r\n      if (e.key === \"Escape\") closeModal()\r\n    }\r\n    document.addEventListener(\"keydown\", onKey)\r\n    document.body.style.overflow = \"hidden\"\r\n    return () => {\r\n      document.removeEventListener(\"keydown\", onKey)\r\n      document.body.style.overflow = \"\"\r\n    }\r\n  }, [open, closeModal])\r\n\r\n  return (\r\n    <>\r\n      <button\r\n        type=\"button\"\r\n        onClick={openModal}\r\n        className={cn(\r\n          \"group/lightbox relative block w-full cursor-zoom-in overflow-hidden border-0 bg-transparent p-0\",\r\n          className,\r\n        )}\r\n        aria-label={alt ? `${enlargeLabel} : ${alt}` : enlargeLabel}\r\n      >\r\n        {children ?? (\r\n          <Image\r\n            src={src}\r\n            alt={alt}\r\n            fill={fill}\r\n            width={!fill ? width : undefined}\r\n            height={!fill ? height : undefined}\r\n            sizes={sizes}\r\n            className=\"object-cover transition-transform duration-500 group-hover/lightbox:scale-105\"\r\n          />\r\n        )}\r\n        <span className=\"pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover/lightbox:bg-black/10\">\r\n          <span className=\"rounded-full bg-black/50 px-3 py-1.5 text-xs font-medium text-white opacity-0 backdrop-blur-sm transition-opacity group-hover/lightbox:opacity-100\">\r\n            {enlargeLabel}\r\n          </span>\r\n        </span>\r\n      </button>\r\n\r\n      {open && (\r\n        <div\r\n          className=\"fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm\"\r\n          role=\"dialog\"\r\n          aria-modal=\"true\"\r\n          onClick={closeModal}\r\n        >\r\n          <button\r\n            type=\"button\"\r\n            onClick={closeModal}\r\n            className=\"absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20\"\r\n            aria-label={closeLabel}\r\n          >\r\n            <X className=\"h-5 w-5\" />\r\n          </button>\r\n          <img\r\n            src={src}\r\n            alt={alt}\r\n            className=\"max-h-[90vh] max-w-[90vw] rounded-lg object-contain\"\r\n            onClick={(e) => e.stopPropagation()}\r\n          />\r\n        </div>\r\n      )}\r\n    </>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/lightbox.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "cta-button",
+      "type": "registry:ui",
+      "title": "CTA Button",
+      "description": "Call-to-action button with CtaLink (internal) and CtaExternal (new tab) variants in 4 styles.",
+      "files": [
+        {
+          "path": "src/components/ui/cta-button.tsx",
+          "type": "registry:component",
+          "content": "import Link from \"next/link\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ntype CtaVariant = \"primary\" | \"secondary\" | \"outline\" | \"onDark\"\r\ntype CtaSize = \"default\" | \"lg\"\r\n\r\nconst variantClasses: Record<CtaVariant, string> = {\r\n  primary:\r\n    \"bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary/40\",\r\n  secondary:\r\n    \"bg-secondary text-secondary-foreground hover:bg-secondary/90 focus-visible:ring-secondary/40\",\r\n  outline:\r\n    \"border border-border bg-background text-foreground hover:bg-muted focus-visible:ring-ring/40\",\r\n  onDark:\r\n    \"bg-background text-foreground hover:bg-background/90 focus-visible:ring-background/50\",\r\n}\r\n\r\nconst sizeClasses: Record<CtaSize, string> = {\r\n  default: \"h-11 px-5 text-sm\",\r\n  lg: \"h-12 px-7 text-base\",\r\n}\r\n\r\nconst base =\r\n  \"inline-flex items-center justify-center gap-2 rounded-lg font-semibold whitespace-nowrap transition-colors outline-none focus-visible:ring-3 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 [&_svg]:shrink-0\"\r\n\r\ninterface CtaButtonProps {\r\n  children: React.ReactNode\r\n  variant?: CtaVariant\r\n  size?: CtaSize\r\n  className?: string\r\n}\r\n\r\nexport function CtaLink({\r\n  href,\r\n  children,\r\n  variant = \"primary\",\r\n  size = \"default\",\r\n  className,\r\n}: CtaButtonProps & { href: string }) {\r\n  return (\r\n    <Link\r\n      href={href}\r\n      className={cn(base, variantClasses[variant], sizeClasses[size], className)}\r\n    >\r\n      {children}\r\n    </Link>\r\n  )\r\n}\r\n\r\nexport function CtaExternal({\r\n  href,\r\n  children,\r\n  variant = \"primary\",\r\n  size = \"default\",\r\n  className,\r\n}: CtaButtonProps & { href: string }) {\r\n  return (\r\n    <a\r\n      href={href}\r\n      target=\"_blank\"\r\n      rel=\"noopener noreferrer\"\r\n      className={cn(base, variantClasses[variant], sizeClasses[size], className)}\r\n    >\r\n      {children}\r\n    </a>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/cta-button.tsx"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Semantic breadcrumb navigation with accessible markup.",
+      "files": [
+        {
+          "path": "src/components/ui/breadcrumb.tsx",
+          "type": "registry:component",
+          "content": "import Link from \"next/link\"\r\nimport { ChevronRight } from \"lucide-react\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nexport interface Crumb {\r\n  label: string\r\n  href: string\r\n}\r\n\r\ninterface BreadcrumbProps {\r\n  homeLabel: string\r\n  items: Crumb[]\r\n  className?: string\r\n}\r\n\r\nexport function Breadcrumb({ homeLabel, items, className }: BreadcrumbProps) {\r\n  const all: Crumb[] = [{ label: homeLabel, href: \"/\" }, ...items]\r\n\r\n  return (\r\n    <nav aria-label=\"Breadcrumb\" className={cn(\"container-premium pt-24 md:pt-28\", className)}>\r\n      <ol className=\"flex flex-wrap items-center gap-1 text-sm text-muted-foreground\">\r\n        {all.map((crumb, i) => {\r\n          const isLast = i === all.length - 1\r\n          return (\r\n            <li key={crumb.href} className=\"flex items-center gap-1\">\r\n              {isLast ? (\r\n                <span className=\"font-medium text-foreground\" aria-current=\"page\">\r\n                  {crumb.label}\r\n                </span>\r\n              ) : (\r\n                <>\r\n                  <Link href={crumb.href} className=\"transition-colors hover:text-primary\">\r\n                    {crumb.label}\r\n                  </Link>\r\n                  <ChevronRight className=\"h-4 w-4\" aria-hidden=\"true\" />\r\n                </>\r\n              )}\r\n            </li>\r\n          )\r\n        })}\r\n      </ol>\r\n    </nav>\r\n  )\r\n}\r\n",
+          "target": "src/components/ui/breadcrumb.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Radix-based dropdown menu with support for items, checkboxes, radio groups, and submenus.",
+      "files": [
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport * as React from \"react\"\r\nimport { CheckIcon, ChevronRightIcon, CircleIcon } from \"lucide-react\"\r\nimport { DropdownMenu as DropdownMenuPrimitive } from \"radix-ui\"\r\n\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nfunction DropdownMenu({\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {\r\n  return <DropdownMenuPrimitive.Root data-slot=\"dropdown-menu\" {...props} />\r\n}\r\n\r\nfunction DropdownMenuPortal({\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {\r\n  return (\r\n    <DropdownMenuPrimitive.Portal data-slot=\"dropdown-menu-portal\" {...props} />\r\n  )\r\n}\r\n\r\nfunction DropdownMenuTrigger({\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {\r\n  return (\r\n    <DropdownMenuPrimitive.Trigger\r\n      data-slot=\"dropdown-menu-trigger\"\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction DropdownMenuContent({\r\n  className,\r\n  sideOffset = 4,\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Content>) {\r\n  return (\r\n    <DropdownMenuPrimitive.Portal>\r\n      <DropdownMenuPrimitive.Content\r\n        data-slot=\"dropdown-menu-content\"\r\n        sideOffset={sideOffset}\r\n        className={cn(\r\n          \"z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border border-border bg-background p-1 text-foreground shadow-lg data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95\",\r\n          className\r\n        )}\r\n        {...props}\r\n      />\r\n    </DropdownMenuPrimitive.Portal>\r\n  )\r\n}\r\n\r\nfunction DropdownMenuGroup({\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {\r\n  return (\r\n    <DropdownMenuPrimitive.Group data-slot=\"dropdown-menu-group\" {...props} />\r\n  )\r\n}\r\n\r\nfunction DropdownMenuItem({\r\n  className,\r\n  inset,\r\n  variant = \"default\",\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Item> & {\r\n  inset?: boolean\r\n  variant?: \"default\" | \"destructive\"\r\n}) {\r\n  return (\r\n    <DropdownMenuPrimitive.Item\r\n      data-slot=\"dropdown-menu-item\"\r\n      data-inset={inset}\r\n      data-variant={variant}\r\n      className={cn(\r\n        \"relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground data-[variant=destructive]:*:[svg]:text-destructive!\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction DropdownMenuCheckboxItem({\r\n  className,\r\n  children,\r\n  checked,\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>) {\r\n  return (\r\n    <DropdownMenuPrimitive.CheckboxItem\r\n      data-slot=\"dropdown-menu-checkbox-item\"\r\n      className={cn(\r\n        \"relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\r\n        className\r\n      )}\r\n      checked={checked}\r\n      {...props}\r\n    >\r\n      <span className=\"pointer-events-none absolute left-2 flex size-3.5 items-center justify-center\">\r\n        <DropdownMenuPrimitive.ItemIndicator>\r\n          <CheckIcon className=\"size-4\" />\r\n        </DropdownMenuPrimitive.ItemIndicator>\r\n      </span>\r\n      {children}\r\n    </DropdownMenuPrimitive.CheckboxItem>\r\n  )\r\n}\r\n\r\nfunction DropdownMenuRadioGroup({\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {\r\n  return (\r\n    <DropdownMenuPrimitive.RadioGroup\r\n      data-slot=\"dropdown-menu-radio-group\"\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction DropdownMenuRadioItem({\r\n  className,\r\n  children,\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.RadioItem>) {\r\n  return (\r\n    <DropdownMenuPrimitive.RadioItem\r\n      data-slot=\"dropdown-menu-radio-item\"\r\n      className={cn(\r\n        \"relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\r\n        className\r\n      )}\r\n      {...props}\r\n    >\r\n      <span className=\"pointer-events-none absolute left-2 flex size-3.5 items-center justify-center\">\r\n        <DropdownMenuPrimitive.ItemIndicator>\r\n          <CircleIcon className=\"size-2 fill-current\" />\r\n        </DropdownMenuPrimitive.ItemIndicator>\r\n      </span>\r\n      {children}\r\n    </DropdownMenuPrimitive.RadioItem>\r\n  )\r\n}\r\n\r\nfunction DropdownMenuLabel({\r\n  className,\r\n  inset,\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Label> & {\r\n  inset?: boolean\r\n}) {\r\n  return (\r\n    <DropdownMenuPrimitive.Label\r\n      data-slot=\"dropdown-menu-label\"\r\n      data-inset={inset}\r\n      className={cn(\r\n        \"px-2 py-1.5 text-sm font-medium data-[inset]:pl-8\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction DropdownMenuSeparator({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Separator>) {\r\n  return (\r\n    <DropdownMenuPrimitive.Separator\r\n      data-slot=\"dropdown-menu-separator\"\r\n      className={cn(\"-mx-1 my-1 h-px bg-border\", className)}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction DropdownMenuShortcut({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<\"span\">) {\r\n  return (\r\n    <span\r\n      data-slot=\"dropdown-menu-shortcut\"\r\n      className={cn(\r\n        \"ml-auto text-xs tracking-widest text-muted-foreground\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction DropdownMenuSub({\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {\r\n  return <DropdownMenuPrimitive.Sub data-slot=\"dropdown-menu-sub\" {...props} />\r\n}\r\n\r\nfunction DropdownMenuSubTrigger({\r\n  className,\r\n  inset,\r\n  children,\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger> & {\r\n  inset?: boolean\r\n}) {\r\n  return (\r\n    <DropdownMenuPrimitive.SubTrigger\r\n      data-slot=\"dropdown-menu-sub-trigger\"\r\n      data-inset={inset}\r\n      className={cn(\r\n        \"flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[inset]:pl-8 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground\",\r\n        className\r\n      )}\r\n      {...props}\r\n    >\r\n      {children}\r\n      <ChevronRightIcon className=\"ml-auto size-4\" />\r\n    </DropdownMenuPrimitive.SubTrigger>\r\n  )\r\n}\r\n\r\nfunction DropdownMenuSubContent({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof DropdownMenuPrimitive.SubContent>) {\r\n  return (\r\n    <DropdownMenuPrimitive.SubContent\r\n      data-slot=\"dropdown-menu-sub-content\"\r\n      className={cn(\r\n        \"z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border border-border bg-background p-1 text-foreground shadow-lg data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nexport {\r\n  DropdownMenu,\r\n  DropdownMenuPortal,\r\n  DropdownMenuTrigger,\r\n  DropdownMenuContent,\r\n  DropdownMenuGroup,\r\n  DropdownMenuLabel,\r\n  DropdownMenuItem,\r\n  DropdownMenuCheckboxItem,\r\n  DropdownMenuRadioGroup,\r\n  DropdownMenuRadioItem,\r\n  DropdownMenuSeparator,\r\n  DropdownMenuShortcut,\r\n  DropdownMenuSub,\r\n  DropdownMenuSubTrigger,\r\n  DropdownMenuSubContent,\r\n}\r\n",
+          "target": "src/components/ui/dropdown-menu.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Slide-out panel (drawer) built on Radix Dialog with top/right/bottom/left variants.",
+      "files": [
+        {
+          "path": "src/components/ui/sheet.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport * as React from \"react\"\r\nimport { XIcon } from \"lucide-react\"\r\nimport { Dialog as SheetPrimitive } from \"radix-ui\"\r\n\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nfunction Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {\r\n  return <SheetPrimitive.Root data-slot=\"sheet\" {...props} />\r\n}\r\n\r\nfunction SheetTrigger({\r\n  ...props\r\n}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {\r\n  return <SheetPrimitive.Trigger data-slot=\"sheet-trigger\" {...props} />\r\n}\r\n\r\nfunction SheetClose({\r\n  ...props\r\n}: React.ComponentProps<typeof SheetPrimitive.Close>) {\r\n  return <SheetPrimitive.Close data-slot=\"sheet-close\" {...props} />\r\n}\r\n\r\nfunction SheetPortal({\r\n  ...props\r\n}: React.ComponentProps<typeof SheetPrimitive.Portal>) {\r\n  return <SheetPrimitive.Portal data-slot=\"sheet-portal\" {...props} />\r\n}\r\n\r\nfunction SheetOverlay({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof SheetPrimitive.Overlay>) {\r\n  return (\r\n    <SheetPrimitive.Overlay\r\n      data-slot=\"sheet-overlay\"\r\n      className={cn(\r\n        \"fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction SheetContent({\r\n  className,\r\n  children,\r\n  side = \"right\",\r\n  showCloseButton = true,\r\n  closeLabel = \"Close\",\r\n  ...props\r\n}: React.ComponentProps<typeof SheetPrimitive.Content> & {\r\n  side?: \"top\" | \"right\" | \"bottom\" | \"left\"\r\n  showCloseButton?: boolean\r\n  closeLabel?: string\r\n}) {\r\n  return (\r\n    <SheetPortal>\r\n      <SheetOverlay />\r\n      <SheetPrimitive.Content\r\n        data-slot=\"sheet-content\"\r\n        className={cn(\r\n          \"fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500\",\r\n          side === \"right\" &&\r\n            \"inset-y-0 right-0 h-full w-3/4 border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm\",\r\n          side === \"left\" &&\r\n            \"inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm\",\r\n          side === \"top\" &&\r\n            \"inset-x-0 top-0 h-auto border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top\",\r\n          side === \"bottom\" &&\r\n            \"inset-x-0 bottom-0 h-auto border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom\",\r\n          className\r\n        )}\r\n        {...props}\r\n      >\r\n        {children}\r\n        {showCloseButton && (\r\n          <SheetPrimitive.Close className=\"absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-secondary\">\r\n            <XIcon className=\"size-4\" />\r\n            <span className=\"sr-only\">{closeLabel}</span>\r\n          </SheetPrimitive.Close>\r\n        )}\r\n      </SheetPrimitive.Content>\r\n    </SheetPortal>\r\n  )\r\n}\r\n\r\nfunction SheetHeader({ className, ...props }: React.ComponentProps<\"div\">) {\r\n  return (\r\n    <div\r\n      data-slot=\"sheet-header\"\r\n      className={cn(\"flex flex-col gap-1.5 p-4\", className)}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction SheetFooter({ className, ...props }: React.ComponentProps<\"div\">) {\r\n  return (\r\n    <div\r\n      data-slot=\"sheet-footer\"\r\n      className={cn(\"mt-auto flex flex-col gap-2 p-4\", className)}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction SheetTitle({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof SheetPrimitive.Title>) {\r\n  return (\r\n    <SheetPrimitive.Title\r\n      data-slot=\"sheet-title\"\r\n      className={cn(\"font-semibold text-foreground\", className)}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction SheetDescription({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof SheetPrimitive.Description>) {\r\n  return (\r\n    <SheetPrimitive.Description\r\n      data-slot=\"sheet-description\"\r\n      className={cn(\"text-sm text-muted-foreground\", className)}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nexport {\r\n  Sheet,\r\n  SheetTrigger,\r\n  SheetClose,\r\n  SheetContent,\r\n  SheetHeader,\r\n  SheetFooter,\r\n  SheetTitle,\r\n  SheetDescription,\r\n}\r\n",
+          "target": "src/components/ui/sheet.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "newsletter",
@@ -32,16 +356,385 @@
       "files": [
         {
           "path": "src/components/forms/newsletter.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "content": "\"use client\";\r\n\r\nimport * as React from \"react\";\r\n\r\nimport { cn } from \"@/lib/utils\";\r\n\r\nexport type NewsletterProps = Omit<React.ComponentPropsWithoutRef<\"section\">, \"onSubmit\"> & {\r\n  title?: string;\r\n  description?: string;\r\n  eyebrow?: string;\r\n  placeholder?: string;\r\n  buttonLabel?: string;\r\n  privacyText?: string;\r\n  loading?: boolean;\r\n  successMessage?: string;\r\n  errorMessage?: string;\r\n  disabled?: boolean;\r\n  icon?: React.ReactNode;\r\n  onSubmit: (email: string) => void | Promise<void>;\r\n};\r\n\r\nconst EMAIL_REGEX = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\r\n\r\nexport function Newsletter({\r\n  title = \"Stay in the loop\",\r\n  description = \"Get product updates and practical tips delivered to your inbox.\",\r\n  eyebrow,\r\n  placeholder = \"you@example.com\",\r\n  buttonLabel = \"Subscribe\",\r\n  privacyText,\r\n  loading = false,\r\n  successMessage,\r\n  errorMessage,\r\n  disabled = false,\r\n  icon,\r\n  onSubmit,\r\n  className,\r\n  ...props\r\n}: NewsletterProps) {\r\n  const baseId = React.useId();\r\n  const inputId = `${baseId}-email`;\r\n  const helperId = `${baseId}-helper`;\r\n  const errorId = `${baseId}-error`;\r\n  const successId = `${baseId}-success`;\r\n\r\n  const [email, setEmail] = React.useState(\"\");\r\n  const [validationError, setValidationError] = React.useState<string>();\r\n  const [submitError, setSubmitError] = React.useState<string>();\r\n  const [showStatus, setShowStatus] = React.useState(true);\r\n  const [submitting, setSubmitting] = React.useState(false);\r\n\r\n  const hasError = Boolean(validationError || submitError || (showStatus && errorMessage));\r\n  const inlineError = validationError || submitError || (showStatus ? errorMessage : undefined);\r\n  const inlineSuccess = !inlineError && showStatus ? successMessage : undefined;\r\n  const isLoading = loading || submitting;\r\n  const isDisabled = disabled || isLoading;\r\n\r\n  const describedBy = [privacyText ? helperId : undefined, inlineError ? errorId : undefined]\r\n    .filter(Boolean)\r\n    .join(\" \");\r\n\r\n  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {\r\n    event.preventDefault();\r\n\r\n    if (isDisabled) {\r\n      return;\r\n    }\r\n\r\n    const normalizedEmail = email.trim();\r\n\r\n    if (!EMAIL_REGEX.test(normalizedEmail)) {\r\n      setShowStatus(false);\r\n      setValidationError(\"Please enter a valid email address.\");\r\n      return;\r\n    }\r\n\r\n    setShowStatus(true);\r\n    setValidationError(undefined);\r\n    setSubmitError(undefined);\r\n\r\n    try {\r\n      setSubmitting(true);\r\n      await Promise.resolve(onSubmit(normalizedEmail));\r\n    } catch {\r\n      setSubmitError(\"Something went wrong. Please try again.\");\r\n    } finally {\r\n      setSubmitting(false);\r\n    }\r\n  }\r\n\r\n  return (\r\n    <section\r\n      className={cn(\r\n        \"w-full rounded-xl border border-border bg-background p-5 shadow-sm sm:p-6\",\r\n        className,\r\n      )}\r\n      {...props}\r\n    >\r\n      <div className=\"space-y-2\">\r\n        {eyebrow ? (\r\n          <p className=\"text-xs font-semibold uppercase tracking-[0.14em] text-primary\">\r\n            {eyebrow}\r\n          </p>\r\n        ) : null}\r\n        <div className=\"flex items-center gap-2\">\r\n          {icon ? <span className=\"text-muted-foreground\">{icon}</span> : null}\r\n          <h2 className=\"text-lg font-semibold text-foreground\">{title}</h2>\r\n        </div>\r\n        <p className=\"text-sm text-muted-foreground\">{description}</p>\r\n      </div>\r\n\r\n      <form className=\"mt-4\" onSubmit={handleSubmit} noValidate>\r\n        <label className=\"sr-only\" htmlFor={inputId}>\r\n          Email address\r\n        </label>\r\n        <div className=\"flex flex-col gap-3 sm:flex-row\">\r\n          <input\r\n            id={inputId}\r\n            type=\"email\"\r\n            name=\"email\"\r\n            autoComplete=\"email\"\r\n            value={email}\r\n            onChange={(event) => {\r\n              setEmail(event.target.value);\r\n              setValidationError(undefined);\r\n              setSubmitError(undefined);\r\n              setShowStatus(false);\r\n            }}\r\n            placeholder={placeholder}\r\n            disabled={isDisabled}\r\n            aria-invalid={hasError}\r\n            aria-describedby={describedBy || undefined}\r\n            className=\"h-11 w-full rounded-md border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60\"\r\n          />\r\n          <button\r\n            type=\"submit\"\r\n            disabled={isDisabled}\r\n            className=\"inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60\"\r\n          >\r\n            {isLoading ? \"Submitting...\" : buttonLabel}\r\n          </button>\r\n        </div>\r\n\r\n        {privacyText ? (\r\n          <p className=\"mt-3 text-xs text-muted-foreground\" id={helperId}>\r\n            {privacyText}\r\n          </p>\r\n        ) : null}\r\n\r\n        {inlineError ? (\r\n          <p className=\"mt-2 text-sm text-red-600 dark:text-red-400\" id={errorId} role=\"alert\" aria-live=\"assertive\">\r\n            {inlineError}\r\n          </p>\r\n        ) : null}\r\n\r\n        {inlineSuccess ? (\r\n          <p className=\"mt-2 text-sm text-emerald-700 dark:text-emerald-400\" id={successId} role=\"status\" aria-live=\"polite\">\r\n            {inlineSuccess}\r\n          </p>\r\n        ) : null}\r\n      </form>\r\n    </section>\r\n  );\r\n}\r\n",
+          "target": "src/components/forms/newsletter.tsx"
         },
         {
           "path": "src/components/forms/newsletter-example.tsx",
-          "type": "registry:example"
+          "type": "registry:example",
+          "content": "\"use client\";\r\n\r\nimport * as React from \"react\";\r\n\r\nimport { Newsletter } from \"@/components/forms/newsletter\";\r\n\r\nexport function NewsletterExample() {\r\n  const [loading, setLoading] = React.useState(false);\r\n  const [successMessage, setSuccessMessage] = React.useState<string>();\r\n  const [errorMessage, setErrorMessage] = React.useState<string>();\r\n\r\n  async function handleSubmit(email: string) {\r\n    setLoading(true);\r\n    setSuccessMessage(undefined);\r\n    setErrorMessage(undefined);\r\n\r\n    try {\r\n      await new Promise((resolve) => setTimeout(resolve, 600));\r\n      setSuccessMessage(`Thanks for subscribing, ${email}!`);\r\n    } catch {\r\n      setErrorMessage(\"Could not subscribe right now. Please try again.\");\r\n    } finally {\r\n      setLoading(false);\r\n    }\r\n  }\r\n\r\n  return (\r\n    <Newsletter\r\n      eyebrow=\"Newsletter\"\r\n      title=\"Build better products\"\r\n      description=\"A monthly digest with experiments, release notes, and UX insights.\"\r\n      placeholder=\"name@company.com\"\r\n      buttonLabel=\"Join now\"\r\n      privacyText=\"No spam. Unsubscribe any time.\"\r\n      loading={loading}\r\n      successMessage={successMessage}\r\n      errorMessage={errorMessage}\r\n      onSubmit={handleSubmit}\r\n    />\r\n  );\r\n}\r\n",
+          "target": "src/components/forms/newsletter-example.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "cookie-banner",
+      "type": "registry:block",
+      "title": "Cookie Banner",
+      "description": "GA4 consent mode cookie banner with localStorage persistence and accept/decline.",
+      "files": [
+        {
+          "path": "src/components/layouts/cookie-banner.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\n\nimport { useEffect, useState, useCallback } from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ndeclare global {\n  interface Window {\n    gtag?: (...args: unknown[]) => void\n    dataLayer?: Object[]\n  }\n}\n\ninterface ConsentState {\n  necessary: boolean\n  analytics: boolean\n  marketing: boolean\n}\n\nconst DEFAULT_CONSENT: ConsentState = {\n  necessary: true,\n  analytics: false,\n  marketing: false,\n}\n\nfunction ensureGtag() {\n  if (typeof window === \"undefined\") return\n  window.gtag =\n    window.gtag ||\n    ((...args: unknown[]) => {\n      window.dataLayer = window.dataLayer || []\n      window.dataLayer.push(args)\n    })\n}\n\nfunction serialize(state: ConsentState): string {\n  return JSON.stringify(state)\n}\n\nfunction deserialize(raw: string): ConsentState | null {\n  try {\n    const parsed = JSON.parse(raw)\n    if (\n      typeof parsed === \"object\" &&\n      parsed !== null &&\n      typeof parsed.necessary === \"boolean\" &&\n      typeof parsed.analytics === \"boolean\" &&\n      typeof parsed.marketing === \"boolean\"\n    ) {\n      return parsed as ConsentState\n    }\n    return null\n  } catch {\n    return null\n  }\n}\n\nfunction applyConsent(state: ConsentState) {\n  ensureGtag()\n  window.gtag?.(\"consent\", \"update\", {\n    ad_storage: state.marketing ? \"granted\" : \"denied\",\n    analytics_storage: state.analytics ? \"granted\" : \"denied\",\n    ad_user_data: state.marketing ? \"granted\" : \"denied\",\n    ad_personalization: state.marketing ? \"granted\" : \"denied\",\n  })\n}\n\ninterface CookieBannerProps {\n  consentKey?: string\n  manageEvent?: string\n  text: string\n  acceptAllLabel: string\n  acceptSelectionLabel: string\n  rejectLabel: string\n  policyLabel: string\n  privacyHref: string\n  necessaryTitle: string\n  necessaryDescription: string\n  analyticsTitle: string\n  analyticsDescription: string\n  marketingTitle: string\n  marketingDescription: string\n  showAnalytics?: boolean\n  showMarketing?: boolean\n  hidden?: boolean\n}\n\nexport function CookieBanner({\n  consentKey = \"cookie-consent\",\n  manageEvent = \"manage-cookies\",\n  text,\n  acceptAllLabel,\n  acceptSelectionLabel,\n  rejectLabel,\n  policyLabel,\n  privacyHref,\n  necessaryTitle,\n  necessaryDescription,\n  analyticsTitle,\n  analyticsDescription,\n  marketingTitle,\n  marketingDescription,\n  showAnalytics = true,\n  showMarketing = false,\n  hidden = false,\n}: CookieBannerProps) {\n  const [visible, setVisible] = useState(false)\n  const [draft, setDraft] = useState<ConsentState>(DEFAULT_CONSENT)\n\n  const evaluate = useCallback(() => {\n    const stored = localStorage.getItem(consentKey)\n    if (stored) {\n      const parsed = deserialize(stored)\n      if (parsed) {\n        applyConsent(parsed)\n        setDraft(parsed)\n        setVisible(false)\n        return\n      }\n    }\n    applyConsent(DEFAULT_CONSENT)\n    setDraft(DEFAULT_CONSENT)\n    setVisible(true)\n  }, [consentKey])\n\n  useEffect(() => {\n    evaluate()\n    const onStorage = (e: StorageEvent) => {\n      if (e.key === consentKey) evaluate()\n    }\n    const onManage = () => {\n      const stored = localStorage.getItem(consentKey)\n      setDraft(stored ? (deserialize(stored) ?? DEFAULT_CONSENT) : DEFAULT_CONSENT)\n      setVisible(true)\n    }\n    window.addEventListener(\"storage\", onStorage)\n    window.addEventListener(manageEvent, onManage)\n    return () => {\n      window.removeEventListener(\"storage\", onStorage)\n      window.removeEventListener(manageEvent, onManage)\n    }\n  }, [evaluate, consentKey, manageEvent])\n\n  const acceptAll = () => {\n    const state: ConsentState = { necessary: true, analytics: true, marketing: true }\n    localStorage.setItem(consentKey, serialize(state))\n    applyConsent(state)\n    setVisible(false)\n  }\n\n  const rejectAll = () => {\n    const state: ConsentState = { necessary: true, analytics: false, marketing: false }\n    localStorage.setItem(consentKey, serialize(state))\n    applyConsent(state)\n    setVisible(false)\n  }\n\n  const acceptSelection = () => {\n    localStorage.setItem(consentKey, serialize(draft))\n    applyConsent(draft)\n    setVisible(false)\n  }\n\n  if (hidden || !visible) return null\n\n  return (\n    <div\n      role=\"dialog\"\n      aria-label=\"Cookies\"\n      aria-live=\"polite\"\n      className={cn(\n        \"fixed inset-x-0 bottom-0 z-[60] p-4 sm:p-6\",\n        \"animate-in slide-in-from-bottom-4 fade-in duration-300\",\n      )}\n    >\n      <div className=\"container-premium\">\n        <div className=\"flex flex-col gap-4 rounded-xl border border-border bg-background p-5 shadow-lg\">\n          <p className=\"max-w-2xl text-sm leading-relaxed text-foreground\">\n            {text}{\" \"}\n            <a\n              href={privacyHref}\n              className=\"font-semibold text-primary underline underline-offset-2\"\n            >\n              {policyLabel}\n            </a>\n          </p>\n\n          {(showAnalytics || showMarketing) ? (\n            <div className=\"space-y-3\">\n              <label className=\"flex cursor-not-allowed items-start gap-3 opacity-70\">\n                <input\n                  type=\"checkbox\"\n                  checked\n                  disabled\n                  className=\"mt-0.5 h-4 w-4 shrink-0 rounded accent-primary\"\n                />\n                <div>\n                  <p className=\"text-sm font-semibold text-foreground\">\n                    {necessaryTitle}\n                  </p>\n                  <p className=\"text-xs text-muted-foreground\">\n                    {necessaryDescription}\n                  </p>\n                </div>\n              </label>\n\n              {showAnalytics && (\n                <label className=\"flex cursor-pointer items-start gap-3\">\n                  <input\n                    type=\"checkbox\"\n                    checked={draft.analytics}\n                    onChange={(e) =>\n                      setDraft((prev) => ({\n                        ...prev,\n                        analytics: e.target.checked,\n                      }))\n                    }\n                    className=\"mt-0.5 h-4 w-4 shrink-0 rounded accent-primary\"\n                  />\n                  <div>\n                    <p className=\"text-sm font-semibold text-foreground\">\n                      {analyticsTitle}\n                    </p>\n                    <p className=\"text-xs text-muted-foreground\">\n                      {analyticsDescription}\n                    </p>\n                  </div>\n                </label>\n              )}\n\n              {showMarketing && (\n                <label className=\"flex cursor-pointer items-start gap-3\">\n                  <input\n                    type=\"checkbox\"\n                    checked={draft.marketing}\n                    onChange={(e) =>\n                      setDraft((prev) => ({\n                        ...prev,\n                        marketing: e.target.checked,\n                      }))\n                    }\n                    className=\"mt-0.5 h-4 w-4 shrink-0 rounded accent-primary\"\n                  />\n                  <div>\n                    <p className=\"text-sm font-semibold text-foreground\">\n                      {marketingTitle}\n                    </p>\n                    <p className=\"text-xs text-muted-foreground\">\n                      {marketingDescription}\n                    </p>\n                  </div>\n                </label>\n              )}\n            </div>\n          ) : null}\n\n          <div className=\"flex flex-wrap gap-3\">\n            <button\n              type=\"button\"\n              onClick={acceptAll}\n              className=\"inline-flex h-10 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground outline-none transition-colors hover:bg-primary/90 focus-visible:ring-3 focus-visible:ring-primary/40\"\n            >\n              {acceptAllLabel}\n            </button>\n            {(showAnalytics || showMarketing) && (\n              <button\n                type=\"button\"\n                onClick={acceptSelection}\n                className=\"inline-flex h-10 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-semibold text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/40\"\n              >\n                {acceptSelectionLabel}\n              </button>\n            )}\n            <button\n              type=\"button\"\n              onClick={rejectAll}\n              className=\"inline-flex h-10 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-semibold text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/40\"\n            >\n              {rejectLabel}\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  )\n}\n\nexport function ManageCookiesButton({\n  label,\n  manageEvent = \"manage-cookies\",\n  className,\n}: {\n  label: string\n  manageEvent?: string\n  className?: string\n}) {\n  return (\n    <button\n      type=\"button\"\n      onClick={() => window.dispatchEvent(new Event(manageEvent))}\n      className={cn(\n        \"text-sm text-muted-foreground transition-colors hover:text-primary\",\n        className,\n      )}\n    >\n      {label}\n    </button>\n  )\n}\n",
+          "target": "src/components/layouts/cookie-banner.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "language-switcher",
+      "type": "registry:ui",
+      "title": "Language Switcher",
+      "description": "Locale dropdown switcher for i18n navigation.",
+      "files": [
+        {
+          "path": "src/components/navigation/language-switcher.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport Link from \"next/link\"\r\nimport { usePathname } from \"next/navigation\"\r\nimport { Globe, Check } from \"lucide-react\"\r\nimport {\r\n  DropdownMenu,\r\n  DropdownMenuContent,\r\n  DropdownMenuItem,\r\n  DropdownMenuTrigger,\r\n} from \"@/components/ui/dropdown-menu\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface LanguageSwitcherProps {\r\n  locale: string\r\n  locales: string[]\r\n  localeNames: Record<string, string>\r\n  localeShort: Record<string, string>\r\n  ariaLabel?: string\r\n  className?: string\r\n}\r\n\r\nexport function LanguageSwitcher({\r\n  locale,\r\n  locales,\r\n  localeNames,\r\n  localeShort,\r\n  ariaLabel = \"Language\",\r\n  className,\r\n}: LanguageSwitcherProps) {\r\n  const pathname = usePathname()\r\n  const pathnameWithoutLocale =\r\n    pathname.replace(new RegExp(`^/(${locales.join(\"|\")})`), \"\") || \"\"\r\n\r\n  return (\r\n    <DropdownMenu>\r\n      <DropdownMenuTrigger\r\n        aria-label={ariaLabel}\r\n        className={cn(\r\n          \"inline-flex items-center gap-1 rounded-md px-2.5 py-2 text-sm font-medium text-foreground/80 outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring\",\r\n          className,\r\n        )}\r\n      >\r\n        <Globe className=\"h-4 w-4\" aria-hidden=\"true\" />\r\n        <span>{localeShort[locale] ?? locale.toUpperCase()}</span>\r\n      </DropdownMenuTrigger>\r\n      <DropdownMenuContent align=\"end\" className=\"w-40\">\r\n        {locales.map((l) => (\r\n          <DropdownMenuItem key={l} asChild className=\"justify-between\">\r\n            <Link href={`/${l}${pathnameWithoutLocale}`}>\r\n              {localeNames[l] ?? l}\r\n              {l === locale && (\r\n                <Check className=\"h-4 w-4 text-primary\" aria-hidden=\"true\" />\r\n              )}\r\n            </Link>\r\n          </DropdownMenuItem>\r\n        ))}\r\n      </DropdownMenuContent>\r\n    </DropdownMenu>\r\n  )\r\n}\r\n",
+          "target": "src/components/navigation/language-switcher.tsx"
         }
       ],
       "dependencies": [
-        "react",
-        "tailwindcss"
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "dropdown-menu"
+      ]
+    },
+    {
+      "name": "navbar",
+      "type": "registry:block",
+      "title": "Navbar",
+      "description": "Responsive navbar with dropdown submenus, mobile sheet menu, language switcher, and CTA button.",
+      "files": [
+        {
+          "path": "src/components/navigation/navbar.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport { useState, useEffect } from \"react\"\r\nimport Link from \"next/link\"\r\nimport { usePathname } from \"next/navigation\"\r\nimport { Menu, X, ChevronDown } from \"lucide-react\"\r\nimport { Sheet, SheetContent, SheetTrigger, SheetTitle } from \"@/components/ui/sheet\"\r\nimport {\r\n  DropdownMenu,\r\n  DropdownMenuContent,\r\n  DropdownMenuItem,\r\n  DropdownMenuTrigger,\r\n} from \"@/components/ui/dropdown-menu\"\r\nimport { CtaExternal } from \"@/components/ui/cta-button\"\r\nimport { LanguageSwitcher } from \"@/components/navigation/language-switcher\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nexport interface NavItem {\r\n  label: string\r\n  href: string\r\n  children?: NavItem[]\r\n}\r\n\r\ninterface NavbarProps {\r\n  logo: { src?: string; alt: string; href: string; initial?: string }\r\n  items: NavItem[]\r\n  cta: { label: string; href: string }\r\n  locale: string\r\n  locales: string[]\r\n  localeNames: Record<string, string>\r\n  localeShort: Record<string, string>\r\n  siteName: string\r\n  menuLabel?: string\r\n  languageLabel?: string\r\n  closeLabel?: string\r\n  navLabel?: string\r\n  mobileNavLabel?: string\r\n}\r\n\r\nexport function Navbar({\r\n  logo,\r\n  items,\r\n  cta,\r\n  locale,\r\n  locales,\r\n  localeNames,\r\n  localeShort,\r\n  siteName,\r\n  menuLabel = \"Menu\",\r\n  languageLabel = \"Language\",\r\n  closeLabel = \"Close\",\r\n  navLabel = \"Main navigation\",\r\n  mobileNavLabel = \"Mobile navigation\",\r\n}: NavbarProps) {\r\n  const pathname = usePathname()\r\n  const [scrolled, setScrolled] = useState(false)\r\n  const [mobileOpen, setMobileOpen] = useState(false)\r\n\r\n  useEffect(() => {\r\n    const onScroll = () => setScrolled(window.scrollY > 8)\r\n    onScroll()\r\n    window.addEventListener(\"scroll\", onScroll, { passive: true })\r\n    return () => window.removeEventListener(\"scroll\", onScroll)\r\n  }, [])\r\n\r\n  const isActive = (href: string) => {\r\n    if (href === `/${locale}`) return pathname === `/${locale}`\r\n    return pathname.startsWith(href)\r\n  }\r\n\r\n  return (\r\n    <header\r\n      className={cn(\r\n        \"sticky top-0 z-50 w-full border-b transition-colors\",\r\n        scrolled\r\n          ? \"border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80\"\r\n          : \"border-transparent bg-background\",\r\n      )}\r\n    >\r\n      <div className=\"container-premium flex h-16 items-center justify-between gap-4 lg:h-20\">\r\n        <Link\r\n          href={logo.href}\r\n          className=\"flex items-center gap-2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring\"\r\n        >\r\n          {logo.src ? (\r\n            <img src={logo.src} alt={logo.alt} className=\"h-9 w-auto\" />\r\n          ) : (\r\n            <span className=\"flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground\">\r\n              {logo.initial ?? siteName.charAt(0)}\r\n            </span>\r\n          )}\r\n          <span className=\"text-lg font-bold tracking-tight text-foreground\">\r\n            {siteName}\r\n          </span>\r\n        </Link>\r\n\r\n        <nav className=\"hidden items-center gap-1 lg:flex\" aria-label={navLabel}>\r\n          {items.map((item) =>\r\n            item.children && item.children.length > 0 ? (\r\n              <DropdownMenu key={item.href}>\r\n                <DropdownMenuTrigger\r\n                  className={cn(\r\n                    \"inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring\",\r\n                    isActive(item.href)\r\n                      ? \"bg-primary text-primary-foreground\"\r\n                      : \"text-foreground hover:bg-secondary\",\r\n                  )}\r\n                >\r\n                  {item.label}\r\n                  <ChevronDown className=\"h-4 w-4\" aria-hidden=\"true\" />\r\n                </DropdownMenuTrigger>\r\n                <DropdownMenuContent align=\"start\" className=\"w-56\">\r\n                  {item.children.map((child) => (\r\n                    <DropdownMenuItem key={child.href} asChild>\r\n                      <Link href={child.href}>{child.label}</Link>\r\n                    </DropdownMenuItem>\r\n                  ))}\r\n                </DropdownMenuContent>\r\n              </DropdownMenu>\r\n            ) : (\r\n              <Link\r\n                key={item.href}\r\n                href={item.href}\r\n                className={cn(\r\n                  \"rounded-full px-4 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring\",\r\n                  isActive(item.href)\r\n                    ? \"bg-primary text-primary-foreground\"\r\n                    : \"text-foreground hover:bg-secondary\",\r\n                )}\r\n                aria-current={isActive(item.href) ? \"page\" : undefined}\r\n              >\r\n                {item.label}\r\n              </Link>\r\n            ),\r\n          )}\r\n        </nav>\r\n\r\n        <div className=\"flex items-center gap-2\">\r\n          <LanguageSwitcher\r\n            locale={locale}\r\n            locales={locales}\r\n            localeNames={localeNames}\r\n            localeShort={localeShort}\r\n            ariaLabel={languageLabel}\r\n          />\r\n\r\n          <CtaExternal href={cta.href} className=\"hidden md:inline-flex\">\r\n            {cta.label}\r\n          </CtaExternal>\r\n\r\n          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>\r\n            <SheetTrigger\r\n              aria-label={menuLabel}\r\n              className=\"inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring lg:hidden\"\r\n            >\r\n              <Menu className=\"h-5 w-5\" aria-hidden=\"true\" />\r\n            </SheetTrigger>\r\n            <SheetContent side=\"right\" showCloseButton={false} className=\"w-full max-w-sm p-0\">\r\n              <SheetTitle className=\"sr-only\">{menuLabel}</SheetTitle>\r\n              <div className=\"flex items-center justify-between border-b border-border px-5 py-4\">\r\n                <span className=\"text-lg font-bold text-foreground\">{siteName}</span>\r\n                <button\r\n                  type=\"button\"\r\n                  onClick={() => setMobileOpen(false)}\r\n                  aria-label={closeLabel}\r\n                  className=\"inline-flex h-9 w-9 items-center justify-center rounded-md text-foreground hover:bg-muted\"\r\n                >\r\n                  <X className=\"h-5 w-5\" aria-hidden=\"true\" />\r\n                </button>\r\n              </div>\r\n              <nav className=\"flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto px-5 py-6\" aria-label={mobileNavLabel}>\r\n                {items.map((item) => (\r\n                  <div key={item.href}>\r\n                    <Link\r\n                      href={item.href}\r\n                      onClick={() => setMobileOpen(false)}\r\n                      className=\"block rounded-2xl px-4 py-3 font-medium outline-none transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring\"\r\n                    >\r\n                      {item.label}\r\n                    </Link>\r\n                    {item.children?.map((child) => (\r\n                      <Link\r\n                        key={child.href}\r\n                        href={child.href}\r\n                        onClick={() => setMobileOpen(false)}\r\n                        className=\"block rounded-2xl py-3 pl-8 pr-4 text-sm font-medium text-foreground/80 outline-none transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring\"\r\n                      >\r\n                        {child.label}\r\n                      </Link>\r\n                    ))}\r\n                  </div>\r\n                ))}\r\n                <CtaExternal href={cta.href} size=\"lg\" className=\"mt-4 w-full\">\r\n                  {cta.label}\r\n                </CtaExternal>\r\n              </nav>\r\n            </SheetContent>\r\n          </Sheet>\r\n        </div>\r\n      </div>\r\n    </header>\r\n  )\r\n}\r\n",
+          "target": "src/components/navigation/navbar.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "cta-button",
+        "language-switcher",
+        "dropdown-menu",
+        "sheet"
+      ]
+    },
+    {
+      "name": "manage-cookies-button",
+      "type": "registry:ui",
+      "title": "Manage Cookies Button",
+      "description": "Client-side button that dispatches a manage-cookies event for the cookie banner.",
+      "files": [
+        {
+          "path": "src/components/navigation/manage-cookies-button.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\n\nexport function ManageCookiesButton({\n  label,\n  manageEvent = \"manage-cookies\",\n  className,\n}: {\n  label: string\n  manageEvent?: string\n  className?: string\n}) {\n  return (\n    <button\n      type=\"button\"\n      onClick={() => window.dispatchEvent(new Event(manageEvent))}\n      className={className}\n    >\n      {label}\n    </button>\n  )\n}\n",
+          "target": "src/components/navigation/manage-cookies-button.tsx"
+        }
+      ]
+    },
+    {
+      "name": "footer",
+      "type": "registry:block",
+      "title": "Footer",
+      "description": "Multi-column footer with brand, navigation columns, contact info, social icons, and legal links.",
+      "files": [
+        {
+          "path": "src/components/navigation/footer.tsx",
+          "type": "registry:component",
+          "content": "import Link from \"next/link\"\r\nimport { Mail, MapPin, Phone, Clock } from \"lucide-react\"\r\nimport {\r\n  InstagramIcon,\r\n  FacebookIcon,\r\n  LinkedinIcon,\r\n  YoutubeIcon,\r\n} from \"@/components/ui/social-icons\"\r\nimport { ManageCookiesButton } from \"@/components/navigation/manage-cookies-button\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ntype SocialPlatform = \"instagram\" | \"facebook\" | \"linkedin\" | \"youtube\"\r\n\r\ninterface SocialLink {\r\n  platform: SocialPlatform\r\n  url: string\r\n}\r\n\r\ninterface FooterColumn {\r\n  title: string\r\n  links: { label: string; href: string }[]\r\n}\r\n\r\ninterface FooterProps {\r\n  brand: { name: string; description: string; logo?: string; initial?: string }\r\n  columns: FooterColumn[]\r\n  contact: {\r\n    title?: string\r\n    address?: string\r\n    phone?: string\r\n    email?: string\r\n    mapsUrl?: string\r\n    hours?: string\r\n  }\r\n  socials?: SocialLink[]\r\n  legal: {\r\n    links: { label: string; href: string }[]\r\n    copyright: string\r\n  }\r\n  attribution?: { text: string; href: string; logo?: string }\r\n  manageCookiesLabel?: string\r\n  className?: string\r\n}\r\n\r\nconst socialIconMap: Record<SocialPlatform, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {\r\n  instagram: InstagramIcon,\r\n  facebook: FacebookIcon,\r\n  linkedin: LinkedinIcon,\r\n  youtube: YoutubeIcon,\r\n}\r\n\r\nexport function Footer({\r\n  brand,\r\n  columns,\r\n  contact,\r\n  socials,\r\n  legal,\r\n  attribution,\r\n  manageCookiesLabel,\r\n  className,\r\n}: FooterProps) {\r\n  return (\r\n    <footer className={cn(\"border-t border-border bg-muted/50\", className)}>\r\n      <div className=\"container-premium py-16 md:py-20\">\r\n        <div className=\"grid gap-10 md:grid-cols-2 lg:grid-cols-4\">\r\n          {/* Brand column */}\r\n          <div className=\"space-y-4\">\r\n            <div className=\"flex items-center gap-2\">\r\n              {brand.logo ? (\r\n                <img src={brand.logo} alt={brand.name} className=\"h-8 w-auto\" />\r\n              ) : (\r\n                <span className=\"flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-xs font-bold text-primary-foreground\">\r\n                  {brand.initial ?? brand.name.charAt(0)}\r\n                </span>\r\n              )}\r\n              <span className=\"text-lg font-bold text-foreground\">{brand.name}</span>\r\n            </div>\r\n            <p className=\"text-sm leading-relaxed text-muted-foreground\">\r\n              {brand.description}\r\n            </p>\r\n            {contact.hours && (\r\n              <div className=\"flex items-start gap-2 text-sm text-muted-foreground\">\r\n                <Clock className=\"mt-0.5 h-4 w-4 shrink-0\" aria-hidden=\"true\" />\r\n                <span>{contact.hours}</span>\r\n              </div>\r\n            )}\r\n            {socials && socials.length > 0 && (\r\n              <div className=\"flex gap-3 pt-2\">\r\n                {socials.map((social) => {\r\n                  const Icon = socialIconMap[social.platform]\r\n                  return (\r\n                    <a\r\n                      key={social.platform}\r\n                      href={social.url}\r\n                      target=\"_blank\"\r\n                      rel=\"noopener noreferrer\"\r\n                      className=\"text-muted-foreground transition-colors hover:text-primary\"\r\n                      aria-label={social.platform}\r\n                    >\r\n                      <Icon className=\"h-5 w-5\" />\r\n                    </a>\r\n                  )\r\n                })}\r\n              </div>\r\n            )}\r\n          </div>\r\n\r\n          {/* Navigation columns */}\r\n          {columns.map((col) => (\r\n            <div key={col.title}>\r\n              <h3 className=\"mb-4 text-sm font-semibold uppercase tracking-wide text-foreground\">\r\n                {col.title}\r\n              </h3>\r\n              <ul className=\"space-y-2.5\">\r\n                {col.links.map((link) => (\r\n                  <li key={link.href}>\r\n                    <Link\r\n                      href={link.href}\r\n                      className=\"text-sm text-muted-foreground transition-colors hover:text-primary\"\r\n                    >\r\n                      {link.label}\r\n                    </Link>\r\n                  </li>\r\n                ))}\r\n              </ul>\r\n            </div>\r\n          ))}\r\n\r\n          {/* Contact column */}\r\n          <div>\r\n            <h3 className=\"mb-4 text-sm font-semibold uppercase tracking-wide text-foreground\">\r\n              {contact.title ?? \"Contact\"}\r\n            </h3>\r\n            <ul className=\"space-y-3\">\r\n              {contact.address && (\r\n                <li>\r\n                  {contact.mapsUrl ? (\r\n                    <a\r\n                      href={contact.mapsUrl}\r\n                      target=\"_blank\"\r\n                      rel=\"noopener noreferrer\"\r\n                      className=\"flex items-start gap-2 text-sm text-muted-foreground transition-colors hover:text-primary\"\r\n                    >\r\n                      <MapPin className=\"mt-0.5 h-4 w-4 shrink-0\" aria-hidden=\"true\" />\r\n                      {contact.address}\r\n                    </a>\r\n                  ) : (\r\n                    <span className=\"flex items-start gap-2 text-sm text-muted-foreground\">\r\n                      <MapPin className=\"mt-0.5 h-4 w-4 shrink-0\" aria-hidden=\"true\" />\r\n                      {contact.address}\r\n                    </span>\r\n                  )}\r\n                </li>\r\n              )}\r\n              {contact.phone && (\r\n                <li>\r\n                  <a\r\n                    href={`tel:${contact.phone.replace(/\\s/g, \"\")}`}\r\n                    className=\"flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary\"\r\n                  >\r\n                    <Phone className=\"h-4 w-4 shrink-0\" aria-hidden=\"true\" />\r\n                    {contact.phone}\r\n                  </a>\r\n                </li>\r\n              )}\r\n              {contact.email && (\r\n                <li>\r\n                  <a\r\n                    href={`mailto:${contact.email}`}\r\n                    className=\"flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary\"\r\n                  >\r\n                    <Mail className=\"h-4 w-4 shrink-0\" aria-hidden=\"true\" />\r\n                    {contact.email}\r\n                  </a>\r\n                </li>\r\n              )}\r\n            </ul>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      {/* Bottom bar */}\r\n      <div className=\"border-t border-border\">\r\n        <div className=\"container-premium flex flex-col items-center justify-between gap-3 py-5 text-xs text-muted-foreground sm:flex-row\">\r\n          <span>{legal.copyright}</span>\r\n          {attribution && (\r\n            <a\r\n              href={attribution.href}\r\n              target=\"_blank\"\r\n              rel=\"noopener noreferrer nofollow\"\r\n              className=\"inline-flex items-center gap-1.5 transition-colors hover:text-primary\"\r\n            >\r\n              {attribution.logo && (\r\n                <img src={attribution.logo} alt=\"\" className=\"h-4 w-4\" aria-hidden=\"true\" />\r\n              )}\r\n              {attribution.text}\r\n            </a>\r\n          )}\r\n          <nav className=\"flex gap-4\">\r\n            {legal.links.map((link) => (\r\n              <Link\r\n                key={link.href}\r\n                href={link.href}\r\n                className=\"transition-colors hover:text-primary\"\r\n              >\r\n                {link.label}\r\n              </Link>\r\n            ))}\r\n            {manageCookiesLabel && (\r\n              <ManageCookiesButton\r\n                label={manageCookiesLabel}\r\n                className=\"transition-colors hover:text-primary\"\r\n              />\r\n            )}\r\n          </nav>\r\n        </div>\r\n      </div>\r\n    </footer>\r\n  )\r\n}\r\n",
+          "target": "src/components/navigation/footer.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "social-icons",
+        "manage-cookies-button"
+      ]
+    },
+    {
+      "name": "home-hero",
+      "type": "registry:block",
+      "title": "Home Hero",
+      "description": "Full-viewport hero section with background image, gradient overlay, and CTA buttons.",
+      "files": [
+        {
+          "path": "src/components/sections/home-hero.tsx",
+          "type": "registry:component",
+          "content": "import { HeroAnimation } from \"@/components/ui/animations\";\r\nimport { CtaExternal, CtaLink } from \"@/components/ui/cta-button\";\r\nimport { cn } from \"@/lib/utils\";\r\nimport Image from \"next/image\";\r\n\r\ninterface HomeHeroProps {\r\n  eyebrow?: string;\r\n  title: string;\r\n  subtitle?: string;\r\n  primaryCta: { label: string; href: string; external?: boolean };\r\n  secondaryCta?: { label: string; href: string; external?: boolean };\r\n  backgroundImage?: string;\r\n  overlayClass?: string;\r\n  className?: string;\r\n}\r\n\r\nexport function HomeHero({\r\n  eyebrow,\r\n  title,\r\n  subtitle,\r\n  primaryCta,\r\n  secondaryCta,\r\n  backgroundImage,\r\n  overlayClass,\r\n  className,\r\n}: HomeHeroProps) {\r\n  return (\r\n    <section\r\n      className={cn(\"relative flex min-h-[90vh] items-center\", className)}\r\n    >\r\n      {backgroundImage && (\r\n        <Image\r\n          src={backgroundImage}\r\n          alt=\"\"\r\n          fill\r\n          priority\r\n          sizes=\"100vw\"\r\n          className=\"object-cover\"\r\n          aria-hidden=\"true\"\r\n        />\r\n      )}\r\n      <div className={cn(\"absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70\", overlayClass)} />\r\n\r\n      <div className=\"container-premium relative z-10 py-32 md:py-40\">\r\n        <HeroAnimation>\r\n          <div className=\"max-w-3xl space-y-6\">\r\n            {eyebrow && (\r\n              <span className=\"inline-block rounded-full bg-primary/20 px-4 py-1.5 text-sm font-semibold text-primary-foreground backdrop-blur-sm\">\r\n                {eyebrow}\r\n              </span>\r\n            )}\r\n            <h1 className=\"font-heading text-pretty text-4xl font-bold leading-tight tracking-tight text-dark-foreground sm:text-5xl md:text-6xl\">\r\n              {title}\r\n            </h1>\r\n            {subtitle && (\r\n              <p className=\"max-w-2xl text-lg leading-relaxed text-dark-foreground/80 md:text-xl\">\r\n                {subtitle}\r\n              </p>\r\n            )}\r\n            <div className=\"flex flex-wrap gap-4 pt-2\">\r\n              {primaryCta.external ? (\r\n                <CtaExternal href={primaryCta.href} size=\"lg\">\r\n                  {primaryCta.label}\r\n                </CtaExternal>\r\n              ) : (\r\n                <CtaLink href={primaryCta.href} size=\"lg\">\r\n                  {primaryCta.label}\r\n                </CtaLink>\r\n              )}\r\n              {secondaryCta &&\r\n                (secondaryCta.external ? (\r\n                  <CtaExternal\r\n                    href={secondaryCta.href}\r\n                    variant=\"onDark\"\r\n                    size=\"lg\"\r\n                  >\r\n                    {secondaryCta.label}\r\n                  </CtaExternal>\r\n                ) : (\r\n                  <CtaLink href={secondaryCta.href} variant=\"onDark\" size=\"lg\">\r\n                    {secondaryCta.label}\r\n                  </CtaLink>\r\n                ))}\r\n            </div>\r\n          </div>\r\n        </HeroAnimation>\r\n      </div>\r\n    </section>\r\n  );\r\n}\r\n",
+          "target": "src/components/sections/home-hero.tsx"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "cta-button",
+        "animations"
+      ]
+    },
+    {
+      "name": "page-hero",
+      "type": "registry:block",
+      "title": "Page Hero",
+      "description": "Inner page hero with optional background image and integrated breadcrumb.",
+      "files": [
+        {
+          "path": "src/components/sections/page-hero.tsx",
+          "type": "registry:component",
+          "content": "import Image from \"next/image\"\r\nimport { Breadcrumb, type Crumb } from \"@/components/ui/breadcrumb\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface PageHeroProps {\r\n  title: string\r\n  subtitle?: string\r\n  eyebrow?: string\r\n  backgroundImage?: string\r\n  overlayClass?: string\r\n  homeLabel: string\r\n  breadcrumbs: Crumb[]\r\n  className?: string\r\n}\r\n\r\nexport function PageHero({\r\n  title,\r\n  subtitle,\r\n  eyebrow,\r\n  backgroundImage,\r\n  overlayClass,\r\n  homeLabel,\r\n  breadcrumbs,\r\n  className,\r\n}: PageHeroProps) {\r\n  const hasImage = !!backgroundImage\r\n\r\n  return (\r\n    <section className={cn(\"relative\", hasImage ? \"text-dark-foreground\" : \"bg-muted\", className)}>\r\n      {hasImage && (\r\n        <>\r\n          <Image\r\n            src={backgroundImage}\r\n            alt=\"\"\r\n            fill\r\n            priority\r\n            sizes=\"100vw\"\r\n            className=\"object-cover\"\r\n            aria-hidden=\"true\"\r\n          />\r\n          <div className={cn(\"absolute inset-0 bg-black/50\", overlayClass)} />\r\n        </>\r\n      )}\r\n\r\n      <div className=\"relative z-10\">\r\n        <Breadcrumb\r\n          homeLabel={homeLabel}\r\n          items={breadcrumbs}\r\n          className={hasImage ? \"text-dark-foreground/70 [&_a]:text-dark-foreground/70 [&_a:hover]:text-dark-foreground [&_span]:text-dark-foreground\" : \"\"}\r\n        />\r\n\r\n        <div className=\"container-premium pb-16 pt-8 md:pb-20 md:pt-12\">\r\n          {eyebrow && (\r\n            <span\r\n              className={cn(\r\n                \"mb-3 inline-block text-sm font-semibold uppercase tracking-[0.18em]\",\r\n                hasImage ? \"text-dark-foreground/80\" : \"text-primary\",\r\n              )}\r\n            >\r\n              {eyebrow}\r\n            </span>\r\n          )}\r\n          <h1\r\n            className={cn(\r\n              \"font-heading text-pretty text-3xl font-bold leading-tight sm:text-4xl md:text-5xl\",\r\n              hasImage ? \"text-dark-foreground\" : \"text-foreground\",\r\n            )}\r\n          >\r\n            {title}\r\n          </h1>\r\n          {subtitle && (\r\n            <p\r\n              className={cn(\r\n                \"mt-4 max-w-2xl text-lg leading-relaxed\",\r\n                hasImage ? \"text-dark-foreground/80\" : \"text-muted-foreground\",\r\n              )}\r\n            >\r\n              {subtitle}\r\n            </p>\r\n          )}\r\n        </div>\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/page-hero.tsx"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "breadcrumb"
+      ]
+    },
+    {
+      "name": "cta-band",
+      "type": "registry:block",
+      "title": "CTA Band",
+      "description": "Full-width call-to-action banner with title, description, button, and color variant.",
+      "files": [
+        {
+          "path": "src/components/sections/cta-band.tsx",
+          "type": "registry:component",
+          "content": "import { CtaLink, CtaExternal } from \"@/components/ui/cta-button\"\r\nimport {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface CtaBandProps {\r\n  title: string\r\n  description?: string\r\n  cta: { label: string; href: string; external?: boolean }\r\n  variant?: SectionVariant\r\n  className?: string\r\n}\r\n\r\nexport function CtaBand({ title, description, cta, variant = \"primary\", className }: CtaBandProps) {\r\n  const colors = sectionVariantClasses[variant]\r\n  const isDark = variant === \"primary\" || variant === \"secondary\"\r\n  const ctaVariant = isDark ? \"onDark\" : \"primary\"\r\n\r\n  return (\r\n    <section className={cn(\"section-padding\", colors.section, className)}>\r\n      <div className=\"container-premium text-center\">\r\n        <h2 className={cn(\"font-heading text-pretty text-2xl font-bold sm:text-3xl md:text-4xl\", colors.heading)}>\r\n          {title}\r\n        </h2>\r\n        {description && (\r\n          <p className={cn(\"mx-auto mt-4 max-w-2xl text-lg leading-relaxed\", colors.body)}>\r\n            {description}\r\n          </p>\r\n        )}\r\n        <div className=\"mt-8\">\r\n          {cta.external ? (\r\n            <CtaExternal href={cta.href} variant={ctaVariant} size=\"lg\">\r\n              {cta.label}\r\n            </CtaExternal>\r\n          ) : (\r\n            <CtaLink href={cta.href} variant={ctaVariant} size=\"lg\">\r\n              {cta.label}\r\n            </CtaLink>\r\n          )}\r\n        </div>\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/cta-band.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "cta-button",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "trust-section",
+      "type": "registry:block",
+      "title": "Trust Section",
+      "description": "Social proof section with icon grid for expertise, responsiveness, and quality badges.",
+      "files": [
+        {
+          "path": "src/components/sections/trust-section.tsx",
+          "type": "registry:component",
+          "content": "import type { LucideIcon } from \"lucide-react\"\r\nimport { SectionHeading } from \"@/components/ui/section-heading\"\r\nimport { Reveal } from \"@/components/ui/reveal\"\r\nimport {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface TrustItem {\r\n  icon: LucideIcon\r\n  title: string\r\n  description: string\r\n}\r\n\r\ninterface TrustSectionProps {\r\n  eyebrow?: string\r\n  title: string\r\n  subtitle?: string\r\n  items: TrustItem[]\r\n  variant?: SectionVariant\r\n  className?: string\r\n}\r\n\r\nexport function TrustSection({\r\n  eyebrow,\r\n  title,\r\n  subtitle,\r\n  items,\r\n  variant = \"muted\",\r\n  className,\r\n}: TrustSectionProps) {\r\n  const colors = sectionVariantClasses[variant]\r\n\r\n  return (\r\n    <section className={cn(\"section-padding\", colors.section, className)}>\r\n      <div className=\"container-premium\">\r\n        <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />\r\n        <div className=\"mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3\">\r\n          {items.map((item, i) => {\r\n            const Icon = item.icon\r\n            const isDark = variant === \"primary\" || variant === \"secondary\"\r\n            const isAlt = i % 2 === 1\r\n            const badgeBg = isAlt ? (isDark ? \"bg-white/15\" : \"bg-secondary/15\") : colors.iconBadge\r\n            const badgeIcon = isAlt ? (isDark ? \"text-white/80\" : \"text-secondary\") : colors.iconColor\r\n            return (\r\n              <Reveal key={item.title} delay={i * 0.1}>\r\n                <div className={cn(\"rounded-xl border p-6 shadow-sm transition-shadow hover:shadow-md\", colors.card, colors.cardBorder)}>\r\n                  <div className={cn(\"mb-4 flex h-12 w-12 items-center justify-center rounded-lg\", badgeBg)}>\r\n                    <Icon className={cn(\"h-6 w-6\", badgeIcon)} aria-hidden=\"true\" />\r\n                  </div>\r\n                  <h3 className={cn(\"mb-2 text-lg font-semibold\", colors.heading)}>{item.title}</h3>\r\n                  <p className={cn(\"text-sm leading-relaxed\", colors.body)}>\r\n                    {item.description}\r\n                  </p>\r\n                </div>\r\n              </Reveal>\r\n            )\r\n          })}\r\n        </div>\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/trust-section.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "reveal",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "service-card",
+      "type": "registry:block",
+      "title": "Service Card",
+      "description": "Service card with image banner, floating icon, hover effect, and link.",
+      "files": [
+        {
+          "path": "src/components/sections/service-card.tsx",
+          "type": "registry:component",
+          "content": "import Link from \"next/link\"\r\nimport type { LucideIcon } from \"lucide-react\"\r\nimport { ArrowRight } from \"lucide-react\"\r\nimport { ImageWithFallback } from \"@/components/ui/image-with-fallback\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface ServiceCardProps {\r\n  title: string\r\n  description: string\r\n  image: string\r\n  href: string\r\n  icon?: LucideIcon\r\n  iconVariant?: \"primary\" | \"secondary\" | \"accent\"\r\n  imageAlt?: string\r\n  readMoreLabel?: string\r\n  fallbackLabel?: string\r\n  className?: string\r\n}\r\n\r\nconst iconVariantClasses = {\r\n  primary: { badge: \"bg-primary\", icon: \"text-primary-foreground\" },\r\n  secondary: { badge: \"bg-secondary\", icon: \"text-secondary-foreground\" },\r\n  accent: { badge: \"bg-accent\", icon: \"text-accent-foreground\" },\r\n} as const\r\n\r\nexport function ServiceCard({\r\n  title,\r\n  description,\r\n  image,\r\n  href,\r\n  icon: Icon,\r\n  iconVariant = \"primary\",\r\n  imageAlt,\r\n  readMoreLabel = \"Read more\",\r\n  fallbackLabel,\r\n  className,\r\n}: ServiceCardProps) {\r\n  const iv = iconVariantClasses[iconVariant]\r\n\r\n  return (\r\n    <Link\r\n      href={href}\r\n      className={cn(\r\n        \"group block rounded-xl border border-border bg-background shadow-sm transition-shadow hover:shadow-lg\",\r\n        className,\r\n      )}\r\n    >\r\n      <div className=\"relative aspect-[16/10] overflow-hidden rounded-t-[calc(0.75rem-1px)]\">\r\n        <ImageWithFallback\r\n          src={image}\r\n          alt={imageAlt ?? title}\r\n          fill\r\n          sizes=\"(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw\"\r\n          className=\"transition-transform duration-500 group-hover:scale-105\"\r\n          fallbackLabel={fallbackLabel}\r\n        />\r\n      </div>\r\n      {Icon && (\r\n        <div className={cn(\"relative z-10 ml-5 -mt-5 inline-flex rounded-lg p-2.5 shadow-md\", iv.badge)}>\r\n          <Icon className={cn(\"h-5 w-5\", iv.icon)} aria-hidden=\"true\" />\r\n        </div>\r\n      )}\r\n      <div className={cn(\"px-5 pb-5\", Icon ? \"pt-3\" : \"pt-5\")}>\r\n        <h3 className=\"mb-2 text-lg font-semibold text-foreground\">{title}</h3>\r\n        <p className=\"mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-3\">\r\n          {description}\r\n        </p>\r\n        <span className=\"inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors group-hover:gap-2\">\r\n          {readMoreLabel}\r\n          <ArrowRight className=\"h-4 w-4 transition-transform group-hover:translate-x-1\" aria-hidden=\"true\" />\r\n        </span>\r\n      </div>\r\n    </Link>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/service-card.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "image-with-fallback"
+      ]
+    },
+    {
+      "name": "services-grid",
+      "type": "registry:block",
+      "title": "Services Grid",
+      "description": "Responsive grid of service cards with section heading and color variant.",
+      "files": [
+        {
+          "path": "src/components/sections/services-grid.tsx",
+          "type": "registry:component",
+          "content": "import type { LucideIcon } from \"lucide-react\"\r\nimport { SectionHeading } from \"@/components/ui/section-heading\"\r\nimport { ServiceCard } from \"@/components/sections/service-card\"\r\nimport {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface ServiceItem {\r\n  title: string\r\n  description: string\r\n  image: string\r\n  href: string\r\n  icon?: LucideIcon\r\n}\r\n\r\ninterface ServicesGridProps {\r\n  eyebrow?: string\r\n  title?: string\r\n  subtitle?: string\r\n  services: ServiceItem[]\r\n  readMoreLabel?: string\r\n  fallbackLabel?: string\r\n  variant?: SectionVariant\r\n  className?: string\r\n}\r\n\r\nexport function ServicesGrid({\r\n  eyebrow,\r\n  title,\r\n  subtitle,\r\n  services,\r\n  readMoreLabel,\r\n  fallbackLabel,\r\n  variant = \"default\",\r\n  className,\r\n}: ServicesGridProps) {\r\n  const colors = sectionVariantClasses[variant]\r\n\r\n  return (\r\n    <section className={cn(\"section-padding\", colors.section, className)}>\r\n      <div className=\"container-premium\">\r\n        {title && <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />}\r\n        <div className=\"mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3\">\r\n          {services.map((service, i) => {\r\n            const iconVariants = [\"primary\", \"secondary\", \"accent\"] as const\r\n            return (\r\n              <ServiceCard\r\n                key={service.href}\r\n                title={service.title}\r\n                description={service.description}\r\n                image={service.image}\r\n                href={service.href}\r\n                icon={service.icon}\r\n                iconVariant={iconVariants[i % iconVariants.length]}\r\n                readMoreLabel={readMoreLabel}\r\n                fallbackLabel={fallbackLabel}\r\n              />\r\n            )\r\n          })}\r\n        </div>\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/services-grid.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "service-card",
+        "section-heading",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "faq-list",
+      "type": "registry:block",
+      "title": "FAQ List",
+      "description": "Accordion FAQ section with optional category filter tabs and color variant.",
+      "files": [
+        {
+          "path": "src/components/sections/faq-list.tsx",
+          "type": "registry:component",
+          "content": "\"use client\"\r\n\r\nimport { useState } from \"react\"\r\nimport { SectionHeading } from \"@/components/ui/section-heading\"\r\nimport {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface FaqItem {\r\n  question: string\r\n  answer: string\r\n  category?: string\r\n}\r\n\r\ninterface FaqListProps {\r\n  eyebrow?: string\r\n  title: string\r\n  subtitle?: string\r\n  items: FaqItem[]\r\n  allLabel?: string\r\n  variant?: SectionVariant\r\n  className?: string\r\n}\r\n\r\nexport function FaqList({\r\n  eyebrow,\r\n  title,\r\n  subtitle,\r\n  items,\r\n  allLabel = \"All\",\r\n  variant = \"default\",\r\n  className,\r\n}: FaqListProps) {\r\n  const categories = Array.from(new Set(items.map((f) => f.category).filter(Boolean))) as string[]\r\n  const hasCategories = categories.length > 1\r\n  const [active, setActive] = useState<string | null>(null)\r\n  const [openIndex, setOpenIndex] = useState<number | null>(null)\r\n\r\n  const colors = sectionVariantClasses[variant]\r\n  const filtered = active ? items.filter((f) => f.category === active) : items\r\n\r\n  return (\r\n    <section className={cn(\"section-padding\", colors.section, className)}>\r\n      <div className=\"container-premium\">\r\n        <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />\r\n\r\n        {hasCategories && (\r\n          <div className=\"mt-8 flex flex-wrap justify-center gap-2\">\r\n            <button\r\n              type=\"button\"\r\n              onClick={() => setActive(null)}\r\n              className={cn(\r\n                \"rounded-full px-4 py-2 text-sm font-medium transition-colors\",\r\n                active === null\r\n                  ? \"bg-primary text-primary-foreground\"\r\n                  : \"bg-muted text-muted-foreground hover:bg-muted/80\",\r\n              )}\r\n            >\r\n              {allLabel}\r\n            </button>\r\n            {categories.map((cat) => (\r\n              <button\r\n                key={cat}\r\n                type=\"button\"\r\n                onClick={() => setActive(cat)}\r\n                className={cn(\r\n                  \"rounded-full px-4 py-2 text-sm font-medium transition-colors\",\r\n                  active === cat\r\n                    ? \"bg-primary text-primary-foreground\"\r\n                    : \"bg-muted text-muted-foreground hover:bg-muted/80\",\r\n                )}\r\n              >\r\n                {cat}\r\n              </button>\r\n            ))}\r\n          </div>\r\n        )}\r\n\r\n        <div className=\"mx-auto mt-10 max-w-3xl divide-y divide-border\">\r\n          {filtered.map((faq, i) => {\r\n            const isOpen = openIndex === i\r\n            return (\r\n              <div key={faq.question} className=\"py-4\">\r\n                <button\r\n                  type=\"button\"\r\n                  onClick={() => setOpenIndex(isOpen ? null : i)}\r\n                  className=\"flex w-full items-center justify-between gap-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring\"\r\n                  aria-expanded={isOpen}\r\n                >\r\n                  <span className=\"font-medium text-foreground\">{faq.question}</span>\r\n                  <span\r\n                    className={cn(\r\n                      \"shrink-0 text-xl transition-transform\",\r\n                      isOpen ? \"text-secondary\" : \"text-muted-foreground\",\r\n                    )}\r\n                    aria-hidden=\"true\"\r\n                  >\r\n                    {isOpen ? \"−\" : \"+\"}\r\n                  </span>\r\n                </button>\r\n                {isOpen && (\r\n                  <p className=\"mt-3 text-sm leading-relaxed text-muted-foreground\">\r\n                    {faq.answer}\r\n                  </p>\r\n                )}\r\n              </div>\r\n            )\r\n          })}\r\n        </div>\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/faq-list.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "testimonials",
+      "type": "registry:block",
+      "title": "Testimonials",
+      "description": "Social proof section displaying client testimonials with color variant.",
+      "files": [
+        {
+          "path": "src/components/sections/testimonials.tsx",
+          "type": "registry:component",
+          "content": "import { Quote } from \"lucide-react\"\r\nimport { SectionHeading } from \"@/components/ui/section-heading\"\r\nimport { Reveal } from \"@/components/ui/reveal\"\r\nimport {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface Testimonial {\r\n  quote: string\r\n  name: string\r\n  role?: string\r\n  company?: string\r\n}\r\n\r\ninterface TestimonialsProps {\r\n  eyebrow?: string\r\n  title: string\r\n  subtitle?: string\r\n  items: Testimonial[]\r\n  variant?: SectionVariant\r\n  className?: string\r\n}\r\n\r\nexport function Testimonials({\r\n  eyebrow,\r\n  title,\r\n  subtitle,\r\n  items,\r\n  variant = \"default\",\r\n  className,\r\n}: TestimonialsProps) {\r\n  const colors = sectionVariantClasses[variant]\r\n  const isDark = variant === \"primary\" || variant === \"secondary\"\r\n\r\n  return (\r\n    <section className={cn(\"section-padding\", colors.section, className)}>\r\n      <div className=\"container-premium\">\r\n        <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />\r\n        <div className=\"mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3\">\r\n          {items.map((t, i) => (\r\n            <Reveal key={t.name} delay={i * 0.1}>\r\n              <figure className={cn(\"flex h-full flex-col rounded-xl border p-6 shadow-sm\", colors.card, colors.cardBorder)}>\r\n                <Quote className={cn(\"mb-4 h-8 w-8 opacity-20\", isDark ? \"text-white\" : \"text-secondary\")} aria-hidden=\"true\" />\r\n                <blockquote className={cn(\"flex-1 text-sm leading-relaxed\", colors.heading)}>\r\n                  &ldquo;{t.quote}&rdquo;\r\n                </blockquote>\r\n                <figcaption className={cn(\"mt-6 border-t pt-4\", colors.cardBorder)}>\r\n                  <p className={cn(\"font-semibold\", colors.heading)}>{t.name}</p>\r\n                  {(t.role || t.company) && (\r\n                    <p className={cn(\"text-sm\", colors.body)}>\r\n                      {[t.role, t.company].filter(Boolean).join(\" — \")}\r\n                    </p>\r\n                  )}\r\n                </figcaption>\r\n              </figure>\r\n            </Reveal>\r\n          ))}\r\n        </div>\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/testimonials.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "reveal",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "method-steps",
+      "type": "registry:block",
+      "title": "Method Steps",
+      "description": "Multi-step process visualization with numbered steps, descriptions, and color variant.",
+      "files": [
+        {
+          "path": "src/components/sections/method-steps.tsx",
+          "type": "registry:component",
+          "content": "import { SectionHeading } from \"@/components/ui/section-heading\"\r\nimport { Reveal } from \"@/components/ui/reveal\"\r\nimport {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface Step {\r\n  title: string\r\n  description: string\r\n}\r\n\r\ninterface MethodStepsProps {\r\n  eyebrow?: string\r\n  title: string\r\n  subtitle?: string\r\n  steps: Step[]\r\n  variant?: SectionVariant\r\n  className?: string\r\n}\r\n\r\nexport function MethodSteps({\r\n  eyebrow,\r\n  title,\r\n  subtitle,\r\n  steps,\r\n  variant = \"muted\",\r\n  className,\r\n}: MethodStepsProps) {\r\n  const colors = sectionVariantClasses[variant]\r\n\r\n  return (\r\n    <section className={cn(\"section-padding\", colors.section, className)}>\r\n      <div className=\"container-premium\">\r\n        <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />\r\n        <div className=\"relative mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4\">\r\n          <div className=\"absolute top-10 left-[10%] right-[10%] hidden h-0.5 bg-border lg:block\" aria-hidden=\"true\" />\r\n\r\n          {steps.map((step, i) => (\r\n            <Reveal key={step.title} delay={i * 0.15}>\r\n              <div className=\"relative text-center\">\r\n                <div className={cn(\r\n                  \"mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full text-lg font-bold shadow-md\",\r\n                  variant === \"primary\" || variant === \"secondary\"\r\n                    ? \"bg-white/20 text-inherit\"\r\n                    : i % 2 === 0\r\n                      ? \"bg-primary text-primary-foreground\"\r\n                      : \"bg-secondary text-secondary-foreground\",\r\n                )}>\r\n                  {i + 1}\r\n                </div>\r\n                <h3 className={cn(\"mb-2 text-lg font-semibold\", colors.heading)}>{step.title}</h3>\r\n                <p className={cn(\"text-sm leading-relaxed\", colors.body)}>\r\n                  {step.description}\r\n                </p>\r\n              </div>\r\n            </Reveal>\r\n          ))}\r\n        </div>\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/method-steps.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "reveal",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "pricing-table",
+      "type": "registry:block",
+      "title": "Pricing Table",
+      "description": "Service pricing table with name, duration, price, description, and color variant.",
+      "files": [
+        {
+          "path": "src/components/sections/pricing-table.tsx",
+          "type": "registry:component",
+          "content": "import { SectionHeading } from \"@/components/ui/section-heading\"\r\nimport {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface PricingItem {\r\n  code?: string\r\n  name: string\r\n  description?: string\r\n  duration?: string\r\n  price: string\r\n}\r\n\r\ninterface PricingTableProps {\r\n  eyebrow?: string\r\n  title: string\r\n  subtitle?: string\r\n  items: PricingItem[]\r\n  insuranceNote?: string\r\n  cancellationNote?: string\r\n  columns?: { code?: string; name: string; description?: string; duration?: string; price: string }\r\n  variant?: SectionVariant\r\n  className?: string\r\n}\r\n\r\nexport function PricingTable({\r\n  eyebrow,\r\n  title,\r\n  subtitle,\r\n  items,\r\n  insuranceNote,\r\n  cancellationNote,\r\n  columns,\r\n  variant = \"default\",\r\n  className,\r\n}: PricingTableProps) {\r\n  const colors = sectionVariantClasses[variant]\r\n  const cols = columns ?? {\r\n    code: \"Code\",\r\n    name: \"Service\",\r\n    description: \"Description\",\r\n    duration: \"Duration\",\r\n    price: \"Price\",\r\n  }\r\n\r\n  const hasCode = items.some((i) => i.code)\r\n  const hasDuration = items.some((i) => i.duration)\r\n  const hasDescription = items.some((i) => i.description)\r\n\r\n  return (\r\n    <section className={cn(\"section-padding\", colors.section, className)}>\r\n      <div className=\"container-premium\">\r\n        <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />\r\n        <div className=\"mx-auto mt-10 max-w-4xl overflow-x-auto\">\r\n          <table className=\"w-full text-left text-sm\">\r\n            <thead>\r\n              <tr className=\"border-b-2 border-secondary\">\r\n                {hasCode && (\r\n                  <th className=\"px-4 py-3 font-semibold text-foreground\">{cols.code}</th>\r\n                )}\r\n                <th className=\"px-4 py-3 font-semibold text-foreground\">{cols.name}</th>\r\n                {hasDescription && (\r\n                  <th className=\"hidden px-4 py-3 font-semibold text-foreground md:table-cell\">\r\n                    {cols.description}\r\n                  </th>\r\n                )}\r\n                {hasDuration && (\r\n                  <th className=\"px-4 py-3 font-semibold text-foreground\">{cols.duration}</th>\r\n                )}\r\n                <th className=\"px-4 py-3 text-right font-semibold text-foreground\">\r\n                  {cols.price}\r\n                </th>\r\n              </tr>\r\n            </thead>\r\n            <tbody className=\"divide-y divide-border\">\r\n              {items.map((item) => (\r\n                <tr key={item.name} className=\"transition-colors hover:bg-muted/50\">\r\n                  {hasCode && (\r\n                    <td className=\"px-4 py-3 font-mono text-xs text-muted-foreground\">\r\n                      {item.code}\r\n                    </td>\r\n                  )}\r\n                  <td className=\"px-4 py-3 font-medium text-foreground\">{item.name}</td>\r\n                  {hasDescription && (\r\n                    <td className=\"hidden px-4 py-3 text-muted-foreground md:table-cell\">\r\n                      {item.description}\r\n                    </td>\r\n                  )}\r\n                  {hasDuration && (\r\n                    <td className=\"px-4 py-3 text-muted-foreground\">{item.duration}</td>\r\n                  )}\r\n                  <td className=\"px-4 py-3 text-right font-semibold text-foreground\">\r\n                    {item.price}\r\n                  </td>\r\n                </tr>\r\n              ))}\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        {(insuranceNote || cancellationNote) && (\r\n          <div className=\"mx-auto mt-6 max-w-4xl space-y-2 text-sm text-muted-foreground\">\r\n            {insuranceNote && <p>{insuranceNote}</p>}\r\n            {cancellationNote && <p>{cancellationNote}</p>}\r\n          </div>\r\n        )}\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/pricing-table.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "contact-info",
+      "type": "registry:block",
+      "title": "Contact Info",
+      "description": "Contact information section with address, phone, email, hours, map, and color variant.",
+      "files": [
+        {
+          "path": "src/components/sections/contact-info.tsx",
+          "type": "registry:component",
+          "content": "import { MapPin, Phone, Mail, Clock } from \"lucide-react\"\r\nimport {\r\n  InstagramIcon,\r\n  FacebookIcon,\r\n  LinkedinIcon,\r\n  YoutubeIcon,\r\n} from \"@/components/ui/social-icons\"\r\nimport {\r\n  type SectionVariant,\r\n  sectionVariantClasses,\r\n} from \"@/lib/section-variants\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ntype SocialPlatform = \"instagram\" | \"facebook\" | \"linkedin\" | \"youtube\"\r\n\r\ninterface ContactInfoProps {\r\n  title?: string\r\n  address?: string\r\n  mapsUrl?: string\r\n  mapsEmbed?: string\r\n  phone?: string\r\n  email?: string\r\n  hours?: { label: string; value: string }[]\r\n  socials?: { platform: SocialPlatform; url: string }[]\r\n  hoursLabel?: string\r\n  mapPlaceholder?: string\r\n  variant?: SectionVariant\r\n  className?: string\r\n}\r\n\r\nconst socialIconMap: Record<SocialPlatform, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {\r\n  instagram: InstagramIcon,\r\n  facebook: FacebookIcon,\r\n  linkedin: LinkedinIcon,\r\n  youtube: YoutubeIcon,\r\n}\r\n\r\nexport function ContactInfo({\r\n  title,\r\n  address,\r\n  mapsUrl,\r\n  mapsEmbed,\r\n  phone,\r\n  email,\r\n  hours,\r\n  socials,\r\n  hoursLabel = \"Hours\",\r\n  mapPlaceholder,\r\n  variant = \"default\",\r\n  className,\r\n}: ContactInfoProps) {\r\n  const colors = sectionVariantClasses[variant]\r\n\r\n  return (\r\n    <section className={cn(\"section-padding\", colors.section, className)}>\r\n      <div className=\"container-premium\">\r\n        <div className=\"grid gap-12 lg:grid-cols-2\">\r\n          <div className=\"space-y-8\">\r\n            {title && (\r\n              <h2 className=\"font-heading text-3xl font-bold text-foreground\">{title}</h2>\r\n            )}\r\n\r\n            <div className=\"space-y-5\">\r\n              {address && (\r\n                <div className=\"flex items-start gap-3\">\r\n                  <MapPin className=\"mt-1 h-5 w-5 shrink-0 text-primary\" aria-hidden=\"true\" />\r\n                  {mapsUrl ? (\r\n                    <a\r\n                      href={mapsUrl}\r\n                      target=\"_blank\"\r\n                      rel=\"noopener noreferrer\"\r\n                      className=\"text-foreground transition-colors hover:text-primary\"\r\n                    >\r\n                      {address}\r\n                    </a>\r\n                  ) : (\r\n                    <span className=\"text-foreground\">{address}</span>\r\n                  )}\r\n                </div>\r\n              )}\r\n\r\n              {phone && (\r\n                <div className=\"flex items-center gap-3\">\r\n                  <Phone className=\"h-5 w-5 shrink-0 text-primary\" aria-hidden=\"true\" />\r\n                  <a\r\n                    href={`tel:${phone.replace(/\\s/g, \"\")}`}\r\n                    className=\"text-foreground transition-colors hover:text-primary\"\r\n                  >\r\n                    {phone}\r\n                  </a>\r\n                </div>\r\n              )}\r\n\r\n              {email && (\r\n                <div className=\"flex items-center gap-3\">\r\n                  <Mail className=\"h-5 w-5 shrink-0 text-primary\" aria-hidden=\"true\" />\r\n                  <a\r\n                    href={`mailto:${email}`}\r\n                    className=\"text-foreground transition-colors hover:text-primary\"\r\n                  >\r\n                    {email}\r\n                  </a>\r\n                </div>\r\n              )}\r\n            </div>\r\n\r\n            {hours && hours.length > 0 && (\r\n              <div>\r\n                <div className=\"mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-foreground\">\r\n                  <Clock className=\"h-4 w-4\" aria-hidden=\"true\" />\r\n                  {hoursLabel}\r\n                </div>\r\n                <dl className=\"space-y-1.5 text-sm\">\r\n                  {hours.map((h) => (\r\n                    <div key={h.label} className=\"flex justify-between gap-4\">\r\n                      <dt className=\"text-muted-foreground\">{h.label}</dt>\r\n                      <dd className=\"font-medium text-foreground\">{h.value}</dd>\r\n                    </div>\r\n                  ))}\r\n                </dl>\r\n              </div>\r\n            )}\r\n\r\n            {socials && socials.length > 0 && (\r\n              <div className=\"flex gap-3\">\r\n                {socials.map((s) => {\r\n                  const Icon = socialIconMap[s.platform]\r\n                  return (\r\n                    <a\r\n                      key={s.platform}\r\n                      href={s.url}\r\n                      target=\"_blank\"\r\n                      rel=\"noopener noreferrer\"\r\n                      className=\"text-muted-foreground transition-colors hover:text-primary\"\r\n                      aria-label={s.platform}\r\n                    >\r\n                      <Icon className=\"h-5 w-5\" />\r\n                    </a>\r\n                  )\r\n                })}\r\n              </div>\r\n            )}\r\n          </div>\r\n\r\n          <div className=\"overflow-hidden rounded-xl bg-muted\">\r\n            {mapsEmbed ? (\r\n              <iframe\r\n                src={mapsEmbed}\r\n                width=\"100%\"\r\n                height=\"100%\"\r\n                style={{ border: 0, minHeight: 400 }}\r\n                allowFullScreen\r\n                loading=\"lazy\"\r\n                referrerPolicy=\"no-referrer-when-downgrade\"\r\n                title=\"Google Maps\"\r\n              />\r\n            ) : (\r\n              <div className=\"flex h-full min-h-[400px] items-center justify-center\">\r\n                <p className=\"p-12 text-center text-sm text-muted-foreground\">\r\n                  {mapPlaceholder ?? \"Google Maps — integrate with client coordinates\"}\r\n                </p>\r\n              </div>\r\n            )}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </section>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/contact-info.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "social-icons",
+        "section-variants"
+      ]
+    },
+    {
+      "name": "legal-page",
+      "type": "registry:block",
+      "title": "Legal Page",
+      "description": "Prose layout for legal pages (CGV, mentions légales, confidentialité).",
+      "files": [
+        {
+          "path": "src/components/sections/legal-page.tsx",
+          "type": "registry:component",
+          "content": "import { cn } from \"@/lib/utils\"\r\n\r\ninterface LegalSection {\r\n  title: string\r\n  content: string\r\n}\r\n\r\ninterface LegalPageProps {\r\n  title: string\r\n  updatedAt?: string\r\n  updatedLabel?: string\r\n  intro?: string\r\n  sections: LegalSection[]\r\n  className?: string\r\n}\r\n\r\nexport function LegalPage({\r\n  title,\r\n  updatedAt,\r\n  updatedLabel = \"Last updated\",\r\n  intro,\r\n  sections,\r\n  className,\r\n}: LegalPageProps) {\r\n  return (\r\n    <article className={cn(\"section-padding\", className)}>\r\n      <div className=\"container-premium\">\r\n        <div className=\"mx-auto max-w-3xl\">\r\n          <h1 className=\"font-heading text-3xl font-bold text-foreground sm:text-4xl\">{title}</h1>\r\n          {updatedAt && (\r\n            <p className=\"mt-2 text-sm text-muted-foreground\">\r\n              {updatedLabel} : {updatedAt}\r\n            </p>\r\n          )}\r\n          {intro && (\r\n            <p className=\"mt-6 text-lg leading-relaxed text-muted-foreground\">{intro}</p>\r\n          )}\r\n          <div className=\"mt-10 space-y-10\">\r\n            {sections.map((section) => (\r\n              <section key={section.title}>\r\n                <h2 className=\"mb-4 text-xl font-semibold text-foreground\">{section.title}</h2>\r\n                <div className=\"prose prose-sm max-w-none text-muted-foreground\">\r\n                  {section.content.split(\"\\n\\n\").map((paragraph, i) => (\r\n                    <p key={i}>{paragraph}</p>\r\n                  ))}\r\n                </div>\r\n              </section>\r\n            ))}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </article>\r\n  )\r\n}\r\n",
+          "target": "src/components/sections/legal-page.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "not-found-page",
+      "type": "registry:block",
+      "title": "404 Page",
+      "description": "Styled 404 page with business-themed messaging and CTA button.",
+      "files": [
+        {
+          "path": "src/components/layouts/not-found-page.tsx",
+          "type": "registry:component",
+          "content": "import { CtaLink } from \"@/components/ui/cta-button\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\ninterface NotFoundPageProps {\r\n  title?: string\r\n  description?: string\r\n  ctaLabel?: string\r\n  ctaHref?: string\r\n  className?: string\r\n}\r\n\r\nexport function NotFoundPage({\r\n  title = \"Page not found\",\r\n  description = \"The page you are looking for does not exist or has been moved.\",\r\n  ctaLabel = \"Back to home\",\r\n  ctaHref = \"/\",\r\n  className,\r\n}: NotFoundPageProps) {\r\n  return (\r\n    <main\r\n      className={cn(\r\n        \"flex min-h-[60vh] flex-col items-center justify-center px-5 py-20 text-center\",\r\n        className,\r\n      )}\r\n    >\r\n      <span className=\"text-8xl font-bold text-primary/20\">404</span>\r\n      <h1 className=\"mt-4 font-heading text-3xl font-bold text-foreground sm:text-4xl\">{title}</h1>\r\n      <p className=\"mt-4 max-w-md text-lg text-muted-foreground\">{description}</p>\r\n      <div className=\"mt-8\">\r\n        <CtaLink href={ctaHref} size=\"lg\">\r\n          {ctaLabel}\r\n        </CtaLink>\r\n      </div>\r\n    </main>\r\n  )\r\n}\r\n",
+          "target": "src/components/layouts/not-found-page.tsx"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "cta-button"
       ]
     }
   ]
