@@ -28,7 +28,7 @@ interface PricingTableProps {
   items: PricingItem[]
   insuranceNote?: string
   cancellationNote?: string
-  columns?: typeof DEFAULT_PRICING_COLUMNS
+  columns?: Partial<typeof DEFAULT_PRICING_COLUMNS>
   variant?: SectionVariant
   className?: string
 }
@@ -45,7 +45,7 @@ export function PricingTable({
   className,
 }: PricingTableProps) {
   const colors = sectionVariantClasses[variant]
-  const cols = columns ?? DEFAULT_PRICING_COLUMNS
+  const cols = { ...DEFAULT_PRICING_COLUMNS, ...columns }
 
   const hasCode = items.some((i) => i.code)
   const hasDuration = items.some((i) => i.duration)
