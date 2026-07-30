@@ -321,6 +321,70 @@
       "description": "Styled 404 page with business-themed messaging and CTA button.",
       "files": [{ "path": "registry/components/layouts/not-found-page.tsx", "type": "registry:component" }],
       "registryDependencies": ["cn", "cta-button"]
+    },
+    {
+      "name": "theme-presets",
+      "type": "registry:lib",
+      "title": "Theme Presets",
+      "description": "Industry + mood based theme preset system with 5 starter presets (example-colors, sage-clinic, swiss-corporate, alpine-table, solar-libre).",
+      "files": [
+        { "path": "registry/lib/themes/index.ts", "type": "registry:lib" },
+        { "path": "registry/lib/themes/presets/example-colors.json", "type": "registry:lib" },
+        { "path": "registry/lib/themes/presets/sage-clinic.json", "type": "registry:lib" },
+        { "path": "registry/lib/themes/presets/swiss-corporate.json", "type": "registry:lib" },
+        { "path": "registry/lib/themes/presets/alpine-table.json", "type": "registry:lib" },
+        { "path": "registry/lib/themes/presets/solar-libre.json", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "theme-provider",
+      "type": "registry:ui",
+      "title": "Theme Provider",
+      "description": "React context provider that applies a theme preset by injecting CSS custom properties on <html>. Supports preview mode (localStorage) and locked mode (fixed theme).",
+      "files": [{ "path": "registry/components/ui/theme-provider.tsx", "type": "registry:component" }],
+      "registryDependencies": ["cn", "theme-presets"]
+    },
+    {
+      "name": "theme-switcher",
+      "type": "registry:ui",
+      "title": "Theme Switcher",
+      "description": "Dropdown menu switcher for theme presets, grouped by industry. Only renders in preview mode (when theme is not locked).",
+      "files": [{ "path": "registry/components/navigation/theme-switcher.tsx", "type": "registry:component" }],
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["cn", "dropdown-menu", "theme-provider"]
+    },
+    {
+      "name": "font-presets",
+      "type": "registry:lib",
+      "title": "Font Presets",
+      "description": "Font-family based preset system with 7 starters (Montserrat, Inter, Space Grotesk, Playfair, Source Serif 4, EB Garamond, JetBrains Mono). Grouped by family (sans/serif/mono).",
+      "files": [
+        { "path": "registry/lib/fonts/index.ts", "type": "registry:lib" },
+        { "path": "registry/lib/fonts/presets/montserrat.json", "type": "registry:lib" },
+        { "path": "registry/lib/fonts/presets/inter.json", "type": "registry:lib" },
+        { "path": "registry/lib/fonts/presets/playfair-display.json", "type": "registry:lib" },
+        { "path": "registry/lib/fonts/presets/source-serif-4.json", "type": "registry:lib" },
+        { "path": "registry/lib/fonts/presets/space-grotesk.json", "type": "registry:lib" },
+        { "path": "registry/lib/fonts/presets/eb-garamond.json", "type": "registry:lib" },
+        { "path": "registry/lib/fonts/presets/jetbrains-mono.json", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "font-provider",
+      "type": "registry:ui",
+      "title": "Font Provider",
+      "description": "React context provider that applies a font preset by injecting --font-sans and --font-heading CSS custom properties on <html>. Supports preview mode (localStorage) and locked mode (fixed font).",
+      "files": [{ "path": "registry/components/ui/font-provider.tsx", "type": "registry:component" }],
+      "registryDependencies": ["cn", "font-presets"]
+    },
+    {
+      "name": "font-switcher",
+      "type": "registry:ui",
+      "title": "Font Switcher",
+      "description": "Dropdown menu switcher for font presets, grouped by family (Sans / Serif / Mono). Each item previews its own font. Only renders in preview mode.",
+      "files": [{ "path": "registry/components/navigation/font-switcher.tsx", "type": "registry:component" }],
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["cn", "dropdown-menu", "font-provider"]
     }
   ]
 }

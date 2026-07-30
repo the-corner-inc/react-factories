@@ -1,6 +1,6 @@
 # react-factories
 
-Reusable shadcn component registry for generating Next.js showcase websites. 36 props-driven, multilingual (fr/en/de/it) components, ready to use.
+Reusable shadcn component registry for generating Next.js showcase websites. 43 props-driven, multilingual (fr/en/de/it) components, ready to use.
 
 ## What is included
 
@@ -22,9 +22,9 @@ pnpm registry:pull
 
 The published `public/registry/registry.json` embeds all source file contents, so consumers can pull components without cloning this repo.
 
-## Components (36)
+## Components (43)
 
-### Libs (5)
+### Libs (7)
 
 | Name | Description |
 |------|-------------|
@@ -33,8 +33,10 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `i18n-engine` | getDictionary, t(), locale middleware (fr/en/de/it) |
 | `build-metadata` | Canonical, hreflang, Open Graph, Twitter cards |
 | `json-ld` | Organization, Breadcrumb, FAQ, Service schemas |
+| `theme-presets` | Industry + mood based theme preset system with 5 starter presets |
+| `font-presets` | Mood based font preset system with 3 starter presets (modern, editorial, epure) |
 
-### UI Primitives (17)
+### UI Primitives (19)
 
 | Name | Description |
 |------|-------------|
@@ -51,15 +53,19 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `dropdown-menu` | Radix dropdown menu |
 | `sheet` | Radix slide-out panel (drawer) |
 | `newsletter` | Email signup form |
-| `cookie-banner` | GA4 Consent Mode v2 with localStorage |
 | `language-switcher` | Language selector dropdown |
 | `manage-cookies-button` | Client-side button to reopen cookie banner |
-| `not-found-page` | Styled 404 page |
+| `theme-provider` | React context provider that applies a theme preset by injecting CSS custom properties |
+| `theme-switcher` | Dropdown menu switcher for theme presets with color swatches |
+| `font-provider` | React context provider that applies a font preset by injecting --font-sans and --font-heading CSS custom properties |
+| `font-switcher` | Dropdown menu switcher for font presets, grouped by mood |
 
-### Blocks (14)
+### Blocks (17)
 
 | Name | Description |
 |------|-------------|
+| `cookie-banner` | GA4 Consent Mode v2 with localStorage |
+| `consent-init` | Injects default-denied gtag consent script (beforeInteractive) |
 | `navbar` | Responsive, dropdowns, mobile Sheet menu, language switcher, CTA |
 | `footer` | Multi-column with brand, contact, socials, legal links |
 | `home-hero` | Full-viewport hero with image, gradient, CTA |
@@ -74,6 +80,7 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `pricing-table` | Dynamic pricing table |
 | `contact-info` | Contact details + hours + Google Maps embed |
 | `legal-page` | Prose layout for legal pages |
+| `not-found-page` | Styled 404 page |
 
 ## Design system
 
@@ -125,8 +132,10 @@ registry/              ← Distributed component library (stack-agnostic)
   lib/
     utils.ts        # cn()
     section-variants.ts  # Shared SectionVariant type
+    themes/         # Theme preset data (index.ts + presets/*.json)
+    fonts/          # Font preset data (index.ts + presets/*.json)
     seo/            # build-metadata, json-ld
-  registry.json     # Source manifest (37 items)
+  registry.json     # Source manifest (43 items)
 src/                  ← Next.js showroom app (not distributed)
   app/              # Demo pages (home, newsletter...)
   lib/i18n/         # Dictionaries (skipped by pull, project-specific)
