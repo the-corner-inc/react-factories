@@ -35,6 +35,7 @@ export interface NavbarProps {
   closeLabel?: string
   navLabel?: string
   mobileNavLabel?: string
+  controls?: React.ReactNode
 }
 
 export function Navbar({
@@ -51,6 +52,7 @@ export function Navbar({
   closeLabel = "Close",
   navLabel = "Main navigation",
   mobileNavLabel = "Mobile navigation",
+  controls,
 }: NavbarProps) {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
@@ -136,6 +138,8 @@ export function Navbar({
         </nav>
 
         <div className="flex items-center gap-2">
+          {controls}
+
           <LanguageSwitcher
             locale={locale}
             locales={locales}

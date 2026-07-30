@@ -1,0 +1,7 @@
+{
+  "id": "jetbrains-mono",
+  "label": "JetBrains Mono",
+  "family": "mono",
+  "fontSans": "var(--font-jetbrains-mono), \"JetBrains Mono\", ui-monospace, \"SF Mono\", \"Cascadia Code\", \"Source Code Pro\", Menlo, Consolas, monospace",
+  "fontHeading": "var(--font-jetbrains-mono), \"JetBrains Mono\", ui-monospace, \"SF Mono\", \"Cascadia Code\", \"Source Code Pro\", Menlo, Consolas, monospace"
+}

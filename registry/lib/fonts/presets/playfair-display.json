@@ -1,0 +1,7 @@
+{
+  "id": "playfair-display",
+  "label": "Playfair Display",
+  "family": "serif",
+  "fontSans": "var(--font-playfair), \"Playfair Display\", Georgia, \"Times New Roman\", serif",
+  "fontHeading": "var(--font-playfair), \"Playfair Display\", Georgia, \"Times New Roman\", serif"
+}

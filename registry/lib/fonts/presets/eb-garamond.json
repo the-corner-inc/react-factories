@@ -1,0 +1,7 @@
+{
+  "id": "eb-garamond",
+  "label": "EB Garamond",
+  "family": "serif",
+  "fontSans": "var(--font-eb-garamond), \"EB Garamond\", Georgia, \"Times New Roman\", serif",
+  "fontHeading": "var(--font-eb-garamond), \"EB Garamond\", Georgia, \"Times New Roman\", serif"
+}
