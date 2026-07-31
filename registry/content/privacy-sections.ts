@@ -45,7 +45,7 @@ export const PRIVACY_SECTIONS: Record<PrivacyLocale, PrivacySection[]> = {
     {
       title: "Vos droits",
       content:
-        "Vous disposez d'un droit d'accès, de modification, de suppression et de portabilité de vos données personnelles, ainsi que du droit de retirer votre consentement à tout moment. Pour exercer ces droits, veuillez nous contacter par email.",
+        "Vous disposez d'un droit d'accès, de modification, de suppression et de portabilité de vos données personnelles, ainsi que du droit de retirer votre consentement à tout moment. Pour exercer ces droits, veuillez nous contacter par email. Les données de navigation agrégées (Google Analytics) ne permettent pas d'identifier une personne individuelle.",
     },
   ],
   en: [
@@ -76,7 +76,7 @@ export const PRIVACY_SECTIONS: Record<PrivacyLocale, PrivacySection[]> = {
     {
       title: "Your rights",
       content:
-        "You have the right to access, modify, delete, and port your personal data, as well as the right to withdraw your consent at any time. To exercise these rights, please contact us by email.",
+        "You have the right to access, modify, delete, and port your personal data, as well as the right to withdraw your consent at any time. To exercise these rights, please contact us by email. Aggregated browsing data (Google Analytics) does not allow identifying an individual person.",
     },
   ],
   de: [
@@ -107,7 +107,7 @@ export const PRIVACY_SECTIONS: Record<PrivacyLocale, PrivacySection[]> = {
     {
       title: "Ihre Rechte",
       content:
-        "Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Übertragbarkeit Ihrer personenbezogenen Daten sowie das Recht, Ihre Einwilligung jederzeit zu widerrufen. Um diese Rechte auszuüben, kontaktieren Sie uns bitte per E-Mail.",
+        "Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Übertragbarkeit Ihrer personenbezogenen Daten sowie das Recht, Ihre Einwilligung jederzeit zu widerrufen. Um diese Rechte auszuüben, kontaktieren Sie uns bitte per E-Mail. Aggregierte Navigationsdaten (Google Analytics) erlauben keine Identifizierung einer einzelnen Person.",
     },
   ],
   it: [
@@ -138,7 +138,7 @@ export const PRIVACY_SECTIONS: Record<PrivacyLocale, PrivacySection[]> = {
     {
       title: "I vostri diritti",
       content:
-        "Avete diritto di accesso, modifica, cancellazione e portabilità dei vostri dati personali, nonché il diritto di revocare il vostro consenso in qualsiasi momento. Per esercitare questi diritti, contattateci via email.",
+        "Avete diritto di accesso, modifica, cancellazione e portabilità dei vostri dati personali, nonché il diritto di revocare il vostro consenso in qualsiasi momento. Per esercitare questi diritti, contattateci via email. I dati di navigazione aggregati (Google Analytics) non consentono di identificare una singola persona.",
     },
   ],
 }
