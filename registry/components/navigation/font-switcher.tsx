@@ -23,7 +23,7 @@ export interface FontSwitcherProps {
 
 const DEFAULT_ROLE_LABELS: Record<FontRole, string> = {
   heading: "Titres",
-  eyebrow: "Sous-titres",
+  eyebrow: "Eyebrow",
   body: "Texte",
 }
 
