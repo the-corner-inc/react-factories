@@ -385,6 +385,13 @@
       "files": [{ "path": "registry/components/navigation/font-switcher.tsx", "type": "registry:component" }],
       "dependencies": ["lucide-react"],
       "registryDependencies": ["cn", "dropdown-menu", "font-provider"]
+    },
+    {
+      "name": "privacy-content",
+      "type": "registry:lib",
+      "title": "Privacy Policy Content",
+      "description": "Reference legal content for the privacy policy page (Swiss nLPD/FADP), in fr/en/de/it. Source of truth for site dictionaries. Includes data controller, collected data, purposes, cookies/tracking, retention, rights.",
+      "files": [{ "path": "registry/content/privacy-sections.ts", "type": "registry:lib" }]
     }
   ]
 }
