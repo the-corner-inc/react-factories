@@ -40,6 +40,8 @@ export interface FooterOptions {
   variant?: "default" | "dark"
   accentColor?: "accent" | "primary" | "secondary" | "foreground"
   iconColor?: "accent" | "primary" | "secondary" | "foreground"
+  /** Grouped color overrides (preferred over accentColor/iconColor). */
+  colors?: FooterProps["colors"]
   className?: string
 }
 
@@ -54,17 +56,13 @@ const CORNER_ATTRIBUTION = {
  * Handles copyright placeholders ({year}, {name}, {rights}) and the
  * default The Corner Factory attribution.
  *
- * Footer title/icon color rule (see Footer accentColor prop):
- * - Dark background (variant="dark"): defaults to `text-accent`. Use
- *   `accentColor: "primary"` when the site primary is vivid/light
- *   (turquoise, orange, blue — e.g. osteoptimum, soleva, laveria).
- * - Light background (default): defaults to `text-primary` (brand color,
- *   always readable). Do NOT rely on `text-secondary` as a default: in
- *   shadcn-style presets, `--secondary` is a surface color (cards,
- *   buttons) that is nearly invisible on light backgrounds (medical,
- *   corporate, hospitality presets).
- * - Exception: if `--primary` is dark and matches the dark footer
- *   background (e.g. BBX brown #35322e), keep the default accent instead.
+ * Footer color recipes (see FooterProps):
+ * - Logo + dark footer: variant="dark", colors: { headings: "primary", icons: "primary" }
+ * - No logo + tagline: hideMonogram: true, colors: { brandName: "primary" },
+ *   className: "bg-secondary/60"
+ * - Light default: no colors needed — headings default to text-primary.
+ *   Never default to text-secondary: in shadcn presets, --secondary is a
+ *   surface color nearly invisible on light backgrounds.
  */
 export function getFooterProps(options: FooterOptions): FooterProps {
   const year = new Date().getFullYear()
@@ -88,6 +86,7 @@ export function getFooterProps(options: FooterOptions): FooterProps {
     variant = "default",
     accentColor,
     iconColor,
+    colors,
     className,
   } = options
 
@@ -109,6 +108,7 @@ export function getFooterProps(options: FooterOptions): FooterProps {
     variant,
     accentColor,
     iconColor,
+    colors,
     className,
   }
 }

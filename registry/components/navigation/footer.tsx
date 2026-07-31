@@ -22,8 +22,35 @@ export interface NewsletterProps {
   action?: string
 }
 
+/**
+ * Footer usage recipes:
+ *
+ * 1. Logo + dark footer (BBX, Soleva, Laveria, Osteoptimum)
+ *    brand.logo, variant="dark", colors: { headings: "primary", icons: "primary" }
+ *    (requires a --dark token in globals.css; keep "accent" default if
+ *    --primary is dark and would blend into the footer background)
+ *
+ * 2. No logo + tagline (Café des Promeneurs)
+ *    brand.name + tagline, hideMonogram: true,
+ *    colors: { brandName: "primary" }, className: "bg-secondary/60"
+ *
+ * 3. Light default (factory-template)
+ *    No colors required — headings default to text-primary (readable on
+ *    all theme presets). Do NOT default to text-secondary: in shadcn
+ *    presets, --secondary is a surface color nearly invisible on light
+ *    backgrounds (medical, corporate, hospitality).
+ */
 export interface FooterProps {
-  brand: { name: string; description: string; tagline?: string; logo?: string; initial?: string; hideMonogram?: boolean; brandColor?: "primary" | "foreground" }
+  brand: {
+    name: string
+    description: string
+    tagline?: string
+    logo?: string
+    initial?: string
+    hideMonogram?: boolean
+    /** @deprecated Use colors.brandName instead. */
+    brandColor?: "primary" | "foreground"
+  }
   columns: FooterColumn[]
   contact: {
     title?: string
@@ -44,8 +71,16 @@ export interface FooterProps {
   manageCookiesLabel?: string
   manageCookiesEvent?: string
   variant?: "default" | "dark"
+  /** Column headings color. */
   accentColor?: "accent" | "primary" | "secondary" | "foreground"
+  /** Contact icon color. */
   iconColor?: "accent" | "primary" | "secondary" | "foreground"
+  /** Grouped color overrides (preferred over accentColor/iconColor/brandColor). */
+  colors?: {
+    headings?: "accent" | "primary" | "secondary" | "foreground"
+    icons?: "accent" | "primary" | "secondary" | "foreground"
+    brandName?: "primary" | "foreground"
+  }
   className?: string
 }
 
@@ -62,6 +97,7 @@ export function Footer({
   variant = "default",
   accentColor,
   iconColor,
+  colors,
   className,
 }: FooterProps) {
   const dark = variant === "dark"
@@ -81,17 +117,20 @@ export function Footer({
             ? "text-accent"
             : "text-primary"
 
-  const accentClass = colorClass(accentColor)
+  const headingsColor = colors?.headings ?? accentColor
+  const iconsColor = colors?.icons ?? iconColor
+  const brandNameColor = colors?.brandName ?? brand.brandColor
+  const accentClass = colorClass(headingsColor)
 
   const brandName =
-    brand.brandColor === "primary"
+    brandNameColor === "primary"
       ? "text-primary"
       : dark
         ? "text-dark-foreground"
         : "text-foreground"
   const description = dark ? "text-dark-foreground/70" : "text-muted-foreground"
   const heading = accentClass
-  const icon = iconColor ? colorClass(iconColor) : accentClass
+  const icon = iconsColor ? colorClass(iconsColor) : accentClass
   const link = dark
     ? "text-dark-foreground/70 transition-colors hover:text-secondary"
     : "text-muted-foreground transition-colors hover:text-primary"
