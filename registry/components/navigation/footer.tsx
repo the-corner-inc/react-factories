@@ -56,10 +56,13 @@ export interface FooterProps {
     title?: string
     address?: string
     phone?: string
+    phoneLabel?: string
     email?: string
     mapsUrl?: string
     hours?: string
     hoursLabel?: string
+    /** Structured opening hours — days left, hours right, one row each. */
+    hoursRows?: { days: string; hours: string }[]
   }
   socials?: SocialLink[]
   legal: {
@@ -282,6 +285,14 @@ export function Footer({
                   >
                     <Phone className={cn("h-4 w-4 shrink-0", icon)} aria-hidden="true" />
                     {contact.phone}
+                    {contact.phoneLabel && (
+                      <>
+                        <span aria-hidden="true"> · </span>
+                        <span className="text-xs font-semibold uppercase text-primary">
+                          {contact.phoneLabel}
+                        </span>
+                      </>
+                    )}
                   </a>
                 </li>
               )}
