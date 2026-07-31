@@ -60,8 +60,6 @@ export interface FooterProps {
     mapsUrl?: string
     hours?: string
     hoursLabel?: string
-    /** Structured opening hours — days left, hours right, one row each. */
-    hoursRows?: { days: string; hours: string }[]
   }
   socials?: SocialLink[]
   legal: {
@@ -298,24 +296,7 @@ export function Footer({
                   </a>
                 </li>
               )}
-              {(contact.hoursRows && contact.hoursRows.length > 0) ? (
-                <li>
-                  <span className={cn("flex items-start gap-2 text-sm", description)}>
-                    <Clock className={cn("mt-0.5 h-4 w-4 shrink-0", icon)} aria-hidden="true" />
-                    <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                      {contact.hoursLabel && (
-                        <span className="font-medium">{contact.hoursLabel}</span>
-                      )}
-                      {contact.hoursRows.map((row, i) => (
-                        <span key={i} className="flex items-baseline justify-between gap-3">
-                          <span>{row.days}</span>
-                          <span>{row.hours}</span>
-                        </span>
-                      ))}
-                    </span>
-                  </span>
-                </li>
-              ) : (contact.hours || contact.hoursLabel) ? (
+              {(contact.hours || contact.hoursLabel) && (
                 <li>
                   <span className={cn("flex items-start gap-2 text-sm", description)}>
                     <Clock className={cn("mt-0.5 h-4 w-4 shrink-0", icon)} aria-hidden="true" />
@@ -328,7 +309,7 @@ export function Footer({
                     </span>
                   </span>
                 </li>
-              ) : null}
+              )}
             </ul>
           </div>
         </div>

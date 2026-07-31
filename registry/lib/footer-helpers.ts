@@ -25,7 +25,6 @@ export interface FooterOptions {
     mapsUrl?: string
     hours?: string
     hoursLabel?: string
-    hoursRows?: { days: string; hours: string }[]
   }
   socials?: FooterProps["socials"]
   /** Copyright text — {year}, {name}, {rights} placeholders are replaced. */
