@@ -42,9 +42,7 @@ export function LegalPage({
               <section key={section.title}>
                 <h2 className="mb-4 text-xl font-semibold text-foreground">{section.title}</h2>
                 <div className="prose prose-sm max-w-none text-muted-foreground">
-                  {section.content.split("\n\n").map((paragraph, i) => (
-                    <p key={i}>{paragraph}</p>
-                  ))}
+                  <p className="whitespace-pre-line">{section.content}</p>
                 </div>
               </section>
             ))}
