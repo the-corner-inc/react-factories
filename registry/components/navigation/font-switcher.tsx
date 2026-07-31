@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+import { type FontRole } from "@/lib/fonts"
 import { useFont } from "@/components/ui/font-provider"
 
 export interface FontSwitcherProps {
@@ -19,8 +20,10 @@ export interface FontSwitcherProps {
   className?: string
 }
 
-function capitalize(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1)
+const ROLE_LABELS: Record<FontRole, string> = {
+  heading: "Titres",
+  body: "Texte",
+  mono: "Mono",
 }
 
 export function FontSwitcher({
@@ -28,7 +31,7 @@ export function FontSwitcher({
   ariaLabel = "Font",
   className,
 }: FontSwitcherProps) {
-  const { isLocked, fontId, setFont, groupedFonts } = useFont()
+  const { isLocked, config, setRoleFont, allFonts } = useFont()
 
   if (isLocked) return null
 
@@ -44,24 +47,25 @@ export function FontSwitcher({
         <Type className="h-4 w-4" aria-hidden="true" />
         {label && <span>{label}</span>}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-52">
-        {Object.entries(groupedFonts).map(([family, fonts]) => (
-          <DropdownMenuSub key={family}>
-            <DropdownMenuSubTrigger>
-              {capitalize(family)}
+      <DropdownMenuContent align="end" className="w-56">
+        {(Object.keys(ROLE_LABELS) as FontRole[]).map((role) => (
+          <DropdownMenuSub key={role}>
+            <DropdownMenuSubTrigger className="justify-between">
+              {ROLE_LABELS[role]}
+              <span className="text-xs font-normal text-muted-foreground">
+                {allFonts.find((f) => f.id === config[role])?.label ?? ""}
+              </span>
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent className="w-44">
-              {fonts.map((font) => (
+              {allFonts.map((font) => (
                 <DropdownMenuItem
                   key={font.id}
                   className="justify-between"
-                  onClick={() => setFont(font.id)}
+                  onClick={() => setRoleFont(role, font.id)}
                 >
-                  <span style={{ fontFamily: font.fontHeading }}>
-                    {font.label}
-                  </span>
-                  {font.id === fontId && (
-                    <Check className="h-4 w-4 text-primary shrink-0" aria-hidden="true" />
+                  <span style={{ fontFamily: font.cssVar }}>{font.label}</span>
+                  {font.id === config[role] && (
+                    <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                   )}
                 </DropdownMenuItem>
               ))}

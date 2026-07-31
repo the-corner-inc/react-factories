@@ -2,17 +2,19 @@
 
 import * as React from "react"
 import {
+  type FontConfig,
   type FontPreset,
+  type FontRole,
   fonts as allFonts,
-  defaultFontId,
   getFont,
   groupByFamily,
+  resolveConfig,
 } from "@/lib/fonts"
 
 interface FontContextValue {
-  font: FontPreset
-  fontId: string
-  setFont: (id: string) => void
+  config: FontConfig
+  getRoleFont: (role: FontRole) => FontPreset
+  setRoleFont: (role: FontRole, id: string) => void
   isLocked: boolean
   allFonts: FontPreset[]
   groupedFonts: Record<string, FontPreset[]>
@@ -22,26 +24,30 @@ const FontContext = React.createContext<FontContextValue | null>(null)
 
 export interface FontProviderProps {
   children: React.ReactNode
-  defaultFont?: string
+  defaultConfig?: Partial<FontConfig>
   locked?: boolean
   storageKey?: string
 }
 
 export function FontProvider({
   children,
-  defaultFont = defaultFontId,
+  defaultConfig,
   locked = false,
-  storageKey = "font-preset",
+  storageKey = "font-config",
 }: FontProviderProps) {
-  const [fontId, setFontId] = React.useState(defaultFont)
+  const [config, setConfig] = React.useState<FontConfig>(() =>
+    resolveConfig(defaultConfig ?? {}),
+  )
 
   React.useEffect(() => {
     if (locked) return
     try {
       const saved = localStorage.getItem(storageKey)
-      if (saved && getFont(saved)) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync from localStorage on mount
-        setFontId(saved)
+      if (saved) {
+        const parsed = JSON.parse(saved) as Partial<FontConfig>
+        if (parsed && typeof parsed === "object") {
+          setConfig(resolveConfig(parsed))
+        }
       }
     } catch {
       // ignore storage errors (private mode, etc.)
@@ -49,18 +55,21 @@ export function FontProvider({
   }, [locked, storageKey])
 
   React.useEffect(() => {
-    const font = getFont(fontId) ?? getFont(defaultFont)
-    if (!font) return
+    const heading = getFont(config.heading)
+    const body = getFont(config.body)
+    const mono = getFont(config.mono)
+    if (!heading || !body || !mono) return
 
-    const id = "font-preset-style"
+    const id = "font-config-style"
     const existing = document.getElementById(id)
     if (existing) existing.remove()
 
     const style = document.createElement("style")
     style.id = id
     style.textContent = [
-      `body,.font-sans{font-family:${font.fontSans}!important}`,
-      `.font-heading,h1,h2,h3,h4,h5,h6{font-family:${font.fontHeading}!important}`,
+      `body,.font-sans{font-family:${body.cssVar}!important}`,
+      `.font-heading,h1,h2,h3,h4,h5,h6{font-family:${heading.cssVar}!important}`,
+      `.font-mono,code,pre,kbd{font-family:${mono.cssVar}!important}`,
     ].join("")
     document.head.appendChild(style)
 
@@ -68,33 +77,35 @@ export function FontProvider({
       const el = document.getElementById(id)
       if (el) el.remove()
     }
-  }, [fontId, defaultFont])
+  }, [config])
 
-  const setFont = React.useCallback(
-    (id: string) => {
+  const setRoleFont = React.useCallback(
+    (role: FontRole, id: string) => {
       if (locked) return
       if (!getFont(id)) return
-      setFontId(id)
-      try {
-        localStorage.setItem(storageKey, id)
-      } catch {
-        // ignore storage errors
-      }
+      setConfig((prev) => {
+        const next = { ...prev, [role]: id }
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(next))
+        } catch {
+          // ignore storage errors
+        }
+        return next
+      })
     },
     [locked, storageKey],
   )
 
-  const font = getFont(fontId) ?? getFont(defaultFont) ?? allFonts[0]
   const value = React.useMemo<FontContextValue>(
     () => ({
-      font,
-      fontId: font.id,
-      setFont,
+      config,
+      getRoleFont: (role) => getFont(config[role]) ?? allFonts[0],
+      setRoleFont,
       isLocked: locked,
       allFonts,
       groupedFonts: groupByFamily(),
     }),
-    [font, setFont, locked],
+    [config, setRoleFont, locked],
   )
 
   return <FontContext.Provider value={value}>{children}</FontContext.Provider>
