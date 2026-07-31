@@ -4,18 +4,18 @@
   "industry": "fantasy",
   "mood": "quest",
   "tokens": {
-    "--background": "#f1e6cf",
-    "--foreground": "#2b2116",
-    "--primary": "#a67c00",
-    "--primary-foreground": "#fff8e7",
-    "--secondary": "#6e4f28",
+    "--background": "#f0e8d5",
+    "--foreground": "#2f2719",
+    "--primary": "#8a5a2b",
+    "--primary-foreground": "#f7f0df",
+    "--secondary": "#6b4a26",
     "--secondary-foreground": "#f5ead2",
-    "--accent": "#5c7a99",
+    "--accent": "#7a7f6e",
     "--accent-foreground": "#f5ead2",
-    "--muted": "#e2d5b8",
-    "--muted-foreground": "#6b5d47",
-    "--border": "#c4b28d",
-    "--ring": "#a67c00",
+    "--muted": "#e3d9c0",
+    "--muted-foreground": "#6f6350",
+    "--border": "#c9b895",
+    "--ring": "#8a5a2b",
     "--dark-foreground": "#f5ead2"
   }
 }
