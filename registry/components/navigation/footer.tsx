@@ -23,7 +23,7 @@ export interface NewsletterProps {
 }
 
 export interface FooterProps {
-  brand: { name: string; description: string; tagline?: string; logo?: string; initial?: string; hideMonogram?: boolean }
+  brand: { name: string; description: string; tagline?: string; logo?: string; initial?: string; hideMonogram?: boolean; brandColor?: "primary" | "foreground" }
   columns: FooterColumn[]
   contact: {
     title?: string
@@ -83,7 +83,12 @@ export function Footer({
 
   const accentClass = colorClass(accentColor)
 
-  const brandName = dark ? "text-dark-foreground" : "text-foreground"
+  const brandName =
+    brand.brandColor === "primary"
+      ? "text-primary"
+      : dark
+        ? "text-dark-foreground"
+        : "text-foreground"
   const description = dark ? "text-dark-foreground/70" : "text-muted-foreground"
   const heading = accentClass
   const icon = iconColor ? colorClass(iconColor) : accentClass
