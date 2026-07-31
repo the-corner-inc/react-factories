@@ -89,9 +89,9 @@ export function Footer({
   return (
     <footer className={cn(root, className)}>
       <div className="container-premium py-16 md:py-20">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-10 lg:grid-cols-4">
           {/* Brand column */}
-          <div className="space-y-4">
+          <div className="col-span-2 space-y-4 lg:col-span-1">
             <div className="flex items-center gap-2">
               {brand.logo ? (
                 <Image
