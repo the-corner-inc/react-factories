@@ -10,6 +10,8 @@ import cinzelDecorative from "./presets/cinzel-decorative.json"
 import medievalsharp from "./presets/medievalsharp.json"
 import pirataOne from "./presets/pirata-one.json"
 import imFellEnglish from "./presets/im-fell-english.json"
+import lifeCraft from "./presets/lifecraft.json"
+import morpheus from "./presets/morpheus.json"
 
 export type FontRole = "heading" | "eyebrow" | "body"
 
@@ -45,6 +47,8 @@ export const fonts: FontPreset[] = [
   medievalsharp as FontPreset,
   pirataOne as FontPreset,
   imFellEnglish as FontPreset,
+  lifeCraft as FontPreset,
+  morpheus as FontPreset,
 ]
 
 export function getFont(id: string): FontPreset | undefined {
