@@ -7,6 +7,7 @@ import medieval from "./presets/medieval.json"
 import houseOfTheDragon from "./presets/house-of-the-dragon.json"
 import worldOfWarcraft from "./presets/world-of-warcraft.json"
 import banners from "./presets/banners.json"
+import bannersDark from "./presets/banners-dark.json"
 
 export type ThemeTokenKey =
   | "--background"
@@ -45,6 +46,7 @@ export const presets: ThemePreset[] = [
   houseOfTheDragon as ThemePreset,
   worldOfWarcraft as ThemePreset,
   banners as ThemePreset,
+  bannersDark as ThemePreset,
 ]
 
 export function getPreset(id: string): ThemePreset | undefined {
