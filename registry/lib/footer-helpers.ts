@@ -37,6 +37,7 @@ export interface FooterOptions {
   manageCookiesEvent?: string
   variant?: "default" | "dark"
   accentColor?: "accent" | "primary" | "secondary" | "foreground"
+  iconColor?: "accent" | "primary" | "secondary" | "foreground"
   className?: string
 }
 
@@ -83,6 +84,7 @@ export function getFooterProps(options: FooterOptions): FooterProps {
     manageCookiesEvent = "manage-cookies",
     variant = "default",
     accentColor,
+    iconColor,
     className,
   } = options
 
@@ -103,6 +105,7 @@ export function getFooterProps(options: FooterOptions): FooterProps {
     manageCookiesEvent,
     variant,
     accentColor,
+    iconColor,
     className,
   }
 }

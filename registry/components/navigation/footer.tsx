@@ -45,6 +45,7 @@ export interface FooterProps {
   manageCookiesEvent?: string
   variant?: "default" | "dark"
   accentColor?: "accent" | "primary" | "secondary" | "foreground"
+  iconColor?: "accent" | "primary" | "secondary" | "foreground"
   className?: string
 }
 
@@ -60,6 +61,7 @@ export function Footer({
   manageCookiesEvent = "manage-cookies",
   variant = "default",
   accentColor,
+  iconColor,
   className,
 }: FooterProps) {
   const dark = variant === "dark"
@@ -68,21 +70,23 @@ export function Footer({
     ? "bg-dark text-dark-foreground"
     : "border-t border-border bg-muted/50"
 
-  const accentClass =
-    accentColor === "primary"
+  const colorClass = (color: "accent" | "primary" | "secondary" | "foreground" | undefined) =>
+    color === "primary"
       ? "text-primary"
-      : accentColor === "secondary"
+      : color === "secondary"
         ? "text-secondary"
-        : accentColor === "foreground"
+        : color === "foreground"
           ? "text-foreground"
           : dark
             ? "text-accent"
             : "text-primary"
 
+  const accentClass = colorClass(accentColor)
+
   const brandName = dark ? "text-dark-foreground" : "text-foreground"
   const description = dark ? "text-dark-foreground/70" : "text-muted-foreground"
   const heading = accentClass
-  const icon = accentClass
+  const icon = iconColor ? colorClass(iconColor) : accentClass
   const link = dark
     ? "text-dark-foreground/70 transition-colors hover:text-secondary"
     : "text-muted-foreground transition-colors hover:text-primary"
