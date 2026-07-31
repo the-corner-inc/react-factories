@@ -8,15 +8,28 @@
       "type": "registry:lib",
       "title": "cn Utility",
       "description": "Class name utility combining clsx and tailwind-merge.",
-      "files": [{ "path": "registry/lib/utils.ts", "type": "registry:lib" }],
-      "dependencies": ["clsx", "tailwind-merge"]
+      "files": [
+        {
+          "path": "registry/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ]
     },
     {
       "name": "section-variants",
       "type": "registry:lib",
       "title": "Section Variants",
       "description": "Shared SectionVariant type and color map for theming section backgrounds, text, cards, and icons.",
-      "files": [{ "path": "registry/lib/section-variants.ts", "type": "registry:lib" }]
+      "files": [
+        {
+          "path": "registry/lib/section-variants.ts",
+          "type": "registry:lib"
+        }
+      ]
     },
     {
       "name": "i18n-engine",
@@ -24,132 +37,270 @@
       "title": "i18n Engine",
       "description": "Internationalization engine with getDictionary, t() dot-notation resolver, and locale middleware. Supports fr/en/de/it.",
       "files": [
-        { "path": "src/lib/i18n/config.ts", "type": "registry:lib" },
-        { "path": "src/lib/i18n/index.ts", "type": "registry:lib" },
-        { "path": "src/lib/i18n/fr.json", "type": "registry:lib" },
-        { "path": "src/lib/i18n/en.json", "type": "registry:lib" },
-        { "path": "src/lib/i18n/de.json", "type": "registry:lib" },
-        { "path": "src/lib/i18n/it.json", "type": "registry:lib" },
-        { "path": "src/middleware.ts", "type": "registry:lib" }
+        {
+          "path": "src/lib/i18n/config.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/i18n/index.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/i18n/fr.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/i18n/en.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/i18n/de.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/i18n/it.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/middleware.ts",
+          "type": "registry:lib"
+        }
       ],
-      "dependencies": ["server-only", "next"]
+      "dependencies": [
+        "server-only",
+        "next"
+      ]
     },
     {
       "name": "build-metadata",
       "type": "registry:lib",
       "title": "Build Metadata",
       "description": "SEO metadata builder with canonical, hreflang, Open Graph, and Twitter card support.",
-      "files": [{ "path": "registry/lib/seo/build-metadata.ts", "type": "registry:lib" }],
-      "dependencies": ["next"],
-      "registryDependencies": ["i18n-engine"]
+      "files": [
+        {
+          "path": "registry/lib/seo/build-metadata.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ],
+      "registryDependencies": [
+        "i18n-engine"
+      ]
     },
     {
       "name": "json-ld",
       "type": "registry:lib",
       "title": "JSON-LD Schemas",
       "description": "Structured data helpers for Organization, Breadcrumb, FAQ, and Service schemas.",
-      "files": [{ "path": "registry/lib/seo/json-ld.tsx", "type": "registry:lib" }]
+      "files": [
+        {
+          "path": "registry/lib/seo/json-ld.tsx",
+          "type": "registry:lib"
+        }
+      ]
     },
     {
       "name": "social-icons",
       "type": "registry:ui",
       "title": "Social Icons",
       "description": "Inline SVG icons for Instagram, Facebook, LinkedIn, and YouTube.",
-      "files": [{ "path": "registry/components/ui/social-icons.tsx", "type": "registry:component" }]
+      "files": [
+        {
+          "path": "registry/components/ui/social-icons.tsx",
+          "type": "registry:component"
+        }
+      ]
     },
     {
       "name": "animations",
       "type": "registry:ui",
       "title": "Animations",
       "description": "Scroll-triggered animation wrappers: FadeUp, FadeIn, ScaleIn, StaggerContainer, HeroAnimation, ImageReveal.",
-      "files": [{ "path": "registry/components/ui/animations.tsx", "type": "registry:component" }],
-      "dependencies": ["motion"]
+      "files": [
+        {
+          "path": "registry/components/ui/animations.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ]
     },
     {
       "name": "reveal",
       "type": "registry:ui",
       "title": "Reveal",
       "description": "Lightweight scroll-reveal wrapper with configurable fade-up animation.",
-      "files": [{ "path": "registry/components/ui/reveal.tsx", "type": "registry:component" }],
-      "dependencies": ["motion"]
+      "files": [
+        {
+          "path": "registry/components/ui/reveal.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ]
     },
     {
       "name": "share-button",
       "type": "registry:ui",
       "title": "Share Button",
       "description": "Web Share API button with clipboard fallback.",
-      "files": [{ "path": "registry/components/ui/share-button.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react"]
+      "files": [
+        {
+          "path": "registry/components/ui/share-button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "back-to-top",
       "type": "registry:ui",
       "title": "Back to Top",
       "description": "Scroll-to-top floating button that appears after scrolling.",
-      "files": [{ "path": "registry/components/ui/back-to-top.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react"]
+      "files": [
+        {
+          "path": "registry/components/ui/back-to-top.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ]
     },
     {
       "name": "section-heading",
       "type": "registry:ui",
       "title": "Section Heading",
       "description": "Reusable section heading with eyebrow label, title, subtitle, alignment, and color variant support.",
-      "files": [{ "path": "registry/components/ui/section-heading.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/ui/section-heading.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-variants"
+      ]
     },
     {
       "name": "image-with-fallback",
       "type": "registry:ui",
       "title": "Image with Fallback",
       "description": "next/image wrapper with error fallback placeholder, quality control, and accessibility.",
-      "files": [{ "path": "registry/components/ui/image-with-fallback.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "next"],
-      "registryDependencies": ["cn"]
+      "files": [
+        {
+          "path": "registry/components/ui/image-with-fallback.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "lightbox",
       "type": "registry:ui",
       "title": "Lightbox",
       "description": "Click-to-enlarge image overlay with Escape and click-outside dismiss.",
-      "files": [{ "path": "registry/components/ui/lightbox.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "next"],
-      "registryDependencies": ["cn"]
+      "files": [
+        {
+          "path": "registry/components/ui/lightbox.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "cta-button",
       "type": "registry:ui",
       "title": "CTA Button",
       "description": "Call-to-action button with CtaLink (internal) and CtaExternal (new tab) variants in 4 styles.",
-      "files": [{ "path": "registry/components/ui/cta-button.tsx", "type": "registry:component" }],
-      "dependencies": ["next"],
-      "registryDependencies": ["cn"]
+      "files": [
+        {
+          "path": "registry/components/ui/cta-button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "breadcrumb",
       "type": "registry:ui",
       "title": "Breadcrumb",
       "description": "Semantic breadcrumb navigation with accessible markup.",
-      "files": [{ "path": "registry/components/ui/breadcrumb.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "next"],
-      "registryDependencies": ["cn"]
+      "files": [
+        {
+          "path": "registry/components/ui/breadcrumb.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "Radix-based dropdown menu with support for items, checkboxes, radio groups, and submenus.",
-      "files": [{ "path": "registry/components/ui/dropdown-menu.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "radix-ui"],
-      "registryDependencies": ["cn"]
+      "files": [
+        {
+          "path": "registry/components/ui/dropdown-menu.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "sheet",
       "type": "registry:ui",
       "title": "Sheet",
       "description": "Slide-out panel (drawer) built on Radix Dialog with top/right/bottom/left variants.",
-      "files": [{ "path": "registry/components/ui/sheet.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "radix-ui"],
-      "registryDependencies": ["cn"]
+      "files": [
+        {
+          "path": "registry/components/ui/sheet.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "newsletter",
@@ -157,170 +308,363 @@
       "title": "Newsletter",
       "description": "Reusable newsletter signup form with accessible states and async submit support.",
       "files": [
-        { "path": "registry/components/forms/newsletter.tsx", "type": "registry:component" },
-        { "path": "registry/components/forms/newsletter-example.tsx", "type": "registry:example" }
+        {
+          "path": "registry/components/forms/newsletter.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/components/forms/newsletter-example.tsx",
+          "type": "registry:example"
+        }
       ],
-      "registryDependencies": ["cn"]
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "cookie-banner",
       "type": "registry:block",
       "title": "Cookie Banner",
       "description": "GA4 consent mode cookie banner with localStorage persistence and accept/decline.",
-      "files": [{ "path": "registry/components/layouts/cookie-banner.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn"]
+      "files": [
+        {
+          "path": "registry/components/layouts/cookie-banner.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "consent-init",
       "type": "registry:block",
       "title": "Consent Init",
       "description": "Next.js Script component that sets GA4 consent defaults (denied) before hydration.",
-      "files": [{ "path": "registry/components/layouts/consent-init.tsx", "type": "registry:component" }],
-      "dependencies": ["next"]
+      "files": [
+        {
+          "path": "registry/components/layouts/consent-init.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ]
     },
     {
       "name": "language-switcher",
       "type": "registry:ui",
       "title": "Language Switcher",
       "description": "Locale dropdown switcher for i18n navigation.",
-      "files": [{ "path": "registry/components/navigation/language-switcher.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "next"],
-      "registryDependencies": ["cn", "dropdown-menu"]
+      "files": [
+        {
+          "path": "registry/components/navigation/language-switcher.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "dropdown-menu"
+      ]
     },
     {
       "name": "navbar",
       "type": "registry:block",
       "title": "Navbar",
       "description": "Responsive navbar with dropdown submenus, mobile sheet menu, language switcher, and CTA button.",
-      "files": [{ "path": "registry/components/navigation/navbar.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "next"],
-      "registryDependencies": ["cn", "cta-button", "language-switcher", "dropdown-menu", "sheet"]
+      "files": [
+        {
+          "path": "registry/components/navigation/navbar.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "cta-button",
+        "language-switcher",
+        "dropdown-menu",
+        "sheet"
+      ]
     },
     {
       "name": "manage-cookies-button",
       "type": "registry:ui",
       "title": "Manage Cookies Button",
       "description": "Client-side button that dispatches a manage-cookies event for the cookie banner.",
-      "files": [{ "path": "registry/components/navigation/manage-cookies-button.tsx", "type": "registry:component" }]
+      "files": [
+        {
+          "path": "registry/components/navigation/manage-cookies-button.tsx",
+          "type": "registry:component"
+        }
+      ]
     },
     {
       "name": "footer",
       "type": "registry:block",
       "title": "Footer",
       "description": "Multi-column footer with brand, navigation columns, contact info, social icons, and legal links.",
-      "files": [{ "path": "registry/components/navigation/footer.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "next"],
-      "registryDependencies": ["cn", "social-icons", "manage-cookies-button"]
+      "files": [
+        {
+          "path": "registry/components/navigation/footer.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "social-icons",
+        "manage-cookies-button"
+      ]
     },
     {
       "name": "home-hero",
       "type": "registry:block",
       "title": "Home Hero",
       "description": "Full-viewport hero section with background image, gradient overlay, and CTA buttons.",
-      "files": [{ "path": "registry/components/sections/home-hero.tsx", "type": "registry:component" }],
-      "dependencies": ["next"],
-      "registryDependencies": ["cn", "cta-button", "animations"]
+      "files": [
+        {
+          "path": "registry/components/sections/home-hero.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "cta-button",
+        "animations"
+      ]
     },
     {
       "name": "page-hero",
       "type": "registry:block",
       "title": "Page Hero",
       "description": "Inner page hero with optional background image and integrated breadcrumb.",
-      "files": [{ "path": "registry/components/sections/page-hero.tsx", "type": "registry:component" }],
-      "dependencies": ["next"],
-      "registryDependencies": ["cn", "breadcrumb"]
+      "files": [
+        {
+          "path": "registry/components/sections/page-hero.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "breadcrumb"
+      ]
     },
     {
       "name": "cta-band",
       "type": "registry:block",
       "title": "CTA Band",
       "description": "Full-width call-to-action banner with title, description, button, and color variant.",
-      "files": [{ "path": "registry/components/sections/cta-band.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "cta-button", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/sections/cta-band.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "cta-button",
+        "section-variants"
+      ]
     },
     {
       "name": "trust-section",
       "type": "registry:block",
       "title": "Trust Section",
       "description": "Social proof section with icon grid for expertise, responsiveness, and quality badges.",
-      "files": [{ "path": "registry/components/sections/trust-section.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["cn", "section-heading", "reveal", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/sections/trust-section.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "reveal",
+        "section-variants"
+      ]
     },
     {
       "name": "service-card",
       "type": "registry:block",
       "title": "Service Card",
       "description": "Service card with image banner, floating icon, hover effect, and link.",
-      "files": [{ "path": "registry/components/sections/service-card.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react", "next"],
-      "registryDependencies": ["cn", "image-with-fallback"]
+      "files": [
+        {
+          "path": "registry/components/sections/service-card.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "next"
+      ],
+      "registryDependencies": [
+        "cn",
+        "image-with-fallback"
+      ]
     },
     {
       "name": "services-grid",
       "type": "registry:block",
       "title": "Services Grid",
       "description": "Responsive grid of service cards with section heading and color variant.",
-      "files": [{ "path": "registry/components/sections/services-grid.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "service-card", "section-heading", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/sections/services-grid.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "service-card",
+        "section-heading",
+        "section-variants"
+      ]
     },
     {
       "name": "faq-list",
       "type": "registry:block",
       "title": "FAQ List",
       "description": "Accordion FAQ section with optional category filter tabs and color variant.",
-      "files": [{ "path": "registry/components/sections/faq-list.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "section-heading", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/sections/faq-list.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "section-variants"
+      ]
     },
     {
       "name": "testimonials",
       "type": "registry:block",
       "title": "Testimonials",
       "description": "Social proof section displaying client testimonials with color variant.",
-      "files": [{ "path": "registry/components/sections/testimonials.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["cn", "section-heading", "reveal", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/sections/testimonials.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "reveal",
+        "section-variants"
+      ]
     },
     {
       "name": "method-steps",
       "type": "registry:block",
       "title": "Method Steps",
       "description": "Multi-step process visualization with numbered steps, descriptions, and color variant.",
-      "files": [{ "path": "registry/components/sections/method-steps.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "section-heading", "reveal", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/sections/method-steps.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "reveal",
+        "section-variants"
+      ]
     },
     {
       "name": "pricing-table",
       "type": "registry:block",
       "title": "Pricing Table",
       "description": "Service pricing table with name, duration, price, description, and color variant.",
-      "files": [{ "path": "registry/components/sections/pricing-table.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "section-heading", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/sections/pricing-table.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "section-heading",
+        "section-variants"
+      ]
     },
     {
       "name": "contact-info",
       "type": "registry:block",
       "title": "Contact Info",
       "description": "Contact information section with address, phone, email, hours, map, and color variant.",
-      "files": [{ "path": "registry/components/sections/contact-info.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["cn", "social-icons", "section-variants"]
+      "files": [
+        {
+          "path": "registry/components/sections/contact-info.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "social-icons",
+        "section-variants"
+      ]
     },
     {
       "name": "legal-page",
       "type": "registry:block",
       "title": "Legal Page",
       "description": "Prose layout for legal pages (CGV, mentions légales, confidentialité).",
-      "files": [{ "path": "registry/components/sections/legal-page.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn"]
+      "files": [
+        {
+          "path": "registry/components/sections/legal-page.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
     },
     {
       "name": "not-found-page",
       "type": "registry:block",
       "title": "404 Page",
       "description": "Styled 404 page with business-themed messaging and CTA button.",
-      "files": [{ "path": "registry/components/layouts/not-found-page.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "cta-button"]
+      "files": [
+        {
+          "path": "registry/components/layouts/not-found-page.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "cta-button"
+      ]
     },
     {
       "name": "theme-presets",
@@ -328,12 +672,30 @@
       "title": "Theme Presets",
       "description": "Industry + mood based theme preset system with 5 starter presets (example-colors, sage-clinic, swiss-corporate, alpine-table, solar-libre).",
       "files": [
-        { "path": "registry/lib/themes/index.ts", "type": "registry:lib" },
-        { "path": "registry/lib/themes/presets/example-colors.json", "type": "registry:lib" },
-        { "path": "registry/lib/themes/presets/sage-clinic.json", "type": "registry:lib" },
-        { "path": "registry/lib/themes/presets/swiss-corporate.json", "type": "registry:lib" },
-        { "path": "registry/lib/themes/presets/alpine-table.json", "type": "registry:lib" },
-        { "path": "registry/lib/themes/presets/solar-libre.json", "type": "registry:lib" }
+        {
+          "path": "registry/lib/themes/index.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/themes/presets/example-colors.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/themes/presets/sage-clinic.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/themes/presets/swiss-corporate.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/themes/presets/alpine-table.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/themes/presets/solar-libre.json",
+          "type": "registry:lib"
+        }
       ]
     },
     {
@@ -341,17 +703,36 @@
       "type": "registry:ui",
       "title": "Theme Provider",
       "description": "React context provider that applies a theme preset by injecting CSS custom properties on <html>. Supports preview mode (localStorage) and locked mode (fixed theme).",
-      "files": [{ "path": "registry/components/ui/theme-provider.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "theme-presets"]
+      "files": [
+        {
+          "path": "registry/components/ui/theme-provider.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "theme-presets"
+      ]
     },
     {
       "name": "theme-switcher",
       "type": "registry:ui",
       "title": "Theme Switcher",
       "description": "Dropdown menu switcher for theme presets, grouped by industry. Only renders in preview mode (when theme is not locked).",
-      "files": [{ "path": "registry/components/navigation/theme-switcher.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["cn", "dropdown-menu", "theme-provider"]
+      "files": [
+        {
+          "path": "registry/components/navigation/theme-switcher.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "dropdown-menu",
+        "theme-provider"
+      ]
     },
     {
       "name": "font-presets",
@@ -359,14 +740,38 @@
       "title": "Font Presets",
       "description": "Font-family based preset system with 7 starters (Montserrat, Inter, Space Grotesk, Playfair, Source Serif 4, EB Garamond, JetBrains Mono). Grouped by family (sans/serif/mono).",
       "files": [
-        { "path": "registry/lib/fonts/index.ts", "type": "registry:lib" },
-        { "path": "registry/lib/fonts/presets/montserrat.json", "type": "registry:lib" },
-        { "path": "registry/lib/fonts/presets/inter.json", "type": "registry:lib" },
-        { "path": "registry/lib/fonts/presets/playfair-display.json", "type": "registry:lib" },
-        { "path": "registry/lib/fonts/presets/source-serif-4.json", "type": "registry:lib" },
-        { "path": "registry/lib/fonts/presets/space-grotesk.json", "type": "registry:lib" },
-        { "path": "registry/lib/fonts/presets/eb-garamond.json", "type": "registry:lib" },
-        { "path": "registry/lib/fonts/presets/jetbrains-mono.json", "type": "registry:lib" }
+        {
+          "path": "registry/lib/fonts/index.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/fonts/presets/montserrat.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/fonts/presets/inter.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/fonts/presets/playfair-display.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/fonts/presets/source-serif-4.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/fonts/presets/space-grotesk.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/fonts/presets/eb-garamond.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/fonts/presets/jetbrains-mono.json",
+          "type": "registry:lib"
+        }
       ]
     },
     {
@@ -374,24 +779,63 @@
       "type": "registry:ui",
       "title": "Font Provider",
       "description": "React context provider that applies a font preset by injecting --font-sans and --font-heading CSS custom properties on <html>. Supports preview mode (localStorage) and locked mode (fixed font).",
-      "files": [{ "path": "registry/components/ui/font-provider.tsx", "type": "registry:component" }],
-      "registryDependencies": ["cn", "font-presets"]
+      "files": [
+        {
+          "path": "registry/components/ui/font-provider.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "font-presets"
+      ]
     },
     {
       "name": "font-switcher",
       "type": "registry:ui",
       "title": "Font Switcher",
       "description": "Dropdown menu switcher for font presets, grouped by family (Sans / Serif / Mono). Each item previews its own font. Only renders in preview mode.",
-      "files": [{ "path": "registry/components/navigation/font-switcher.tsx", "type": "registry:component" }],
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["cn", "dropdown-menu", "font-provider"]
+      "files": [
+        {
+          "path": "registry/components/navigation/font-switcher.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "dropdown-menu",
+        "font-provider"
+      ]
     },
     {
       "name": "privacy-content",
       "type": "registry:lib",
       "title": "Privacy Policy Content",
       "description": "Reference legal content for the privacy policy page (Swiss nLPD/FADP), in fr/en/de/it. Source of truth for site dictionaries. Includes data controller, collected data, purposes, cookies/tracking, retention, rights.",
-      "files": [{ "path": "registry/content/privacy-sections.ts", "type": "registry:lib" }]
+      "files": [
+        {
+          "path": "registry/content/privacy-sections.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "footer-helpers",
+      "type": "registry:lib",
+      "title": "Footer Helpers",
+      "description": "getFooterProps() — builds Footer props from site data with copyright placeholders and default The Corner attribution.",
+      "files": [
+        {
+          "path": "registry/lib/footer-helpers.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "registryDependencies": [
+        "footer"
+      ]
     }
   ]
 }
