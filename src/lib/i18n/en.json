@@ -1,12 +1,33 @@
 {
   "meta": {
-    "home": { "title": "Home | Site Name", "description": "Home page description." },
-    "about": { "title": "About | Site Name", "description": "About page description." },
-    "services": { "title": "Services | Site Name", "description": "Services description." },
-    "pricing": { "title": "Pricing | Site Name", "description": "View our pricing." },
-    "contact": { "title": "Contact | Site Name", "description": "Get in touch." },
-    "faq": { "title": "FAQ | Site Name", "description": "Frequently asked questions." },
-    "book": { "title": "Book | Site Name", "description": "Book an appointment." }
+    "home": {
+      "title": "Home | Site Name",
+      "description": "Home page description."
+    },
+    "about": {
+      "title": "About | Site Name",
+      "description": "About page description."
+    },
+    "services": {
+      "title": "Services | Site Name",
+      "description": "Services description."
+    },
+    "pricing": {
+      "title": "Pricing | Site Name",
+      "description": "View our pricing."
+    },
+    "contact": {
+      "title": "Contact | Site Name",
+      "description": "Get in touch."
+    },
+    "faq": {
+      "title": "FAQ | Site Name",
+      "description": "Frequently asked questions."
+    },
+    "book": {
+      "title": "Book | Site Name",
+      "description": "Book an appointment."
+    }
   },
   "nav": {
     "home": "Home",
@@ -48,6 +69,6 @@
     "analyticsTitle": "Statistics",
     "analyticsDescription": "Google Analytics helps us understand how visitors interact with the site (data transferred to the United States).",
     "marketingTitle": "Marketing",
-    "marketingDescription": "Google Ads measures conversions and personalizes advertising (data transferred to the United States)."
+    "marketingDescription": "Marketing tools (e.g. Google Ads) measure conversions and personalize advertising, only with your consent (data transferred to the United States)."
   }
 }

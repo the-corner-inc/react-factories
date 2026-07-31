@@ -1,12 +1,33 @@
 {
   "meta": {
-    "home": { "title": "Accueil | Nom du site", "description": "Description de la page d'accueil." },
-    "about": { "title": "À propos | Nom du site", "description": "Description de la page à propos." },
-    "services": { "title": "Services | Nom du site", "description": "Description des services." },
-    "pricing": { "title": "Tarifs | Nom du site", "description": "Consultez nos tarifs." },
-    "contact": { "title": "Contact | Nom du site", "description": "Contactez-nous." },
-    "faq": { "title": "FAQ | Nom du site", "description": "Questions fréquemment posées." },
-    "book": { "title": "Réserver | Nom du site", "description": "Prenez rendez-vous." }
+    "home": {
+      "title": "Accueil | Nom du site",
+      "description": "Description de la page d'accueil."
+    },
+    "about": {
+      "title": "À propos | Nom du site",
+      "description": "Description de la page à propos."
+    },
+    "services": {
+      "title": "Services | Nom du site",
+      "description": "Description des services."
+    },
+    "pricing": {
+      "title": "Tarifs | Nom du site",
+      "description": "Consultez nos tarifs."
+    },
+    "contact": {
+      "title": "Contact | Nom du site",
+      "description": "Contactez-nous."
+    },
+    "faq": {
+      "title": "FAQ | Nom du site",
+      "description": "Questions fréquemment posées."
+    },
+    "book": {
+      "title": "Réserver | Nom du site",
+      "description": "Prenez rendez-vous."
+    }
   },
   "nav": {
     "home": "Accueil",
@@ -48,6 +69,6 @@
     "analyticsTitle": "Statistiques",
     "analyticsDescription": "Google Analytics nous aide à comprendre comment les visiteurs interagissent avec le site (données transférées aux États-Unis).",
     "marketingTitle": "Marketing",
-    "marketingDescription": "Google Ads mesure les conversions et personnalise la publicité (données transférées aux États-Unis)."
+    "marketingDescription": "Les outils publicitaires (ex. Google Ads) mesurent les conversions et personnalisent la publicite, uniquement avec votre consentement (donnees transferees aux Etats-Unis)."
   }
 }

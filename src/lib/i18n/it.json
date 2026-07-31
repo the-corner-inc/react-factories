@@ -1,12 +1,33 @@
 {
   "meta": {
-    "home": { "title": "Home | Nome del sito", "description": "Descrizione della pagina principale." },
-    "about": { "title": "Chi siamo | Nome del sito", "description": "Pagina chi siamo." },
-    "services": { "title": "Servizi | Nome del sito", "description": "I nostri servizi." },
-    "pricing": { "title": "Prezzi | Nome del sito", "description": "Consulta i nostri prezzi." },
-    "contact": { "title": "Contatto | Nome del sito", "description": "Contattaci." },
-    "faq": { "title": "FAQ | Nome del sito", "description": "Domande frequenti." },
-    "book": { "title": "Prenota | Nome del sito", "description": "Prenota un appuntamento." }
+    "home": {
+      "title": "Home | Nome del sito",
+      "description": "Descrizione della pagina principale."
+    },
+    "about": {
+      "title": "Chi siamo | Nome del sito",
+      "description": "Pagina chi siamo."
+    },
+    "services": {
+      "title": "Servizi | Nome del sito",
+      "description": "I nostri servizi."
+    },
+    "pricing": {
+      "title": "Prezzi | Nome del sito",
+      "description": "Consulta i nostri prezzi."
+    },
+    "contact": {
+      "title": "Contatto | Nome del sito",
+      "description": "Contattaci."
+    },
+    "faq": {
+      "title": "FAQ | Nome del sito",
+      "description": "Domande frequenti."
+    },
+    "book": {
+      "title": "Prenota | Nome del sito",
+      "description": "Prenota un appuntamento."
+    }
   },
   "nav": {
     "home": "Home",
@@ -48,6 +69,6 @@
     "analyticsTitle": "Statistiche",
     "analyticsDescription": "Google Analytics ci aiuta a capire come i visitatori interagiscono con il sito (dati trasferiti negli Stati Uniti).",
     "marketingTitle": "Marketing",
-    "marketingDescription": "Google Ads misura le conversioni e personalizza la pubblicità (dati trasferiti negli Stati Uniti)."
+    "marketingDescription": "Gli strumenti pubblicitari (es. Google Ads) misurano le conversioni e personalizzano la pubblicita, solo con il vostro consenso (dati trasferiti negli Stati Uniti)."
   }
 }
