@@ -46,6 +46,18 @@ const CORNER_ATTRIBUTION = {
  * Builds Footer props from site data.
  * Handles copyright placeholders ({year}, {name}, {rights}) and the
  * default The Corner Factory attribution.
+ *
+ * Footer title/icon color rule (see Footer accentColor prop):
+ * - Dark background (variant="dark"): defaults to `text-accent`. Use
+ *   `accentColor: "primary"` when the site primary is vivid/light
+ *   (turquoise, orange, blue — e.g. osteoptimum, soleva, laveria).
+ * - Light background (default): defaults to `text-primary` (brand color,
+ *   always readable). Do NOT rely on `text-secondary` as a default: in
+ *   shadcn-style presets, `--secondary` is a surface color (cards,
+ *   buttons) that is nearly invisible on light backgrounds (medical,
+ *   corporate, hospitality presets).
+ * - Exception: if `--primary` is dark and matches the dark footer
+ *   background (e.g. BBX brown #35322e), keep the default accent instead.
  */
 export function getFooterProps(options: FooterOptions): FooterProps {
   const year = new Date().getFullYear()
