@@ -1,0 +1,21 @@
+{
+  "id": "medieval",
+  "label": "Medieval",
+  "industry": "fantasy",
+  "mood": "medieval",
+  "tokens": {
+    "--background": "#f5ecd7",
+    "--foreground": "#3a2a1a",
+    "--primary": "#8c2f2f",
+    "--primary-foreground": "#f5ecd7",
+    "--secondary": "#7a5c3a",
+    "--secondary-foreground": "#f5ecd7",
+    "--accent": "#c9a227",
+    "--accent-foreground": "#3a2a1a",
+    "--muted": "#eadfc4",
+    "--muted-foreground": "#6b5a45",
+    "--border": "#d4c5a0",
+    "--ring": "#8c2f2f",
+    "--dark-foreground": "#f5ecd7"
+  }
+}

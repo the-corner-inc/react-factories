@@ -1,0 +1,21 @@
+{
+  "id": "world-of-warcraft",
+  "label": "World of Warcraft",
+  "industry": "fantasy",
+  "mood": "quest",
+  "tokens": {
+    "--background": "#f1e6cf",
+    "--foreground": "#2b2116",
+    "--primary": "#a67c00",
+    "--primary-foreground": "#fff8e7",
+    "--secondary": "#6e4f28",
+    "--secondary-foreground": "#f5ead2",
+    "--accent": "#5c7a99",
+    "--accent-foreground": "#f5ead2",
+    "--muted": "#e2d5b8",
+    "--muted-foreground": "#6b5d47",
+    "--border": "#c4b28d",
+    "--ring": "#a67c00",
+    "--dark-foreground": "#f5ead2"
+  }
+}
