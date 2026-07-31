@@ -32,6 +32,7 @@ export interface FooterProps {
   }
   attribution?: { text: string; href: string; logo?: string }
   manageCookiesLabel?: string
+  manageCookiesEvent?: string
   className?: string
 }
 
@@ -43,6 +44,7 @@ export function Footer({
   legal,
   attribution,
   manageCookiesLabel,
+  manageCookiesEvent = "manage-cookies",
   className,
 }: FooterProps) {
   return (
@@ -195,6 +197,7 @@ export function Footer({
             {manageCookiesLabel && (
               <ManageCookiesButton
                 label={manageCookiesLabel}
+                manageEvent={manageCookiesEvent}
                 className="transition-colors hover:text-primary"
               />
             )}
