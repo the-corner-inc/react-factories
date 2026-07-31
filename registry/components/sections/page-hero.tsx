@@ -53,7 +53,7 @@ export function PageHero({
           {eyebrow && (
             <span
               className={cn(
-                "mb-3 inline-block text-sm font-semibold uppercase tracking-[0.18em]",
+                "mb-3 inline-block font-eyebrow text-sm font-semibold uppercase tracking-[0.18em]",
                 hasImage ? "text-dark-foreground/80" : "text-primary",
               )}
             >

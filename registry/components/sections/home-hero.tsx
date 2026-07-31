@@ -45,7 +45,7 @@ export function HomeHero({
         <HeroAnimation>
           <div className="max-w-3xl space-y-6">
             {eyebrow && (
-              <span className="inline-block rounded-full bg-primary/20 px-4 py-1.5 text-sm font-semibold text-primary-foreground backdrop-blur-sm">
+              <span className="inline-block rounded-full bg-primary/20 px-4 py-1.5 font-eyebrow text-sm font-semibold text-primary-foreground backdrop-blur-sm">
                 {eyebrow}
               </span>
             )}

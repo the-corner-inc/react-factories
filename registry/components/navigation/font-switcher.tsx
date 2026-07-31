@@ -17,23 +17,32 @@ import { useFont } from "@/components/ui/font-provider"
 export interface FontSwitcherProps {
   label?: string
   ariaLabel?: string
+  roleLabels?: Partial<Record<FontRole, string>>
   className?: string
 }
 
-const ROLE_LABELS: Record<FontRole, string> = {
+const DEFAULT_ROLE_LABELS: Record<FontRole, string> = {
   heading: "Titres",
+  eyebrow: "Sous-titres",
   body: "Texte",
-  mono: "Mono",
 }
 
 export function FontSwitcher({
   label,
   ariaLabel = "Font",
+  roleLabels,
   className,
 }: FontSwitcherProps) {
   const { isLocked, config, setRoleFont, allFonts } = useFont()
 
   if (isLocked) return null
+
+  const labels: Record<FontRole, string> = {
+    ...DEFAULT_ROLE_LABELS,
+    ...roleLabels,
+  }
+
+  const roles = Object.keys(DEFAULT_ROLE_LABELS) as FontRole[]
 
   return (
     <DropdownMenu>
@@ -48,10 +57,10 @@ export function FontSwitcher({
         {label && <span>{label}</span>}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        {(Object.keys(ROLE_LABELS) as FontRole[]).map((role) => (
+        {roles.map((role) => (
           <DropdownMenuSub key={role}>
             <DropdownMenuSubTrigger className="justify-between">
-              {ROLE_LABELS[role]}
+              {labels[role]}
               <span className="text-xs font-normal text-muted-foreground">
                 {allFonts.find((f) => f.id === config[role])?.label ?? ""}
               </span>

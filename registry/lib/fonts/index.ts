@@ -6,7 +6,7 @@ import spaceGrotesk from "./presets/space-grotesk.json"
 import ebGaramond from "./presets/eb-garamond.json"
 import jetbrainsMono from "./presets/jetbrains-mono.json"
 
-export type FontRole = "heading" | "body" | "mono"
+export type FontRole = "heading" | "eyebrow" | "body"
 
 export interface FontPreset {
   id: string
@@ -17,14 +17,14 @@ export interface FontPreset {
 
 export interface FontConfig {
   heading: string
+  eyebrow: string
   body: string
-  mono: string
 }
 
 export const defaultFontConfig: FontConfig = {
   heading: "playfair-display",
+  eyebrow: "montserrat",
   body: "montserrat",
-  mono: "jetbrains-mono",
 }
 
 export const fonts: FontPreset[] = [
@@ -44,8 +44,8 @@ export function getFont(id: string): FontPreset | undefined {
 export function resolveConfig(config: Partial<FontConfig>): FontConfig {
   return {
     heading: getFont(config.heading ?? "") ? config.heading! : defaultFontConfig.heading,
+    eyebrow: getFont(config.eyebrow ?? "") ? config.eyebrow! : defaultFontConfig.eyebrow,
     body: getFont(config.body ?? "") ? config.body! : defaultFontConfig.body,
-    mono: getFont(config.mono ?? "") ? config.mono! : defaultFontConfig.mono,
   }
 }
 

@@ -56,9 +56,9 @@ export function FontProvider({
 
   React.useEffect(() => {
     const heading = getFont(config.heading)
+    const eyebrow = getFont(config.eyebrow)
     const body = getFont(config.body)
-    const mono = getFont(config.mono)
-    if (!heading || !body || !mono) return
+    if (!heading || !eyebrow || !body) return
 
     const id = "font-config-style"
     const existing = document.getElementById(id)
@@ -69,7 +69,7 @@ export function FontProvider({
     style.textContent = [
       `body,.font-sans{font-family:${body.cssVar}!important}`,
       `.font-heading,h1,h2,h3,h4,h5,h6{font-family:${heading.cssVar}!important}`,
-      `.font-mono,code,pre,kbd{font-family:${mono.cssVar}!important}`,
+      `.font-eyebrow{font-family:${eyebrow.cssVar}!important}`,
     ].join("")
     document.head.appendChild(style)
 
