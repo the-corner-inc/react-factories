@@ -10,7 +10,6 @@ import cinzelDecorative from "./presets/cinzel-decorative.json"
 import medievalsharp from "./presets/medievalsharp.json"
 import pirataOne from "./presets/pirata-one.json"
 import imFellEnglish from "./presets/im-fell-english.json"
-import lifeCraft from "./presets/lifecraft.json"
 import morpheus from "./presets/morpheus.json"
 
 export type FontRole = "heading" | "eyebrow" | "body"
@@ -19,6 +18,7 @@ export interface FontPreset {
   id: string
   label: string
   family: "sans" | "serif" | "mono"
+  category: string
   cssVar: string
 }
 
@@ -47,7 +47,6 @@ export const fonts: FontPreset[] = [
   medievalsharp as FontPreset,
   pirataOne as FontPreset,
   imFellEnglish as FontPreset,
-  lifeCraft as FontPreset,
   morpheus as FontPreset,
 ]
 
@@ -70,6 +69,17 @@ export function groupByFamily(): Record<string, FontPreset[]> {
       groups[font.family] = []
     }
     groups[font.family].push(font)
+  }
+  return groups
+}
+
+export function groupByCategory(): Record<string, FontPreset[]> {
+  const groups: Record<string, FontPreset[]> = {}
+  for (const font of fonts) {
+    if (!groups[font.category]) {
+      groups[font.category] = []
+    }
+    groups[font.category].push(font)
   }
   return groups
 }

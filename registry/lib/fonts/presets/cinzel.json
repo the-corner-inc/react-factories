@@ -2,5 +2,6 @@
   "id": "cinzel",
   "label": "Cinzel",
   "family": "serif",
-  "cssVar": "var(--font-cinzel), \"Cinzel\", \"Times New Roman\", serif"
+  "cssVar": "var(--font-cinzel), \"Cinzel\", \"Times New Roman\", serif",
+  "category": "Fantasy"
 }

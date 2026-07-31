@@ -1,6 +1,6 @@
 "use client"
 
-import { Type, Check } from "lucide-react"
+import { Type, Check, ChevronRight } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import { type FontRole } from "@/lib/fonts"
+import { type FontRole, groupByCategory } from "@/lib/fonts"
 import { useFont } from "@/components/ui/font-provider"
 
 export interface FontSwitcherProps {
@@ -43,6 +43,7 @@ export function FontSwitcher({
   }
 
   const roles = Object.keys(DEFAULT_ROLE_LABELS) as FontRole[]
+  const categories = groupByCategory()
 
   return (
     <DropdownMenu>
@@ -56,7 +57,7 @@ export function FontSwitcher({
         <Type className="h-4 w-4" aria-hidden="true" />
         {label && <span>{label}</span>}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="end" className="w-60">
         {roles.map((role) => (
           <DropdownMenuSub key={role}>
             <DropdownMenuSubTrigger className="justify-between">
@@ -65,18 +66,28 @@ export function FontSwitcher({
                 {allFonts.find((f) => f.id === config[role])?.label ?? ""}
               </span>
             </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent className="w-44">
-              {allFonts.map((font) => (
-                <DropdownMenuItem
-                  key={font.id}
-                  className="justify-between"
-                  onClick={() => setRoleFont(role, font.id)}
-                >
-                  <span style={{ fontFamily: font.cssVar }}>{font.label}</span>
-                  {font.id === config[role] && (
-                    <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                  )}
-                </DropdownMenuItem>
+            <DropdownMenuSubContent className="w-52">
+              {Object.entries(categories).map(([category, fonts]) => (
+                <DropdownMenuSub key={category}>
+                  <DropdownMenuSubTrigger className="justify-between">
+                    <span>{category}</span>
+                    <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="w-44">
+                    {fonts.map((font) => (
+                      <DropdownMenuItem
+                        key={font.id}
+                        className="justify-between"
+                        onClick={() => setRoleFont(role, font.id)}
+                      >
+                        <span style={{ fontFamily: font.cssVar }}>{font.label}</span>
+                        {font.id === config[role] && (
+                          <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                        )}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
               ))}
             </DropdownMenuSubContent>
           </DropdownMenuSub>

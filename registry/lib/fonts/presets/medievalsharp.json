@@ -2,5 +2,6 @@
   "id": "medievalsharp",
   "label": "MedievalSharp",
   "family": "serif",
-  "cssVar": "var(--font-medievalsharp), \"MedievalSharp\", \"Times New Roman\", serif"
+  "cssVar": "var(--font-medievalsharp), \"MedievalSharp\", \"Times New Roman\", serif",
+  "category": "Medieval"
 }
