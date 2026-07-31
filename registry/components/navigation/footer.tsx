@@ -150,17 +150,12 @@ export function Footer({
     ? "border-dark-foreground/20 bg-dark-foreground/10 text-dark-foreground placeholder:text-dark-foreground/50"
     : "border-border bg-background text-foreground placeholder:text-muted-foreground"
 
-  // With a single navigation column (brand + nav + contact = 3 sections),
-  // the brand spans two columns so all sections align on one line at lg
-  // and stay balanced at sm (brand full-width, nav + contact below).
-  const brandSpans = columns.length <= 1 ? "sm:col-span-2" : ""
-
   return (
     <footer className={cn(root, className)}>
       <div className="container-premium py-16 md:py-20">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-10 lg:grid-cols-4">
           {/* Brand column */}
-          <div className={cn("space-y-4", brandSpans)}>
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
               {brand.logo ? (
                 <Image
