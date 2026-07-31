@@ -5,10 +5,14 @@ export interface FooterOptions {
   siteName: string
   /** Brand description (localized). */
   description: string
+  /** Optional brand tagline (e.g. "Chez Cathy · Grône"). */
+  tagline?: string
   /** Optional brand logo URL. */
   logo?: string
   /** Optional initial used as monogram fallback when no logo. */
   initial?: string
+  /** Hide the monogram fallback when there is no logo. */
+  hideMonogram?: boolean
   /** Navigation columns. */
   columns: FooterProps["columns"]
   contact: {
@@ -32,7 +36,7 @@ export interface FooterOptions {
   newsletter?: FooterProps["newsletter"]
   manageCookiesEvent?: string
   variant?: "default" | "dark"
-  accentColor?: "accent" | "primary" | "secondary"
+  accentColor?: "accent" | "primary" | "secondary" | "foreground"
   className?: string
 }
 
@@ -64,8 +68,10 @@ export function getFooterProps(options: FooterOptions): FooterProps {
   const {
     siteName,
     description,
+    tagline,
     logo,
     initial,
+    hideMonogram,
     columns,
     contact,
     socials,
@@ -81,7 +87,7 @@ export function getFooterProps(options: FooterOptions): FooterProps {
   } = options
 
   return {
-    brand: { name: siteName, description, logo, initial },
+    brand: { name: siteName, description, tagline, logo, initial, hideMonogram },
     columns,
     contact,
     socials,

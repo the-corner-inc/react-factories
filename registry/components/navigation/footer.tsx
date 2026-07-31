@@ -23,7 +23,7 @@ export interface NewsletterProps {
 }
 
 export interface FooterProps {
-  brand: { name: string; description: string; logo?: string; initial?: string }
+  brand: { name: string; description: string; tagline?: string; logo?: string; initial?: string; hideMonogram?: boolean }
   columns: FooterColumn[]
   contact: {
     title?: string
@@ -44,7 +44,7 @@ export interface FooterProps {
   manageCookiesLabel?: string
   manageCookiesEvent?: string
   variant?: "default" | "dark"
-  accentColor?: "accent" | "primary" | "secondary"
+  accentColor?: "accent" | "primary" | "secondary" | "foreground"
   className?: string
 }
 
@@ -73,9 +73,11 @@ export function Footer({
       ? "text-primary"
       : accentColor === "secondary"
         ? "text-secondary"
-        : dark
-          ? "text-accent"
-          : "text-primary"
+        : accentColor === "foreground"
+          ? "text-foreground"
+          : dark
+            ? "text-accent"
+            : "text-primary"
 
   const brandName = dark ? "text-dark-foreground" : "text-foreground"
   const description = dark ? "text-dark-foreground/70" : "text-muted-foreground"
@@ -113,13 +115,23 @@ export function Footer({
                   unoptimized
                   className="h-12 w-auto rounded-lg object-contain"
                 />
-              ) : (
+              ) : brand.hideMonogram ? null : (
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-base font-bold text-primary-foreground">
                   {brand.initial ?? brand.name.charAt(0)}
                 </span>
               )}
-              <span className={cn("text-lg font-bold", brandName)}>{brand.name}</span>
+              <span className={cn("font-heading text-lg font-bold", brandName)}>{brand.name}</span>
             </div>
+            {brand.tagline && (
+              <p
+                className={cn(
+                  "text-xs font-medium uppercase tracking-[0.18em]",
+                  dark ? "text-dark-foreground/60" : "text-foreground/60",
+                )}
+              >
+                {brand.tagline}
+              </p>
+            )}
             <p className={cn("text-sm leading-relaxed", description)}>
               {brand.description}
             </p>
@@ -144,7 +156,7 @@ export function Footer({
             )}
             {newsletter && (
               <form action={newsletter.action} method="post" className="pt-2">
-                <h3 className={cn("mb-3 text-sm font-semibold uppercase tracking-wide", heading)}>
+                <h3 className={cn("mb-3 font-heading text-sm font-semibold uppercase tracking-wide", heading)}>
                   {newsletter.title}
                 </h3>
                 <div className="flex max-w-xs gap-2">
@@ -173,7 +185,7 @@ export function Footer({
           {/* Navigation columns */}
           {columns.map((col) => (
             <div key={col.title}>
-              <h3 className={cn("mb-4 text-sm font-semibold uppercase tracking-wide", heading)}>
+              <h3 className={cn("mb-4 font-heading text-sm font-semibold uppercase tracking-wide", heading)}>
                 {col.title}
               </h3>
               <ul className="space-y-2.5">
@@ -190,7 +202,7 @@ export function Footer({
 
           {/* Contact column */}
           <div>
-            <h3 className={cn("mb-4 text-sm font-semibold uppercase tracking-wide", heading)}>
+            <h3 className={cn("mb-4 font-heading text-sm font-semibold uppercase tracking-wide", heading)}>
               {contact.title}
             </h3>
             <ul className="space-y-3">
