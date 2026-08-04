@@ -1,10 +1,10 @@
 # react-factories
 
-Reusable shadcn component registry for generating Next.js showcase websites. 43 props-driven, multilingual (fr/en/de/it) components, ready to use.
+Reusable shadcn component registry for generating showcase websites (Next.js today, TanStack Start next). 46 props-driven, multilingual (fr/en/de/it) components, **framework-agnostic** (no `next/*` imports, no Radix — Base UI primitives).
 
 ## What is included
 
-- Next.js 16 (App Router) + React 19 project shell
+- Next.js 16 (App Router) + React 19 project shell (showroom app only — components are framework-agnostic)
 - TypeScript strict with path aliases (`@/*`)
 - Tailwind CSS v4 global styles (`@theme inline`, `@utility`)
 - shadcn/ui initialization config (`/components.json`)
@@ -46,12 +46,13 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `share-button` | Web Share API + clipboard fallback |
 | `back-to-top` | Floating scroll-to-top button |
 | `section-heading` | Eyebrow + title + subtitle, alignment and inverted variants |
-| `image-with-fallback` | next/image with error placeholder |
+| `image-with-fallback` | Image (shim) with error placeholder |
 | `lightbox` | Click-to-enlarge image with overlay |
 | `cta-button` | CtaLink + CtaExternal, 4 variants, 2 sizes |
 | `breadcrumb` | Semantic breadcrumb navigation |
-| `dropdown-menu` | Radix dropdown menu |
-| `sheet` | Radix slide-out panel (drawer) |
+| `dropdown-menu` | Base UI dropdown menu |
+| `sheet` | Base UI slide-out panel (drawer) |
+| `ui-shims` | Framework shims: link/image/script/use-location (every site must install this item) |
 | `newsletter` | Email signup form |
 | `language-switcher` | Language selector dropdown |
 | `manage-cookies-button` | Client-side button to reopen cookie banner |
@@ -97,9 +98,26 @@ Components using `inverted` (e.g. `section-heading`) rely on `text-dark-foregrou
 ## Principles
 
 1. **Props-driven**: no component imports its own data — everything comes via props
-2. **Server Components by default**: `"use client"` only when necessary
-3. **No non-overridable hardcoded text**: all labels are props with English defaults
-4. **a11y**: semantic HTML, aria-labels, keyboard nav, focus states
+2. **Framework-agnostic**: NO `next/*` imports (link/image/script/pathname go through the `ui-shims` item — each site provides the implementation for its framework); NO Radix — Base UI primitives only
+3. **Server Components by default**: `"use client"` only when necessary
+4. **No non-overridable hardcoded text**: all labels are props with English defaults
+5. **a11y**: semantic HTML, aria-labels, keyboard nav, focus states
+
+### Framework shims (ui-shims item)
+
+The registry never imports `next/link`, `next/image`, `next/script` or `next/navigation`.
+It imports `@/components/ui/{link,image,script,use-location}` instead — those files are
+shipped by the `ui-shims` registry item, and **each site provides its own implementation**:
+
+| Shim | Next.js site | TanStack site |
+|---|---|---|
+| `link.tsx` | re-export `next/link` | re-export `@tanstack/react-router` Link |
+| `image.tsx` | re-export `next/image` | plain `<img>` |
+| `script.tsx` | re-export `next/script` (strategies) | plain `<script>` in route head |
+| `use-location.ts` | re-export `next/navigation` usePathname | router `useLocation().pathname` |
+
+> After pulling components, a site MUST provide the 4 shim implementations before `pnpm build`.
+> The shipped defaults are minimal (plain `<a>`, `<img>`, `<script>`, `window.location`).
 
 ## Registry workflow
 

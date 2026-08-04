@@ -1,7 +1,7 @@
 import { HeroAnimation } from "@/components/ui/animations";
 import { CtaExternal, CtaLink } from "@/components/ui/cta-button";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { Image } from "@/components/ui/image";
 
 export interface HomeHeroProps {
   eyebrow?: string;

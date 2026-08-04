@@ -1,7 +1,7 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { Link } from "@/components/ui/link"
+import { usePathname } from "@/components/ui/use-location"
 import { Globe, Check } from "lucide-react"
 import {
   DropdownMenu,

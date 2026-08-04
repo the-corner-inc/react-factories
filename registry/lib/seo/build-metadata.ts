@@ -1,5 +1,35 @@
-import type { Metadata } from "next"
 import { locales, ogLocales, type Locale } from "@/lib/i18n/config"
+
+/**
+ * Framework-agnostic metadata shape (structurally compatible with
+ * Next.js `Metadata`). Sites adapt it to their framework:
+ *   - Next.js  : `return buildMetadata(...) as Metadata`
+ *   - TanStack : feed the fields into the route `head` meta tags
+ */
+export interface SiteMetadata {
+  title?: string
+  description?: string
+  alternates?: {
+    canonical?: string
+    languages?: Record<string, string>
+  }
+  robots?: { index: boolean; follow: boolean } | string
+  openGraph?: {
+    title?: string
+    description?: string
+    url?: string
+    siteName?: string
+    locale?: string
+    type?: string
+    images?: { url: string; width?: number; height?: number; alt?: string }[]
+  }
+  twitter?: {
+    card?: string
+    title?: string
+    description?: string
+    images?: string[]
+  }
+}
 
 interface BuildMetadataOptions {
   locale: Locale
@@ -21,7 +51,7 @@ export function buildMetadata({
   siteName,
   ogImage,
   noIndex = false,
-}: BuildMetadataOptions): Metadata {
+}: BuildMetadataOptions): SiteMetadata {
   const cleanPath = path === "/" ? "" : path
   const canonical = `${siteUrl}/${locale}${cleanPath}`
 

@@ -1,4 +1,4 @@
-import Image from "next/image"
+import { Image } from "@/components/ui/image"
 import { Breadcrumb, type Crumb } from "@/components/ui/breadcrumb"
 import { cn } from "@/lib/utils"
 

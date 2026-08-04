@@ -1,5 +1,5 @@
-import Image from "next/image"
-import Link from "next/link"
+import { Image } from "@/components/ui/image"
+import { Link } from "@/components/ui/link"
 import { Mail, MapPin, Phone, Clock } from "lucide-react"
 import { type SocialPlatform, socialIconMap } from "@/components/ui/social-icons"
 import { ManageCookiesButton } from "@/components/navigation/manage-cookies-button"

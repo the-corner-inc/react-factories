@@ -268,7 +268,7 @@
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown Menu",
-      "description": "Radix-based dropdown menu with support for items, checkboxes, radio groups, and submenus.",
+      "description": "Base UI dropdown menu with items, groups, separators, and submenus.",
       "files": [
         {
           "path": "registry/components/ui/dropdown-menu.tsx",
@@ -277,7 +277,7 @@
       ],
       "dependencies": [
         "lucide-react",
-        "radix-ui"
+        "@base-ui/react"
       ],
       "registryDependencies": [
         "cn"
@@ -287,7 +287,7 @@
       "name": "sheet",
       "type": "registry:ui",
       "title": "Sheet",
-      "description": "Slide-out panel (drawer) built on Radix Dialog with top/right/bottom/left variants.",
+      "description": "Slide-out panel (drawer) built on Base UI Dialog with top/right/bottom/left variants.",
       "files": [
         {
           "path": "registry/components/ui/sheet.tsx",
@@ -296,7 +296,34 @@
       ],
       "dependencies": [
         "lucide-react",
-        "radix-ui"
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "ui-shims",
+      "type": "registry:ui",
+      "title": "Framework Shims (link/image/script/pathname)",
+      "description": "Framework-agnostic shims isolating next/link, next/image, next/script and next/navigation. Every site must install this item (each site provides its own implementation per framework).",
+      "files": [
+        {
+          "path": "registry/components/ui/link.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/components/ui/image.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/components/ui/script.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/components/ui/use-location.ts",
+          "type": "registry:component"
+        }
       ],
       "registryDependencies": [
         "cn"
