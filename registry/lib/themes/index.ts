@@ -34,11 +34,11 @@ export interface ThemePreset {
   tokens: ThemeTokens
 }
 
-export const defaultPresetId = "alpine-table"
+export const defaultPresetId = "example-colors"
 
 export const presets: ThemePreset[] = [
-  alpineTable as ThemePreset,
   exampleColors as ThemePreset,
+  alpineTable as ThemePreset,
   sageClinic as ThemePreset,
   swissCorporate as ThemePreset,
   solarLibre as ThemePreset,
