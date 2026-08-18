@@ -1,4 +1,11 @@
-import { locales, ogLocales, type Locale } from "#/lib/i18n/config"
+const locales = ["fr", "en", "de", "it"] as const;
+type Locale = (typeof locales)[number];
+const ogLocales: Record<Locale, string> = {
+  fr: "fr_CH",
+  en: "en_US",
+  de: "de_CH",
+  it: "it_CH",
+};
 
 /**
  * Framework-agnostic metadata shape (structurally compatible with
