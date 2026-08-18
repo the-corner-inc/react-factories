@@ -100,11 +100,18 @@ export function FaqList({
                     {isOpen ? "−" : "+"}
                   </span>
                 </button>
-                {isOpen && (
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {faq.answer}
-                  </p>
-                )}
+                <div
+                  className={cn(
+                    "grid transition-[grid-template-rows] duration-300 ease-in-out",
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                  )}
+                >
+                  <div className="overflow-hidden">
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
               </div>
             )
           })}
