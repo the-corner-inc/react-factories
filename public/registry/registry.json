@@ -97,7 +97,7 @@
         {
           "path": "registry/lib/seo/build-metadata.ts",
           "type": "registry:lib",
-          "content": "import { locales, ogLocales, type Locale } from \"#/lib/i18n/config\"\r\n\r\n/**\r\n * Framework-agnostic metadata shape (structurally compatible with\r\n * Next.js `Metadata`). Sites adapt it to their framework:\r\n *   - Next.js  : `return buildMetadata(...) as Metadata`\r\n *   - TanStack : feed the fields into the route `head` meta tags\r\n */\r\nexport interface SiteMetadata {\r\n  title?: string\r\n  description?: string\r\n  alternates?: {\r\n    canonical?: string\r\n    languages?: Record<string, string>\r\n  }\r\n  robots?: { index: boolean; follow: boolean } | string\r\n  openGraph?: {\r\n    title?: string\r\n    description?: string\r\n    url?: string\r\n    siteName?: string\r\n    locale?: string\r\n    type?: string\r\n    images?: { url: string; width?: number; height?: number; alt?: string }[]\r\n  }\r\n  twitter?: {\r\n    card?: string\r\n    title?: string\r\n    description?: string\r\n    images?: string[]\r\n  }\r\n}\r\n\r\ninterface BuildMetadataOptions {\r\n  locale: Locale\r\n  title: string\r\n  description: string\r\n  path: string\r\n  siteUrl: string\r\n  siteName: string\r\n  ogImage?: string\r\n  noIndex?: boolean\r\n}\r\n\r\nexport function buildMetadata({\r\n  locale,\r\n  title,\r\n  description,\r\n  path,\r\n  siteUrl,\r\n  siteName,\r\n  ogImage,\r\n  noIndex = false,\r\n}: BuildMetadataOptions): SiteMetadata {\r\n  const cleanPath = path === \"/\" ? \"\" : path\r\n  const canonical = `${siteUrl}/${locale}${cleanPath}`\r\n\r\n  const languages: Record<string, string> = {}\r\n  for (const l of locales) {\r\n    languages[l] = `${siteUrl}/${l}${cleanPath}`\r\n  }\r\n  languages[\"x-default\"] = `${siteUrl}/${locales[0]}${cleanPath}`\r\n\r\n  return {\r\n    title,\r\n    description,\r\n    alternates: { canonical, languages },\r\n    robots: noIndex ? { index: false, follow: true } : undefined,\r\n    openGraph: {\r\n      title,\r\n      description,\r\n      url: canonical,\r\n      siteName,\r\n      locale: ogLocales[locale],\r\n      type: \"website\",\r\n      images: ogImage\r\n        ? [{ url: ogImage, width: 1200, height: 630, alt: siteName }]\r\n        : undefined,\r\n    },\r\n    twitter: {\r\n      card: \"summary_large_image\",\r\n      title,\r\n      description,\r\n      images: ogImage ? [ogImage] : undefined,\r\n    },\r\n  }\r\n}\r\n",
+          "content": "const locales = [\"fr\", \"en\", \"de\", \"it\"] as const;\r\ntype Locale = (typeof locales)[number];\r\nconst ogLocales: Record<Locale, string> = {\r\n  fr: \"fr_CH\",\r\n  en: \"en_US\",\r\n  de: \"de_CH\",\r\n  it: \"it_CH\",\r\n};\r\n\r\n/**\r\n * Framework-agnostic metadata shape (structurally compatible with\r\n * Next.js `Metadata`). Sites adapt it to their framework:\r\n *   - Next.js  : `return buildMetadata(...) as Metadata`\r\n *   - TanStack : feed the fields into the route `head` meta tags\r\n */\r\nexport interface SiteMetadata {\r\n  title?: string\r\n  description?: string\r\n  alternates?: {\r\n    canonical?: string\r\n    languages?: Record<string, string>\r\n  }\r\n  robots?: { index: boolean; follow: boolean } | string\r\n  openGraph?: {\r\n    title?: string\r\n    description?: string\r\n    url?: string\r\n    siteName?: string\r\n    locale?: string\r\n    type?: string\r\n    images?: { url: string; width?: number; height?: number; alt?: string }[]\r\n  }\r\n  twitter?: {\r\n    card?: string\r\n    title?: string\r\n    description?: string\r\n    images?: string[]\r\n  }\r\n}\r\n\r\ninterface BuildMetadataOptions {\r\n  locale: Locale\r\n  title: string\r\n  description: string\r\n  path: string\r\n  siteUrl: string\r\n  siteName: string\r\n  ogImage?: string\r\n  noIndex?: boolean\r\n}\r\n\r\nexport function buildMetadata({\r\n  locale,\r\n  title,\r\n  description,\r\n  path,\r\n  siteUrl,\r\n  siteName,\r\n  ogImage,\r\n  noIndex = false,\r\n}: BuildMetadataOptions): SiteMetadata {\r\n  const cleanPath = path === \"/\" ? \"\" : path\r\n  const canonical = `${siteUrl}/${locale}${cleanPath}`\r\n\r\n  const languages: Record<string, string> = {}\r\n  for (const l of locales) {\r\n    languages[l] = `${siteUrl}/${l}${cleanPath}`\r\n  }\r\n  languages[\"x-default\"] = `${siteUrl}/${locales[0]}${cleanPath}`\r\n\r\n  return {\r\n    title,\r\n    description,\r\n    alternates: { canonical, languages },\r\n    robots: noIndex ? { index: false, follow: true } : undefined,\r\n    openGraph: {\r\n      title,\r\n      description,\r\n      url: canonical,\r\n      siteName,\r\n      locale: ogLocales[locale],\r\n      type: \"website\",\r\n      images: ogImage\r\n        ? [{ url: ogImage, width: 1200, height: 630, alt: siteName }]\r\n        : undefined,\r\n    },\r\n    twitter: {\r\n      card: \"summary_large_image\",\r\n      title,\r\n      description,\r\n      images: ogImage ? [ogImage] : undefined,\r\n    },\r\n  }\r\n}\r\n",
           "target": "src/lib/seo/build-metadata.ts"
         }
       ],
@@ -420,23 +420,6 @@
       ],
       "registryDependencies": [
         "cn"
-      ]
-    },
-    {
-      "name": "consent-init",
-      "type": "registry:block",
-      "title": "Consent Init",
-      "description": "Next.js Script component that sets GA4 consent defaults (denied) before hydration.",
-      "files": [
-        {
-          "path": "registry/components/layouts/consent-init.tsx",
-          "type": "registry:component",
-          "content": "import { Script } from \"#/components/ui/script\"\r\n\r\nexport function ConsentInit() {\r\n  return (\r\n    <Script id=\"consent-defaults\" strategy=\"beforeInteractive\">\r\n      {`\r\n        window.dataLayer = window.dataLayer || [];\r\n        function gtag(){dataLayer.push(arguments);}\r\n        window.gtag = window.gtag || gtag;\r\n        gtag('consent', 'default', {\r\n          ad_storage: 'denied',\r\n          analytics_storage: 'denied',\r\n          ad_user_data: 'denied',\r\n          ad_personalization: 'denied',\r\n          wait_for_update: 500,\r\n        });\r\n      `}\r\n    </Script>\r\n  )\r\n}\r\n",
-          "target": "src/components/layouts/consent-init.tsx"
-        }
-      ],
-      "dependencies": [
-        "next"
       ]
     },
     {
