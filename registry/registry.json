@@ -7,7 +7,7 @@
       "name": "cn",
       "type": "registry:lib",
       "title": "cn Utility",
-      "description": "Class name utility combining clsx and tailwind-merge.",
+      "description": "Class name utility via cnfast.",
       "files": [
         {
           "path": "registry/lib/utils.ts",
@@ -15,8 +15,7 @@
         }
       ],
       "dependencies": [
-        "clsx",
-        "tailwind-merge"
+        "cnfast"
       ]
     },
     {
