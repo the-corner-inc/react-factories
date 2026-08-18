@@ -26,6 +26,9 @@ export interface NavbarProps {
   logo: { src?: string; alt: string; href: string; initial?: string }
   items: NavItem[]
   cta: { label: string; href: string }
+  /** Optional login link (auth enabled) - desktop beside CTA, mobile below it. */
+  loginHref?: string
+  loginLabel?: string
   locale: string
   locales: string[]
   localeNames: Record<string, string>
@@ -43,6 +46,8 @@ export function Navbar({
   logo,
   items,
   cta,
+  loginHref,
+  loginLabel,
   locale,
   locales,
   localeNames,
@@ -153,6 +158,15 @@ export function Navbar({
             {cta.label}
           </CtaExternal>
 
+          {loginHref && (
+            <Link
+              href={loginHref}
+              className="hidden border-l border-border pl-3 text-sm font-medium text-foreground/70 transition-colors hover:text-primary md:inline-flex"
+            >
+              {loginLabel}
+            </Link>
+          )}
+
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger
               aria-label={menuLabel}
@@ -198,6 +212,15 @@ export function Navbar({
                 <CtaExternal href={cta.href} size="lg" className="mt-4 w-full">
                   {cta.label}
                 </CtaExternal>
+                {loginHref && (
+                  <Link
+                    href={loginHref}
+                    onClick={() => setMobileOpen(false)}
+                    className="mt-4 block border-t border-border pt-4 text-center text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {loginLabel}
+                  </Link>
+                )}
               </nav>
             </SheetContent>
           </Sheet>
