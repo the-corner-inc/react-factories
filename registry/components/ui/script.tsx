@@ -20,6 +20,5 @@ export interface ScriptProps extends React.ScriptHTMLAttributes<HTMLScriptElemen
  */
 export function Script({ id, strategy, code, children, ...props }: ScriptProps) {
   const source = code ?? children ?? ""
-  // eslint-disable-next-line react/no-danger -- intentionally inline
   return <script id={id} data-strategy={strategy} dangerouslySetInnerHTML={{ __html: source }} {...props} />
 }

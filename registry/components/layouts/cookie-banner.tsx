@@ -6,7 +6,7 @@ import { cn } from "#/lib/utils"
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void
-    dataLayer?: Object[]
+    dataLayer?: object[]
   }
 }
 
@@ -125,6 +125,7 @@ export function CookieBanner({
   }, [consentKey])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- lit le consent stocké (setState d'hydratation)
     evaluate()
     const onStorage = (e: StorageEvent) => {
       if (e.key === consentKey) evaluate()

@@ -46,6 +46,7 @@ export function FontProvider({
       if (saved) {
         const parsed = JSON.parse(saved) as Partial<FontConfig>
         if (parsed && typeof parsed === "object") {
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate depuis localStorage au montage
           setConfig(resolveConfig(parsed))
         }
       }

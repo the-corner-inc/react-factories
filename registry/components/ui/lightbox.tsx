@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- img brut volontaire (registry framework-agnostic) */
 "use client"
 
 import { useState, useCallback, useEffect } from "react"
