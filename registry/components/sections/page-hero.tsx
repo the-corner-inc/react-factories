@@ -1,6 +1,6 @@
-import { Image } from "@/components/ui/image"
-import { Breadcrumb, type Crumb } from "@/components/ui/breadcrumb"
-import { cn } from "@/lib/utils"
+import { Image } from "#/components/ui/image"
+import { Breadcrumb, type Crumb } from "#/components/ui/breadcrumb"
+import { cn } from "#/lib/utils"
 
 export interface PageHeroProps {
   title: string

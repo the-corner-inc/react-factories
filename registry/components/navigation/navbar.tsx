@@ -1,19 +1,19 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Link } from "@/components/ui/link"
-import { usePathname } from "@/components/ui/use-location"
+import { Link } from "#/components/ui/link"
+import { usePathname } from "#/components/ui/use-location"
 import { Menu, X, ChevronDown } from "lucide-react"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "#/components/ui/sheet"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { CtaExternal } from "@/components/ui/cta-button"
-import { LanguageSwitcher } from "@/components/navigation/language-switcher"
-import { cn } from "@/lib/utils"
+} from "#/components/ui/dropdown-menu"
+import { CtaExternal } from "#/components/ui/cta-button"
+import { LanguageSwitcher } from "#/components/navigation/language-switcher"
+import { cn } from "#/lib/utils"
 
 export interface NavItem {
   label: string

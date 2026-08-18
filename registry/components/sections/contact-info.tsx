@@ -1,10 +1,10 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
-import { type SocialPlatform, socialIconMap } from "@/components/ui/social-icons"
+import { type SocialPlatform, socialIconMap } from "#/components/ui/social-icons"
 import {
   type SectionVariant,
   sectionVariantClasses,
-} from "@/lib/section-variants"
-import { cn } from "@/lib/utils"
+} from "#/lib/section-variants"
+import { cn } from "#/lib/utils"
 
 export interface ContactInfoProps {
   title?: string

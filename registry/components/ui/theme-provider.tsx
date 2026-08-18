@@ -7,7 +7,7 @@ import {
   defaultPresetId,
   getPreset,
   groupByIndustry,
-} from "@/lib/themes"
+} from "#/lib/themes"
 
 interface ThemeContextValue {
   preset: ThemePreset

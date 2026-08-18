@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useCallback, useEffect } from "react"
-import { Image } from "@/components/ui/image"
+import { Image } from "#/components/ui/image"
 import { X } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "#/lib/utils"
 
 export interface LightboxProps {
   src: string

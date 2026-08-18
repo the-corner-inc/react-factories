@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { SectionHeading } from "@/components/ui/section-heading"
+import { SectionHeading } from "#/components/ui/section-heading"
 import {
   type SectionVariant,
   sectionVariantClasses,
-} from "@/lib/section-variants"
-import { cn } from "@/lib/utils"
+} from "#/lib/section-variants"
+import { cn } from "#/lib/utils"
 
 export interface FaqItem {
   question: string

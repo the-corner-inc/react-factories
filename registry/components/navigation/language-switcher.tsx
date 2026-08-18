@@ -1,15 +1,15 @@
 "use client"
 
-import { Link } from "@/components/ui/link"
-import { usePathname } from "@/components/ui/use-location"
+import { Link } from "#/components/ui/link"
+import { usePathname } from "#/components/ui/use-location"
 import { Globe, Check } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { cn } from "@/lib/utils"
+} from "#/components/ui/dropdown-menu"
+import { cn } from "#/lib/utils"
 
 export interface LanguageSwitcherProps {
   locale: string

@@ -9,10 +9,10 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { cn } from "@/lib/utils"
-import { type FontRole, groupByCategory } from "@/lib/fonts"
-import { useFont } from "@/components/ui/font-provider"
+} from "#/components/ui/dropdown-menu"
+import { cn } from "#/lib/utils"
+import { type FontRole, groupByCategory } from "#/lib/fonts"
+import { useFont } from "#/components/ui/font-provider"
 
 export interface FontSwitcherProps {
   label?: string

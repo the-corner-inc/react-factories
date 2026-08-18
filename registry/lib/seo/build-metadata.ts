@@ -1,4 +1,4 @@
-import { locales, ogLocales, type Locale } from "@/lib/i18n/config"
+import { locales, ogLocales, type Locale } from "#/lib/i18n/config"
 
 /**
  * Framework-agnostic metadata shape (structurally compatible with

@@ -1,11 +1,11 @@
 import type { LucideIcon } from "lucide-react"
-import { SectionHeading } from "@/components/ui/section-heading"
-import { ServiceCard } from "@/components/sections/service-card"
+import { SectionHeading } from "#/components/ui/section-heading"
+import { ServiceCard } from "#/components/sections/service-card"
 import {
   type SectionVariant,
   sectionVariantClasses,
-} from "@/lib/section-variants"
-import { cn } from "@/lib/utils"
+} from "#/lib/section-variants"
+import { cn } from "#/lib/utils"
 
 export interface ServiceItem {
   title: string

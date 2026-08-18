@@ -1,4 +1,4 @@
-import { Script } from "@/components/ui/script"
+import { Script } from "#/components/ui/script"
 
 export function ConsentInit() {
   return (

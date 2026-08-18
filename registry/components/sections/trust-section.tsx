@@ -1,11 +1,11 @@
 import type { LucideIcon } from "lucide-react"
-import { SectionHeading } from "@/components/ui/section-heading"
-import { Reveal } from "@/components/ui/reveal"
+import { SectionHeading } from "#/components/ui/section-heading"
+import { Reveal } from "#/components/ui/reveal"
 import {
   type SectionVariant,
   sectionVariantClasses,
-} from "@/lib/section-variants"
-import { cn } from "@/lib/utils"
+} from "#/lib/section-variants"
+import { cn } from "#/lib/utils"
 
 export interface TrustItem {
   icon: LucideIcon
