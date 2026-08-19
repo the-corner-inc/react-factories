@@ -38,6 +38,7 @@ export function Image({
   priority,
   sizes,
   quality,
+  loading,
   className,
   ...props
 }: ImageProps) {
@@ -49,7 +50,7 @@ export function Image({
       width={fill ? undefined : width}
       height={fill ? undefined : height}
       sizes={sizes}
-      loading={priority ? "eager" : undefined}
+      loading={loading ?? (priority ? "eager" : "lazy")}
       fetchPriority={priority ? "high" : undefined}
       data-quality={quality}
       data-unoptimized={unoptimized || undefined}

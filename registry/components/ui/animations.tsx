@@ -1,8 +1,15 @@
 "use client"
 
 import { motion, type Variants } from "motion/react"
+import { useEffect, useState } from "react"
 import type { ReactNode } from "react"
 import { cn } from "#/lib/utils"
+
+function useHydrated() {
+  const [hydrated, setHydrated] = useState(false)
+  useEffect(() => setHydrated(true), [])
+  return hydrated
+}
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -26,9 +33,10 @@ export interface AnimationProps {
 }
 
 export function FadeUp({ children, delay = 0, className }: AnimationProps) {
+  const hydrated = useHydrated()
   return (
     <motion.div
-      initial="hidden"
+      initial={hydrated ? "hidden" : false}
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
       variants={fadeUp}
@@ -41,9 +49,10 @@ export function FadeUp({ children, delay = 0, className }: AnimationProps) {
 }
 
 export function FadeIn({ children, delay = 0, className }: AnimationProps) {
+  const hydrated = useHydrated()
   return (
     <motion.div
-      initial="hidden"
+      initial={hydrated ? "hidden" : false}
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
       variants={fadeIn}
@@ -56,9 +65,10 @@ export function FadeIn({ children, delay = 0, className }: AnimationProps) {
 }
 
 export function ScaleIn({ children, delay = 0, className }: AnimationProps) {
+  const hydrated = useHydrated()
   return (
     <motion.div
-      initial="hidden"
+      initial={hydrated ? "hidden" : false}
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
       variants={scaleIn}
@@ -79,9 +89,10 @@ export function StaggerContainer({
   className?: string
   staggerDelay?: number
 }) {
+  const hydrated = useHydrated()
   return (
     <motion.div
-      initial="hidden"
+      initial={hydrated ? "hidden" : false}
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
       variants={{
@@ -103,9 +114,10 @@ export function StaggerItem({ children, className }: { children: ReactNode; clas
 }
 
 export function HeroAnimation({ children, className }: { children: ReactNode; className?: string }) {
+  const hydrated = useHydrated()
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={hydrated ? { opacity: 0, y: 30 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
       className={cn(className)}
@@ -116,9 +128,10 @@ export function HeroAnimation({ children, className }: { children: ReactNode; cl
 }
 
 export function ImageReveal({ children, delay = 0, className }: AnimationProps) {
+  const hydrated = useHydrated()
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 1.05 }}
+      initial={hydrated ? { opacity: 0, scale: 1.05 } : false}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.7, delay, ease: "easeOut" }}

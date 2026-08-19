@@ -1,8 +1,15 @@
 "use client"
 
 import { motion } from "motion/react"
+import { useEffect, useState } from "react"
 import type { ReactNode } from "react"
 import { cn } from "#/lib/utils"
+
+function useHydrated() {
+  const [hydrated, setHydrated] = useState(false)
+  useEffect(() => setHydrated(true), [])
+  return hydrated
+}
 
 export interface RevealProps {
   children: ReactNode
@@ -17,10 +24,11 @@ export function Reveal({
   y = 24,
   className,
 }: RevealProps) {
+  const hydrated = useHydrated()
   return (
     <motion.div
       className={className ? cn(className) : undefined}
-      initial={{ opacity: 0, y }}
+      initial={hydrated ? { opacity: 0, y } : false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay, ease: [0.21, 0.47, 0.32, 0.98] }}

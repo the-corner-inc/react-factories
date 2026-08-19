@@ -61,6 +61,7 @@ export function buildMetadata({
 }: BuildMetadataOptions): SiteMetadata {
   const cleanPath = path === "/" ? "" : path
   const canonical = `${siteUrl}/${locale}${cleanPath}`
+  const ogImageUrl = ogImage ?? `${siteUrl}/images/hero.webp`
 
   const languages: Record<string, string> = {}
   for (const l of locales) {
@@ -80,15 +81,13 @@ export function buildMetadata({
       siteName,
       locale: ogLocales[locale],
       type: "website",
-      images: ogImage
-        ? [{ url: ogImage, width: 1200, height: 630, alt: siteName }]
-        : undefined,
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: siteName }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ogImage ? [ogImage] : undefined,
+      images: [ogImageUrl],
     },
   }
 }

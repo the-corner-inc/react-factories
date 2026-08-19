@@ -226,6 +226,20 @@ export function Navbar({
           </Sheet>
         </div>
       </div>
+      <nav className="hidden" aria-label={mobileNavLabel}>
+        {items.map((item) => (
+          <span key={item.href}>
+            <Link href={item.href}>{item.label}</Link>
+            {item.children?.map((child) => (
+              <Link key={child.href} href={child.href}>
+                {child.label}
+              </Link>
+            ))}
+          </span>
+        ))}
+        <Link href={cta.href}>{cta.label}</Link>
+        {loginHref && <Link href={loginHref}>{loginLabel}</Link>}
+      </nav>
     </header>
   )
 }
