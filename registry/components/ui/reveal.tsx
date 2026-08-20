@@ -1,14 +1,18 @@
 "use client"
 
 import { motion } from "motion/react"
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import type { ReactNode } from "react"
 import { cn } from "#/lib/utils"
 
+const emptySubscribe = () => () => {}
+
 function useHydrated() {
-  const [hydrated, setHydrated] = useState(false)
-  useEffect(() => setHydrated(true), [])
-  return hydrated
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  )
 }
 
 export interface RevealProps {
