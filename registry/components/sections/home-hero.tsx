@@ -10,6 +10,7 @@ export interface HomeHeroProps {
   primaryCta: { label: string; href: string; external?: boolean };
   secondaryCta?: { label: string; href: string; external?: boolean };
   backgroundImage?: string;
+  backgroundSrcSet?: string;
   overlayClass?: string;
   className?: string;
 }
@@ -21,6 +22,7 @@ export function HomeHero({
   primaryCta,
   secondaryCta,
   backgroundImage,
+  backgroundSrcSet,
   overlayClass,
   className,
 }: HomeHeroProps) {
@@ -35,6 +37,7 @@ export function HomeHero({
           fill
           priority
           sizes="100vw"
+          srcSet={backgroundSrcSet}
           className="object-cover"
           aria-hidden="true"
         />

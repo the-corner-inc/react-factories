@@ -13,6 +13,7 @@ export interface ImageWithFallbackProps {
   fill?: boolean
   priority?: boolean
   sizes?: string
+  srcSet?: string
   quality?: number
   className?: string
   fallbackLabel?: string
@@ -26,6 +27,7 @@ export function ImageWithFallback({
   fill = false,
   priority = false,
   sizes,
+  srcSet,
   quality,
   className,
   fallbackLabel = "Photo coming soon",
@@ -60,6 +62,7 @@ export function ImageWithFallback({
       priority={priority}
       loading={priority ? undefined : "lazy"}
       sizes={sizes}
+      srcSet={srcSet}
       quality={quality ?? (priority ? 85 : 75)}
       onError={() => setErrored(true)}
       className={cn(fill ? "object-cover" : "", className)}

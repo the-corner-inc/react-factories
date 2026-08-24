@@ -12,6 +12,7 @@ export interface ServiceCardProps {
   icon?: LucideIcon
   iconVariant?: "primary" | "secondary" | "accent"
   imageAlt?: string
+  imageSrcSet?: string
   readMoreLabel?: string
   fallbackLabel?: string
   className?: string
@@ -31,6 +32,7 @@ export function ServiceCard({
   icon: Icon,
   iconVariant = "primary",
   imageAlt,
+  imageSrcSet,
   readMoreLabel = "Read more",
   fallbackLabel,
   className,
@@ -51,6 +53,7 @@ export function ServiceCard({
           alt={imageAlt ?? title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          srcSet={imageSrcSet}
           className="transition-transform duration-500 group-hover:scale-105"
           fallbackLabel={fallbackLabel}
         />
