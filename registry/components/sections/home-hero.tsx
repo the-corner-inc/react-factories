@@ -11,6 +11,8 @@ export interface HomeHeroProps {
   secondaryCta?: { label: string; href: string; external?: boolean };
   backgroundImage?: string;
   backgroundSrcSet?: string;
+  /** Eager + high fetch priority for the background image (default true - full-bleed heroes are usually the LCP). */
+  backgroundPriority?: boolean;
   overlayClass?: string;
   className?: string;
 }
@@ -23,6 +25,7 @@ export function HomeHero({
   secondaryCta,
   backgroundImage,
   backgroundSrcSet,
+  backgroundPriority = true,
   overlayClass,
   className,
 }: HomeHeroProps) {
@@ -35,7 +38,7 @@ export function HomeHero({
           src={backgroundImage}
           alt=""
           fill
-          priority
+          priority={backgroundPriority}
           sizes="100vw"
           srcSet={backgroundSrcSet}
           className="object-cover"
