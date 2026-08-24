@@ -33,7 +33,7 @@ export function TrustSection({
   const colors = sectionVariantClasses[variant]
 
   return (
-    <section className={cn("section-padding", colors.section, className)}>
+    <section className={cn("section-padding", "[content-visibility:auto] [contain-intrinsic-size:auto_800px]", colors.section, className)}>
       <div className="container-premium">
         <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

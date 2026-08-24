@@ -19,7 +19,7 @@ export function CtaBand({ title, description, cta, variant = "primary", classNam
   const ctaVariant = isDark ? "onDark" : "primary"
 
   return (
-    <section className={cn("section-padding", colors.section, className)}>
+    <section className={cn("section-padding", "[content-visibility:auto] [contain-intrinsic-size:auto_800px]", colors.section, className)}>
       <div className="container-premium text-center">
         <h2 className={cn("font-heading text-pretty text-2xl font-bold sm:text-3xl md:text-4xl", colors.heading)}>
           {title}

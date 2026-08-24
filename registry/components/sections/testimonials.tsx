@@ -35,7 +35,7 @@ export function Testimonials({
   const isDark = variant === "primary" || variant === "secondary"
 
   return (
-    <section className={cn("section-padding", colors.section, className)}>
+    <section className={cn("section-padding", "[content-visibility:auto] [contain-intrinsic-size:auto_800px]", colors.section, className)}>
       <div className="container-premium">
         <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">

@@ -52,7 +52,7 @@ export function PricingTable({
   const hasDescription = items.some((i) => i.description)
 
   return (
-    <section className={cn("section-padding", colors.section, className)}>
+    <section className={cn("section-padding", "[content-visibility:auto] [contain-intrinsic-size:auto_800px]", colors.section, className)}>
       <div className="container-premium">
         <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} variant={variant} />
         <div className="mx-auto mt-10 max-w-4xl overflow-x-auto">
