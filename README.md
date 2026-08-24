@@ -1,11 +1,11 @@
 # react-factories
 
-Reusable shadcn component registry for generating showcase websites (Next.js today, TanStack Start next). 46 props-driven, multilingual (fr/en/de/it) components, **framework-agnostic** (no `next/*` imports, no Radix — Base UI primitives).
+Reusable shadcn component registry for generating showcase websites (Next.js today, TanStack Start next). 45 props-driven, multilingual (fr/en/de/it) components, **framework-agnostic** (no `next/*` imports, no Radix — Base UI primitives).
 
 ## What is included
 
 - Next.js 16 (App Router) + React 19 project shell (showroom app only — components are framework-agnostic)
-- TypeScript strict with path aliases (`@/*`)
+- TypeScript strict with path aliases (`#/*` for registry files, `@/*` for the showroom)
 - Tailwind CSS v4 global styles (`@theme inline`, `@utility`)
 - shadcn/ui initialization config (`/components.json`)
 - motion (animations)
@@ -22,21 +22,21 @@ pnpm registry:pull
 
 The published `public/registry/registry.json` embeds all source file contents, so consumers can pull components without cloning this repo.
 
-## Components (43)
+## Components (45)
 
-### Libs (7)
+### Libs (9)
 
 | Name | Description |
 |------|-------------|
-| `cn` | clsx + tailwind-merge |
+| `cn` | Class-name utility (re-exports `cnfast`) |
 | `section-variants` | Shared SectionVariant type and color map for themeable sections |
 | `i18n-engine` | getDictionary, t(), locale middleware (fr/en/de/it) |
 | `build-metadata` | Canonical, hreflang, Open Graph, Twitter cards |
 | `json-ld` | Organization, Breadcrumb, FAQ, Service schemas |
 | `theme-presets` | Industry + mood based theme preset system with 5 starter presets |
-| `font-presets` | Mood based font preset system with 3 starter presets (modern, editorial, epure) |
+| `font-presets` | Category/family based font preset system with 7 shipped presets (13 in source) |
 
-### UI Primitives (19)
+### UI Primitives (20)
 
 | Name | Description |
 |------|-------------|
@@ -61,12 +61,11 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `font-provider` | React context provider that applies a font preset by injecting --font-sans and --font-heading CSS custom properties |
 | `font-switcher` | Dropdown menu switcher for font presets, grouped by mood |
 
-### Blocks (17)
+### Blocks (16)
 
 | Name | Description |
 |------|-------------|
 | `cookie-banner` | GA4 Consent Mode v2 with localStorage |
-| `consent-init` | Injects default-denied gtag consent script (beforeInteractive) |
 | `navbar` | Responsive, dropdowns, mobile Sheet menu, language switcher, CTA |
 | `footer` | Multi-column with brand, contact, socials, legal links |
 | `home-hero` | Full-viewport hero with image, gradient, CTA |
@@ -106,7 +105,7 @@ Components using `inverted` (e.g. `section-heading`) rely on `text-dark-foregrou
 ### Framework shims (ui-shims item)
 
 The registry never imports `next/link`, `next/image`, `next/script` or `next/navigation`.
-It imports `@/components/ui/{link,image,script,use-location}` instead — those files are
+It imports `#/components/ui/{link,image,script,use-location}` instead — those files are
 shipped by the `ui-shims` registry item, and **each site provides its own implementation**:
 
 | Shim | Next.js site | TanStack site |
@@ -143,20 +142,20 @@ pnpm registry:sync    # Build publishable registry with embedded content
 registry/              ← Distributed component library (stack-agnostic)
   components/
     ui/             # Primitives (cta-button, section-heading, animations...)
-    navigation/     # navbar, footer, language-switcher, manage-cookies-button
+    navigation/     # navbar, footer, language-switcher, manage-cookies-button, theme-switcher, font-switcher
     sections/       # home-hero, services-grid, faq-list, testimonials...
-    layouts/        # cookie-banner, consent-init, not-found-page
-    forms/          # newsletter
+    layouts/        # cookie-banner, not-found-page
+    forms/          # newsletter, newsletter-example
   lib/
     utils.ts        # cn()
     section-variants.ts  # Shared SectionVariant type
     themes/         # Theme preset data (index.ts + presets/*.json)
     fonts/          # Font preset data (index.ts + presets/*.json)
     seo/            # build-metadata, json-ld
-  registry.json     # Source manifest (43 items)
+  registry.json     # Source manifest (45 items)
 src/                  ← Next.js showroom app (not distributed)
   app/              # Demo pages (home, newsletter...)
-  lib/i18n/         # Dictionaries (skipped by pull, project-specific)
+  lib/i18n/         # Dictionaries (shipped via the `i18n-engine` item, project-specific)
   styles/globals.css     # Design system
   middleware.ts     # Locale detection + redirect
 scripts/

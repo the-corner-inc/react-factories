@@ -37,9 +37,9 @@ Error/success feedback can use utility colors (`text-red-600`, `text-emerald-700
 
 - Every visible string is a prop with an English default value
 - Components never import data — everything comes via props
-- Use `cn()` from `@/lib/utils` for all className merging
+- Use `cn()` from `#/lib/utils` for all className merging
 - Export both the component and its Props type
-- For section components that support color themes, use `SectionVariant` from `@/lib/section-variants`
+- For section components that support color themes, use `SectionVariant` from `#/lib/section-variants`
 
 ## Client/Server
 
@@ -66,7 +66,8 @@ Components rendering display images must support responsive variants:
   `srcSet` prop; `service-card` exposes `imageSrcSet`; `home-hero` exposes
   `backgroundSrcSet`.
 - Variant convention: `<name>-480.webp` / `<name>-800.webp` generated from the
-  source with the template's `scripts/generate-image-variants.mjs`
+  source with `scripts/generate-image-variants.mjs` in the **factory-template**
+  repo
   (480 at q90, 800 at q80 by convention — quality is per-site).
 - **The srcSet must ALWAYS end with the ORIGINAL file as the top-width
   candidate** (e.g. `, /images/hero.webp 1200w`). Browsers pick the largest
@@ -104,7 +105,7 @@ Then run `pnpm registry:sync` to rebuild the publishable manifest.
 
 - [ ] Uses shadcn design tokens (no hardcoded colors)
 - [ ] All strings are props with English defaults
-- [ ] Imports `cn` from `@/lib/utils` for className merging
+- [ ] Imports `cn` from `#/lib/utils` for className merging
 - [ ] `"use client"` only when necessary
 - [ ] Props type is exported
 - [ ] Accessible (semantic HTML, aria, focus rings, keyboard nav)
