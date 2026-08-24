@@ -58,6 +58,24 @@ Every component must include:
 - `sr-only` labels where a visible label would be redundant
 - `role="alert"` / `aria-live` for dynamic status messages
 
+## Responsive images (srcset)
+
+Components rendering display images must support responsive variants:
+
+- The `Image` shim passes `srcSet`/`sizes` through; `ImageWithFallback` exposes a
+  `srcSet` prop; `service-card` exposes `imageSrcSet`; `home-hero` exposes
+  `backgroundSrcSet`.
+- Variant convention: `<name>-480.webp` / `<name>-800.webp` generated from the
+  source with the template's `scripts/generate-image-variants.mjs`
+  (480 at q90, 800 at q80 by convention — quality is per-site).
+- **The srcSet must ALWAYS end with the ORIGINAL file as the top-width
+  candidate** (e.g. `, /images/hero.webp 1200w`). Browsers pick the largest
+  srcset candidate when all are too small — they never fall back to `src` —
+  omitting the native width makes desktop/retina receive an upscaled (blurry)
+  variant.
+- `priority` (eager + high fetch priority) is reserved for the actual LCP
+  element. Decorative/non-LCP images above the fold should NOT be priority.
+
 ## Registry entry
 
 After creating a component, add it to `registry/registry.json`:
