@@ -113,6 +113,25 @@
       ]
     },
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Base UI accordion with grid-rows expand/collapse animation (no keyframes).",
+      "files": [
+        {
+          "path": "registry/components/ui/accordion.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn"
+      ]
+    },
+    {
       "name": "animations",
       "type": "registry:ui",
       "title": "Animations",
