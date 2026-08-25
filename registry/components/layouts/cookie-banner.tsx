@@ -187,9 +187,8 @@ export function CookieBanner({
             </a>
           </p>
 
-          {(showAnalytics || showMarketing) ? (
-            <div className="space-y-3">
-              <label className="flex cursor-not-allowed items-start gap-3 opacity-70">
+          <div className="space-y-3">
+            <label className="flex cursor-not-allowed items-start gap-3 opacity-70">
                 <input
                   type="checkbox"
                   checked
@@ -254,7 +253,6 @@ export function CookieBanner({
                 </label>
               )}
             </div>
-          ) : null}
 
           <div className="flex flex-wrap gap-3">
             <button
@@ -264,15 +262,13 @@ export function CookieBanner({
             >
               {acceptAllLabel}
             </button>
-            {(showAnalytics || showMarketing) && (
-              <button
-                type="button"
-                onClick={acceptSelection}
-                className="inline-flex h-10 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-semibold text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/40"
-              >
-                {acceptSelectionLabel}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={acceptSelection}
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-semibold text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/40"
+            >
+              {acceptSelectionLabel}
+            </button>
             <button
               type="button"
               onClick={rejectAll}
