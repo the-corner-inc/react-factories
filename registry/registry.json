@@ -688,7 +688,7 @@
       "name": "not-found-page",
       "type": "registry:block",
       "title": "404 Page",
-      "description": "Styled 404 page with business-themed messaging and CTA button.",
+      "description": "Styled 404 page with themed branding: optional logo, icon pastille, badge, dual CTAs and foot line.",
       "files": [
         {
           "path": "registry/components/layouts/not-found-page.tsx",
