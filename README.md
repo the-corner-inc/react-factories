@@ -22,7 +22,7 @@ pnpm registry:pull
 
 The published `public/registry/registry.json` embeds all source file contents, so consumers can pull components without cloning this repo.
 
-## Components (45)
+## Components (46)
 
 ### Libs (9)
 
@@ -42,7 +42,7 @@ The published `public/registry/registry.json` embeds all source file contents, s
 |------|-------------|
 | `social-icons` | Inline SVG icons: Instagram, Facebook, LinkedIn, YouTube |
 | `animations` | FadeUp, FadeIn, ScaleIn, StaggerContainer, HeroAnimation, ImageReveal |
-| `reveal` | Scroll-triggered fade-up |
+| `reveal` | Scroll-triggered fade-up (useInView + post-hydration animate - actually plays) |
 | `share-button` | Web Share API + clipboard fallback |
 | `back-to-top` | Floating scroll-to-top button |
 | `section-heading` | Eyebrow + title + subtitle, alignment and inverted variants |
@@ -80,7 +80,7 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `pricing-table` | Dynamic pricing table |
 | `contact-info` | Contact details + hours + Google Maps embed |
 | `legal-page` | Prose layout for legal pages |
-| `not-found-page` | Styled 404 page |
+| `not-found-page` | Themed 404: optional logo, icon pastille, badge, dual CTAs, foot line, `ctaClassName` |
 
 ## Design system
 
