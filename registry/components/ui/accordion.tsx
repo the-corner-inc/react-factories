@@ -76,21 +76,24 @@ function AccordionTrigger({ className, children, ...props }: AccordionPrimitive.
   );
 }
 
-// The expand/collapse animation uses the grid-rows technique (0fr -> 1fr),
-// same as the faq-list section — no keyframes or CSS variables required.
+// The expand/collapse animation uses height keyframes (see ./accordion.css)
+// driven by base-ui's measured --accordion-panel-height variable. Keyframes
+// play from a painted start on every open, so the first open animates even
+// though closed panels are unmounted (base-ui keeps them mounted during the
+// exit animation and unmounts after animationend).
+import "./accordion.css";
+
 function AccordionContent({ className, children, ...props }: AccordionPrimitive.Panel.Props) {
   return (
-    // keepMounted keeps closed panels in the DOM (grid-rows 0fr), so the
-    // open transition always has a starting frame - including the first
-    // open. It also avoids the base-ui #3099 abrupt close while another
-    // panel opens.
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
-      keepMounted={props.keepMounted ?? true}
-      className="grid text-sm transition-[grid-template-rows] duration-300 ease-in-out data-closed:grid-rows-[0fr] data-open:grid-rows-[1fr]"
+      className={cn(
+        "overflow-hidden text-sm data-open:animate-[accordion-down_0.2s_ease-out] data-closed:animate-[accordion-up_0.2s_ease-out]",
+        className,
+      )}
       {...props}
     >
-      <div className={cn("overflow-hidden pt-0 pb-4", className)}>{children}</div>
+      <div className="h-(--accordion-panel-height) pt-0 pb-4">{children}</div>
     </AccordionPrimitive.Panel>
   );
 }
