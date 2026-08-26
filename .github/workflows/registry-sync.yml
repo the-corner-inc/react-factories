@@ -6,6 +6,9 @@ on:
     paths-ignore:
       - "public/registry/registry.json"
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
