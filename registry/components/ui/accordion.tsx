@@ -80,8 +80,13 @@ function AccordionTrigger({ className, children, ...props }: AccordionPrimitive.
 // same as the faq-list section — no keyframes or CSS variables required.
 function AccordionContent({ className, children, ...props }: AccordionPrimitive.Panel.Props) {
   return (
+    // keepMounted keeps closed panels in the DOM (grid-rows 0fr), so the
+    // open transition always has a starting frame - including the first
+    // open. It also avoids the base-ui #3099 abrupt close while another
+    // panel opens.
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
+      keepMounted={props.keepMounted ?? true}
       className="grid text-sm transition-[grid-template-rows] duration-300 ease-in-out data-closed:grid-rows-[0fr] data-open:grid-rows-[1fr]"
       {...props}
     >
