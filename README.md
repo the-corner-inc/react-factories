@@ -125,6 +125,7 @@ shipped by the `ui-shims` registry item, and **each site provides its own implem
 3. Ensure each registry entry includes a unique `name`, a valid `type` (`registry:ui`, `registry:block`, etc.), and file references.
 4. Run `pnpm registry:sync` to build the publishable manifest (with embedded file content) to `/public/registry/`.
 5. Validate JSON with `pnpm registry:check`.
+6. Push to `main` — the GitHub Actions `sync` workflow auto-rebuilds the manifest and commits it back. Requirements: repo workflow permissions = **Read and write**, and `packageManager: pnpm@11.20.0` in `package.json` (required by `pnpm/action-setup@v4`).
 
 ## Scripts
 
