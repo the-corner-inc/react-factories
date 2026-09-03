@@ -1,4 +1,4 @@
-# react-factories
+# forge-registry
 
 Reusable shadcn component registry for generating showcase websites (Next.js today, TanStack Start next). 45 props-driven, multilingual (fr/en/de/it) components, **framework-agnostic** (no `next/*` imports, no Radix — Base UI primitives).
 
@@ -16,7 +16,7 @@ Reusable shadcn component registry for generating showcase websites (Next.js tod
 The factory template includes a pull script that fetches all components from the published registry:
 
 ```bash
-# From the factory-template project
+# From the forge-template project
 pnpm registry:pull
 ```
 

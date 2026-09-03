@@ -1,4 +1,4 @@
-# Contributing to react-factories
+# Contributing to forge-registry
 
 Component conventions and checklist for the shared registry.
 
@@ -66,7 +66,7 @@ Components rendering display images must support responsive variants:
   `srcSet` prop; `service-card` exposes `imageSrcSet`; `home-hero` exposes
   `backgroundSrcSet`.
 - Variant convention: `<name>-480.webp` / `<name>-800.webp` generated from the
-  source with `scripts/generate-image-variants.mjs` in the **factory-template**
+  source with `scripts/generate-image-variants.mjs` in the **forge-template**
   repo
   (480 at q90, 800 at q80 by convention — quality is per-site).
 - **The srcSet must ALWAYS end with the ORIGINAL file as the top-width

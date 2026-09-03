@@ -1,6 +1,6 @@
-# MECHANICS — react-factories (shared registry)
+# MECHANICS — forge-registry (shared registry)
 
-> **Repo** : react-factories (shared Base UI component registry, 46 items — NOT a website) · **Branch** : main · **Status** : shared mechanics **available** to every site via `registry:pull`.
+> **Repo** : forge-registry (shared Base UI component registry, 46 items — NOT a website) · **Branch** : main · **Status** : shared mechanics **available** to every site via `registry:pull`.
 > This file documents what the registry OFFERS to sites (may be removed later since it is not a site project).
 > **Legend** : ✅ available · ⚠️ partial · ➖ not provided
 > **Last update** : 27.08.2026

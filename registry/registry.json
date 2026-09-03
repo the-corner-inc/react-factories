@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "react-factories",
-  "homepage": "https://github.com/the-corner-inc/react-factories",
+  "name": "forge-registry",
+  "homepage": "https://github.com/the-factory-forge/forge-registry",
   "items": [
     {
       "name": "cn",

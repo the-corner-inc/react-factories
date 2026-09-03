@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "react-factories",
+  title: "forge-registry",
   description: "Reusable AI website component registry scaffold",
 };
 
