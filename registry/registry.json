@@ -891,6 +891,82 @@
         "cn",
         "corner-tokens"
       ]
+    },
+    {
+      "name": "menu-item",
+      "type": "registry:lib",
+      "title": "Intranet Menu Item",
+      "description": "Discriminated union describing the intranet sidebar menu (link/collapsible/group/separator) plus collectMenuItemPaths(). Framework-agnostic presentation data.",
+      "files": [
+        {
+          "path": "registry/lib/intranet/menu-item.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Intranet Sidebar",
+      "description": "Base UI intranet sidebar primitives (Provider/Sidebar/Trigger/Inset/Menu*/mobile Sheet/cookie/Cmd+B). Pure, framework-agnostic, props-driven.",
+      "files": [
+        {
+          "path": "registry/components/intranet/sidebar.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/components/intranet/sidebar.css",
+          "type": "registry:style"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "sheet"
+      ]
+    },
+    {
+      "name": "sidebar-nav",
+      "type": "registry:ui",
+      "title": "Intranet Sidebar Nav",
+      "description": "Data-driven intranet sidebar (SidebarNav): groups/collapsibles/separators + user footer. Props { items, user, version, onLogout, title? }, zero data hooks.",
+      "files": [
+        {
+          "path": "registry/components/intranet/sidebar-nav.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react",
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "corner-tokens",
+        "sidebar",
+        "ui-shims",
+        "dropdown-menu"
+      ]
+    },
+    {
+      "name": "admin-shell",
+      "type": "registry:block",
+      "title": "Intranet Admin Shell",
+      "description": "Admin shell layout composing SidebarProvider + SidebarNav + SidebarInset with optional banner and topbar/controls. Pure, props-driven.",
+      "files": [
+        {
+          "path": "registry/components/intranet/admin-shell.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "sidebar",
+        "sidebar-nav"
+      ]
     }
   ]
 }
