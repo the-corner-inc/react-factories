@@ -1,6 +1,6 @@
 # forge-registry
 
-Reusable shadcn component registry for generating showcase websites (Next.js today, TanStack Start next). 45 props-driven, multilingual (fr/en/de/it) components, **framework-agnostic** (no `next/*` imports, no Radix — Base UI primitives).
+Reusable shadcn component registry for generating showcase websites (Next.js today, TanStack Start next). 52 props-driven, multilingual (fr/en/de/it) components, **framework-agnostic** (no `next/*` imports, no Radix — Base UI primitives).
 
 ## What is included
 
@@ -22,9 +22,9 @@ pnpm registry:pull
 
 The published `public/registry/registry.json` embeds all source file contents, so consumers can pull components without cloning this repo.
 
-## Components (46)
+## Components (52)
 
-### Libs (9)
+### Libs (8)
 
 | Name | Description |
 |------|-------------|
@@ -35,12 +35,14 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `json-ld` | Organization, Breadcrumb, FAQ, Service schemas |
 | `theme-presets` | Industry + mood based theme preset system with 5 starter presets |
 | `font-presets` | Category/family based font preset system with 7 shipped presets (13 in source) |
+| `footer-helpers` | getFooterProps + placeholders + Corner attribution default |
 
-### UI Primitives (20)
+### UI Primitives (21)
 
 | Name | Description |
 |------|-------------|
 | `social-icons` | Inline SVG icons: Instagram, Facebook, LinkedIn, YouTube |
+| `accordion` | Height-keyframed accordion (measured `--accordion-panel-height`) |
 | `animations` | FadeUp, FadeIn, ScaleIn, StaggerContainer, HeroAnimation, ImageReveal |
 | `reveal` | Scroll-triggered fade-up (useInView + post-hydration animate - actually plays) |
 | `share-button` | Web Share API + clipboard fallback |
@@ -61,7 +63,7 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `font-provider` | React context provider that applies a font preset by injecting --font-sans and --font-heading CSS custom properties |
 | `font-switcher` | Dropdown menu switcher for font presets, grouped by mood |
 
-### Blocks (16)
+### Blocks (17)
 
 | Name | Description |
 |------|-------------|
@@ -81,6 +83,18 @@ The published `public/registry/registry.json` embeds all source file contents, s
 | `contact-info` | Contact details + hours + Google Maps embed |
 | `legal-page` | Prose layout for legal pages |
 | `not-found-page` | Themed 404: optional logo, icon pastille, badge, dual CTAs, foot line, `ctaClassName` |
+| `privacy-content` | Reusable privacy-policy content block |
+
+### Intranet (6)
+
+| Name | Description |
+|------|-------------|
+| `corner-tokens` | Corner design-system semantic tokens (deep-teal / pale-blue / warm-cream) + signature classes, `prefers-color-scheme` dark mode |
+| `corner` | Corner signature components: CornerFrame (clipped frame + conic glow), CornerLabel, CornerRule |
+| `menu-item` | Discriminated union for the intranet sidebar menu (link/collapsible/group/separator) + `collectMenuItemPaths()` |
+| `sidebar` | Base UI intranet sidebar primitives (Provider/Sidebar/Trigger/Inset/Menu*/mobile Sheet/Cmd+B) |
+| `sidebar-nav` | Data-driven sidebar nav (SidebarNav): groups/collapsibles/separators + user footer, zero data hooks |
+| `admin-shell` | Admin shell layout (SidebarProvider + SidebarNav + SidebarInset) with optional banner/topbar/controls |
 
 ## Design system
 
@@ -153,7 +167,7 @@ registry/              ← Distributed component library (stack-agnostic)
     themes/         # Theme preset data (index.ts + presets/*.json)
     fonts/          # Font preset data (index.ts + presets/*.json)
     seo/            # build-metadata, json-ld
-  registry.json     # Source manifest (45 items)
+  registry.json     # Source manifest (52 items)
 src/                  ← Next.js showroom app (not distributed)
   app/              # Demo pages (home, newsletter...)
   lib/i18n/         # Dictionaries (shipped via the `i18n-engine` item, project-specific)

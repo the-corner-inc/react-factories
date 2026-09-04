@@ -1,9 +1,9 @@
 # MECHANICS — forge-registry (shared registry)
 
-> **Repo** : forge-registry (shared Base UI component registry, 46 items — NOT a website) · **Branch** : main · **Status** : shared mechanics **available** to every site via `registry:pull`.
+> **Repo** : forge-registry (shared Base UI component registry, 52 items — NOT a website) · **Branch** : main · **Status** : shared mechanics **available** to every site via `registry:pull`.
 > This file documents what the registry OFFERS to sites (may be removed later since it is not a site project).
 > **Legend** : ✅ available · ⚠️ partial · ➖ not provided
-> **Last update** : 27.08.2026
+> **Last update** : 04.09.2026
 
 ## 1. Changelog (registry lifetime)
 
@@ -12,8 +12,9 @@
 - **SEO/perf items**: lazy image default, content-visibility, srcset props (home-hero/service-card), build-metadata (canonical/hreflang/OG), JSON-LD helpers.
 - **CI**: GitHub Actions `sync` (auto-manifest on push), `packageManager` pin (fixes pnpm/action-setup@v4), `permissions: contents: write`.
 - **Lessons**: grid-rows never paints a `0fr` start frame (hidden + preflight display:none) → height keyframes; motion ignores `initial` after mount → useInView; pull clobbers site customizations → skip-list protocol.
+- **Intranet (corner)**: 6 items ported from tc-website's visual language — `corner-tokens` (deep-teal/pale-blue/warm-cream semantic tokens), `corner` (CornerFrame/CornerLabel/CornerRule), `menu-item` (sidebar menu model), `sidebar` + `sidebar-nav` (Base UI data-driven sidebar), `admin-shell` (dashboard layout). Framework-agnostic, props-driven, zero data hooks.
 
-## 2. Registry items (46)
+## 2. Registry items (52)
 
 | Category | Item | Description | Status |
 |---|---|---|---|
@@ -54,9 +55,15 @@
 | Layouts | `cookie-banner` | Consent Mode v2, granular toggles, persistence, storage sync | ✅ |
 | Layouts | `not-found-page` | Themed 404: logo, icon pastille, badge, dual CTAs, footnote | ✅ |
 | Lib | `footer-helpers` | getFooterProps + placeholders + Corner attribution default | ✅ |
+| Intranet | `corner-tokens` | Corner semantic tokens (deep-teal/pale-blue/warm-cream) + signature classes, dark mode | ✅ |
+| Intranet | `corner` | CornerFrame / CornerLabel / CornerRule (clipped frame + conic glow) | ✅ |
+| Intranet | `menu-item` | Sidebar menu model (link/collapsible/group/separator) + collectMenuItemPaths | ✅ |
+| Intranet | `sidebar` | Base UI sidebar primitives (Provider/Trigger/Inset/Menu*/mobile Sheet/Cmd+B) | ✅ |
+| Intranet | `sidebar-nav` | Data-driven sidebar nav (groups/collapsibles + user footer) | ✅ |
+| Intranet | `admin-shell` | Admin shell layout (SidebarProvider + SidebarNav + SidebarInset) | ✅ |
 | Tooling | registry:sync / registry:check | Manifest build + validation | ✅ |
 | Tooling | CI auto-sync | GitHub Actions + packageManager + contents:write | ✅ |
-| Docs | README / CONTRIBUTING | 46-item inventory, conventions, srcset rules, entry checklist | ✅ |
+| Docs | README / CONTRIBUTING | 52-item inventory, conventions, srcset rules, entry checklist | ✅ |
 
 ## 3. Gaps / notes
 
