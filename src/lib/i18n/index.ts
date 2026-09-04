@@ -1,5 +1,3 @@
-import "server-only"
-
 import { defaultLocale, type Locale } from "./config"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -34,7 +34,7 @@
       "name": "i18n-engine",
       "type": "registry:lib",
       "title": "i18n Engine",
-      "description": "Internationalization engine with getDictionary, t() dot-notation resolver, and locale middleware. Supports fr/en/de/it.",
+      "description": "Internationalization engine with getDictionary and t() dot-notation resolver. Supports fr/en/de/it.",
       "files": [
         {
           "path": "src/lib/i18n/config.ts",
@@ -59,15 +59,7 @@
         {
           "path": "src/lib/i18n/it.json",
           "type": "registry:lib"
-        },
-        {
-          "path": "src/middleware.ts",
-          "type": "registry:lib"
         }
-      ],
-      "dependencies": [
-        "server-only",
-        "next"
       ]
     },
     {
@@ -80,9 +72,6 @@
           "path": "registry/lib/seo/build-metadata.ts",
           "type": "registry:lib"
         }
-      ],
-      "dependencies": [
-        "next"
       ],
       "registryDependencies": [
         "i18n-engine"
