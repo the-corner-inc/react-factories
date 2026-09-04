@@ -693,7 +693,7 @@
       "name": "theme-presets",
       "type": "registry:lib",
       "title": "Theme Presets",
-      "description": "Industry + mood based theme preset system with 5 starter presets (example-colors, sage-clinic, swiss-corporate, alpine-table, solar-libre).",
+      "description": "Industry + mood based theme preset system with 6 starter presets (example-colors, alpine-table, sage-clinic, swiss-corporate, solar-libre, corner).",
       "files": [
         {
           "path": "registry/lib/themes/index.ts",
@@ -717,6 +717,10 @@
         },
         {
           "path": "registry/lib/themes/presets/solar-libre.json",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/lib/themes/presets/corner.json",
           "type": "registry:lib"
         }
       ]
@@ -858,6 +862,34 @@
       ],
       "registryDependencies": [
         "footer"
+      ]
+    },
+    {
+      "name": "corner-tokens",
+      "type": "registry:lib",
+      "title": "Corner Design Tokens",
+      "description": "The Corner design system semantic tokens (deep-teal / pale-blue / warm-cream) and signature component classes (.corner-frame, .corner-accent glow, .corner-surface-*, .corner-cut-*, .corner-rule) with prefers-color-scheme dark mode.",
+      "files": [
+        {
+          "path": "registry/lib/corner/tokens.css",
+          "type": "registry:style"
+        }
+      ]
+    },
+    {
+      "name": "corner",
+      "type": "registry:ui",
+      "title": "Corner Frame / Label / Rule",
+      "description": "The Corner signature components: CornerFrame (clipped frame with conic-gradient glow), CornerLabel, and CornerRule. Props-driven, stateless, framework-agnostic.",
+      "files": [
+        {
+          "path": "registry/components/intranet/corner.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "registryDependencies": [
+        "cn",
+        "corner-tokens"
       ]
     }
   ]

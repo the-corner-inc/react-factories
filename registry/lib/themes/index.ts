@@ -1,8 +1,9 @@
 import exampleColors from "./presets/example-colors.json"
+import alpineTable from "./presets/alpine-table.json"
 import sageClinic from "./presets/sage-clinic.json"
 import swissCorporate from "./presets/swiss-corporate.json"
-import alpineTable from "./presets/alpine-table.json"
 import solarLibre from "./presets/solar-libre.json"
+import corner from "./presets/corner.json"
 
 export type ThemeTokenKey =
   | "--background"
@@ -37,6 +38,7 @@ export const presets: ThemePreset[] = [
   sageClinic as ThemePreset,
   swissCorporate as ThemePreset,
   solarLibre as ThemePreset,
+  corner as ThemePreset,
 ]
 
 export function getPreset(id: string): ThemePreset | undefined {
