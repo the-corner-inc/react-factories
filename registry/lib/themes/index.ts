@@ -3,11 +3,6 @@ import sageClinic from "./presets/sage-clinic.json"
 import swissCorporate from "./presets/swiss-corporate.json"
 import alpineTable from "./presets/alpine-table.json"
 import solarLibre from "./presets/solar-libre.json"
-import medieval from "./presets/medieval.json"
-import houseOfTheDragon from "./presets/house-of-the-dragon.json"
-import worldOfWarcraft from "./presets/world-of-warcraft.json"
-import banners from "./presets/banners.json"
-import bannersDark from "./presets/banners-dark.json"
 
 export type ThemeTokenKey =
   | "--background"
@@ -42,11 +37,6 @@ export const presets: ThemePreset[] = [
   sageClinic as ThemePreset,
   swissCorporate as ThemePreset,
   solarLibre as ThemePreset,
-  medieval as ThemePreset,
-  houseOfTheDragon as ThemePreset,
-  worldOfWarcraft as ThemePreset,
-  banners as ThemePreset,
-  bannersDark as ThemePreset,
 ]
 
 export function getPreset(id: string): ThemePreset | undefined {
